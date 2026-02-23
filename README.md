@@ -1,1 +1,11 @@
-# repo-template
+
+  # Low-Fidelity Prototype for Defog
+
+  This is a code bundle for Low-Fidelity Prototype for Defog. The original project is available at https://www.figma.com/design/3IDj9L9AqX6TEceJrrSDxC/Low-Fidelity-Prototype-for-Defog.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  
