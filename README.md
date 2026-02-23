@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
   # Low-Fidelity Prototype for Defog
 
@@ -9,3 +10,19 @@
 
   Run `npm run dev` to start the development server.
   
+=======
+# Defog App
+
+Defog is a multiplatform application for iOS and macOS.
+
+## Structure
+
+- `defog iOS`: iOS application source code.
+- `defog macOS`: macOS application source code.
+- `defog.xcodeproj`: Xcode project file.
+- `ui_shell_prototype`: Prototypes for the UI shell.
+
+## Getting Started
+
+Open `defog.xcodeproj` in Xcode to build and run the application.
+>>>>>>> ec5f580 (initial commit)

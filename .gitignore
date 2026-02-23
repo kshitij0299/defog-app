@@ -1,0 +1,31 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcworkspace/xcuserdata/
+
+## Build results
+build/
+DerivedData/
+
+## Schemes
+##
+## Check in your Schemes to share them with others, so they don't have to create them themselves.
+## edit this line to allow your schemes to be shared
+# !default.xcscheme
+
+## Global Xcode settings
+*.xccheckout
+*.xcscmblueprint
+
+## OS X
+.DS_Store
+
+## Prototype files
+ui_shell_prototype/node_modules/
+ui_shell_prototype/dist/
+ui_shell_prototype/.env
