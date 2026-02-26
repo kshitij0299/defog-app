@@ -2,6 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct SettingsView: View {
+    private let defaultOpenRouterEndpoint = "https://openrouter.ai/api/v1/chat/completions"
+    private let defaultOpenRouterModel = "openai/gpt-4o-mini"
+
     @State private var showingOnboarding = false
     @State private var showingMigrationAlert = false
     @State private var isMigrating = false
@@ -422,8 +425,12 @@ struct SettingsView: View {
 
     private func syncAISettingsIfNeeded() {
         aiAPIKey = UserPreferences.aiAPIKey
-        aiModel = UserPreferences.aiModel
-        aiEndpoint = UserPreferences.aiEndpoint
+        if aiModel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            aiModel = defaultOpenRouterModel
+        }
+        if aiEndpoint.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            aiEndpoint = defaultOpenRouterEndpoint
+        }
     }
 
     private var canTestBYOM: Bool {

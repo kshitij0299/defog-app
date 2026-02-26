@@ -5,6 +5,7 @@ struct ConfirmationView: View {
     @Environment(\.modelContext) private var modelContext
     
     @Binding var rootIsActive: Bool
+    let onConfirmed: () -> Void
     
     @State var viewModel: ConfirmationViewModel
     
@@ -91,7 +92,8 @@ struct ConfirmationView: View {
                     Button {
                         viewModel.save(modelContext: modelContext)
                         NotificationService.shared.recordActivity()
-                        rootIsActive = false // Pop to root (Home)
+                        rootIsActive = false
+                        onConfirmed()
                     } label: {
                         Text("Looks Good!")
                             .font(.headline)

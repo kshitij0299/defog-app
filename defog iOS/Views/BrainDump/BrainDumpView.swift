@@ -128,7 +128,11 @@ struct BrainDumpView: View {
                 ProcessingView(
                     result: $categorizationResult,
                     isProcessing: $isProcessing,
-                    processingPathLabel: $processingPathLabel
+                    processingPathLabel: $processingPathLabel,
+                    onConfirmed: {
+                        isProcessing = false
+                        dismiss()
+                    }
                 )
             }
         }
@@ -210,6 +214,7 @@ struct ProcessingView: View {
     @Binding var result: CategorizationResult?
     @Binding var isProcessing: Bool
     @Binding var processingPathLabel: String
+    let onConfirmed: () -> Void
     
     @State private var path = NavigationPath()
     
@@ -256,7 +261,11 @@ struct ProcessingView: View {
             }
         }
         .navigationDestination(item: $result) { catResult in
-            ConfirmationView(rootIsActive: $isProcessing, viewModel: ConfirmationViewModel(result: catResult))
+            ConfirmationView(
+                rootIsActive: $isProcessing,
+                onConfirmed: onConfirmed,
+                viewModel: ConfirmationViewModel(result: catResult)
+            )
         }
     }
 }
