@@ -1,0 +1,197 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -target "defog iOS" -project defog.xcodeproj -configuration Debug SDKROOT=iphonesimulator -arch arm64 ONLY_ACTIVE_ARCH=YES CODE_SIGNING_ALLOWED=NO CODE_SIGN_STYLE=Manual build
+
+Build settings from command line:
+    ARCHS = arm64
+    CODE_SIGN_STYLE = Manual
+    CODE_SIGNING_ALLOWED = NO
+    ONLY_ACTIVE_ARCH = YES
+    SDKROOT = iphonesimulator
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  Jinja: https://github.com/huggingface/swift-jinja.git @ 2.3.2
+  whisperkit: https://github.com/argmaxinc/WhisperKit.git @ 0.15.0
+  swift-argument-parser: https://github.com/apple/swift-argument-parser.git @ 1.7.0
+  swift-collections: https://github.com/apple/swift-collections.git @ 1.3.0
+  swift-crypto: https://github.com/apple/swift-crypto.git @ 4.2.0
+  yyjson: https://github.com/ibireme/yyjson.git @ 0.12.0
+  swift-asn1: https://github.com/apple/swift-asn1.git @ 1.5.1
+  swift-transformers: https://github.com/huggingface/swift-transformers.git @ 1.1.8
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (18 targets)
+    Target 'defog iOS' in project 'defog'
+        ➜ Explicit dependency on target 'WhisperKit' in project 'whisperkit'
+    Target 'WhisperKit' in project 'whisperkit'
+        ➜ Explicit dependency on target 'WhisperKit' in project 'whisperkit'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+    Target 'WhisperKit' in project 'whisperkit'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+    Target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'Tokenizers' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'swift-transformers_Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'swift-transformers_Hub' in project 'swift-transformers'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'yyjson' in project 'yyjson'
+        ➜ Explicit dependency on target 'yyjson' in project 'yyjson'
+    Target 'yyjson' in project 'yyjson' (no dependencies)
+    Target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'swift-crypto_Crypto' in project 'swift-crypto'
+    Target 'Crypto' in project 'swift-crypto'
+        ➜ Explicit dependency on target 'swift-crypto_Crypto' in project 'swift-crypto'
+    Target 'swift-crypto_Crypto' in project 'swift-crypto' (no dependencies)
+    Target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+    Target 'Jinja' in project 'Jinja'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+    Target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'InternalCollectionsUtilities' in project 'swift-collections'
+    Target 'OrderedCollections' in project 'swift-collections'
+        ➜ Explicit dependency on target 'InternalCollectionsUtilities' in project 'swift-collections'
+    Target 'InternalCollectionsUtilities' in project 'swift-collections' (no dependencies)
+    Target 'swift-transformers_Hub' in project 'swift-transformers' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/kshitij/Documents/cursor shit/defog-app/defog iOS/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ReadFileContents /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+Build description signature: 5733cae1fe5fc4c60c9966a05f074482
+Build description path: /Users/kshitij/Documents/cursor shit/defog-app/build/XCBuildData/5733cae1fe5fc4c60c9966a05f074482.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /var/folders/hr/q_k8v9mx6xx_r9nc05pdzq280000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+    cd /Users/kshitij/Documents/cursor\ shit/defog-app/defog.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /var/folders/hr/q_k8v9mx6xx_r9nc05pdzq280000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+
+ProcessInfoPlistFile /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-transformers/build/Debug-iphonesimulator/swift-transformers_Hub.bundle/Info.plist /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-transformers/build/swift-transformers.build/Debug-iphonesimulator/swift-transformers_Hub.build/empty-swift-transformers_Hub.plist (in target 'swift-transformers_Hub' from project 'swift-transformers')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-transformers
+    builtin-infoPlistUtility /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-transformers/build/swift-transformers.build/Debug-iphonesimulator/swift-transformers_Hub.build/empty-swift-transformers_Hub.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphonesimulator -o /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-transformers/build/Debug-iphonesimulator/swift-transformers_Hub.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/swift-crypto_Crypto.bundle/Info.plist /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/swift-crypto_Crypto.build/empty-swift-crypto_Crypto.plist (in target 'swift-crypto_Crypto' from project 'swift-crypto')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto
+    builtin-infoPlistUtility /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/swift-crypto_Crypto.build/empty-swift-crypto_Crypto.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphonesimulator -o /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/swift-crypto_Crypto.bundle/Info.plist
+
+ExtractAppIntentsMetadata (in target 'OrderedCollections' from project 'swift-collections')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name OrderedCollections --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk --xcode-version 17C52 --platform-family iOS --deployment-target 12.0 --bundle-identifier swift-collections.OrderedCollections --output /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/Debug-iphonesimulator/OrderedCollections.appintents --target-triple arm64-apple-ios12.0-simulator --binary-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/Debug-iphonesimulator/OrderedCollections.o --dependency-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/Objects-normal/arm64/OrderedCollections_dependency_info.dat --stringsdata-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/Objects-normal/arm64/OrderedCollections.SwiftFileList --metadata-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/OrderedCollections.DependencyMetadataFileList --static-metadata-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/OrderedCollections.DependencyStaticMetadataFileList --swift-const-vals-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/swift-collections.build/Debug-iphonesimulator/OrderedCollections.build/Objects-normal/arm64/OrderedCollections.SwiftConstValuesFileList --force --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/AST.swift:2:8: error: Unable to find module dependency: 'OrderedCollections'
+import OrderedCollections
+       ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/AST.swift:2:8: note: a dependency of main module 'Jinja'
+import OrderedCollections
+       ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Interpreter.swift:2:19: note: also imported here
+@_exported import OrderedCollections
+                  ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Parser.swift:2:8: note: also imported here
+import OrderedCollections
+       ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/PropertyMembers.swift:2:19: note: also imported here
+@_exported import OrderedCollections
+                  ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Template.swift:2:8: note: also imported here
+import OrderedCollections
+       ^
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Value.swift:2:19: note: also imported here
+@_exported import OrderedCollections
+                  ^
+2026-02-25 16:11:25.803 appintentsmetadataprocessor[14160:36597508] Starting appintentsmetadataprocessor export
+2026-02-25 16:11:25.909 appintentsmetadataprocessor[14160:36597508] Extracted no relevant App Intents symbols, skipping writing output
+
+ExtractAppIntentsMetadata (in target 'Crypto' from project 'swift-crypto')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Crypto --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk --xcode-version 17C52 --platform-family iOS --deployment-target 12.0 --bundle-identifier swift-crypto.Crypto --output /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/Crypto.appintents --target-triple arm64-apple-ios12.0-simulator --binary-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/Crypto.o --dependency-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Objects-normal/arm64/Crypto_dependency_info.dat --stringsdata-file /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Objects-normal/arm64/Crypto.SwiftFileList --metadata-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Crypto.DependencyMetadataFileList --static-metadata-file-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Crypto.DependencyStaticMetadataFileList --swift-const-vals-list /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/swift-crypto.build/Debug-iphonesimulator/Crypto.build/Objects-normal/arm64/Crypto.SwiftConstValuesFileList --force --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-02-25 16:11:25.804 appintentsmetadataprocessor[14161:36597509] Starting appintentsmetadataprocessor export
+2026-02-25 16:11:25.905 appintentsmetadataprocessor[14161:36597509] Extracted no relevant App Intents symbols, skipping writing output
+
+SwiftDriver Jinja normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Jinja' from project 'Jinja')
+    cd /Users/kshitij/Documents/cursor\ shit/defog-app/defog.xcodeproj
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Jinja -Onone -enforce-exclusivity\=checked @/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/Objects-normal/arm64/Jinja.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios16.0-simulator -g -Xfrontend -serialize-debugging-options -enable-testing -suppress-warnings -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Debug-iphonesimulator/PackageFrameworks -F /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Debug-iphonesimulator/PackageFrameworks -F /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /var/folders/hr/q_k8v9mx6xx_r9nc05pdzq280000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/Objects-normal/arm64/Jinja-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/SwiftExplicitPrecompiledModules -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/Objects-normal/arm64/Jinja.swiftmodule -user-module-version 2.3.2 -validate-clang-modules-once -clang-build-session-file /var/folders/hr/q_k8v9mx6xx_r9nc05pdzq280000gn/C/org.llvm.clang/ModuleCache.noindex/Session.modulevalidation -package-name swift_jinja -Xcc -I/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/Objects-normal/arm64/Jinja_const_extract_protocols.json -Xcc -I/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Debug-iphonesimulator/include -Xcc -I/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/DerivedSources-normal/arm64 -Xcc -I/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/DerivedSources/arm64 -Xcc -I/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/build/Jinja.build/Debug-iphonesimulator/Jinja.build/Objects-normal/arm64/Jinja-Swift.h -working-directory /Users/kshitij/Documents/cursor\ shit/defog-app/defog.xcodeproj -experimental-emit-module-separately -disable-cmo
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/AST.swift:2:8: error: Unable to find module dependency: 'OrderedCollections'
+import OrderedCollections
+       ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/AST.swift:2:8: note: A dependency of main module 'Jinja'
+import OrderedCollections
+       ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Interpreter.swift:2:19: note: Also imported here
+@_exported import OrderedCollections
+                  ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Parser.swift:2:8: note: Also imported here
+import OrderedCollections
+       ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/PropertyMembers.swift:2:19: note: Also imported here
+@_exported import OrderedCollections
+                  ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Template.swift:2:8: note: Also imported here
+import OrderedCollections
+       ^ (in target 'Jinja' from project 'Jinja')
+/Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-jinja/Sources/Jinja/Value.swift:2:19: note: Also imported here
+@_exported import OrderedCollections
+                  ^ (in target 'Jinja' from project 'Jinja')
+
+RegisterExecutionPolicyException /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/Crypto.o (in target 'Crypto' from project 'swift-crypto')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto
+    builtin-RegisterExecutionPolicyException /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-crypto/build/Debug-iphonesimulator/Crypto.o
+
+RegisterExecutionPolicyException /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/Debug-iphonesimulator/OrderedCollections.o (in target 'OrderedCollections' from project 'swift-collections')
+    cd /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections
+    builtin-RegisterExecutionPolicyException /Users/kshitij/Library/Developer/Xcode/DerivedData/defog-gqxrphtjfzndewefugxtrdekvaih/SourcePackages/checkouts/swift-collections/build/Debug-iphonesimulator/OrderedCollections.o
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftDriver Jinja normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Jinja' from project 'Jinja')
+(1 failure)
