@@ -7,18 +7,6 @@ struct BrainDumpView: View {
     @Environment(TranscriptionService.self) private var transcriptionService
     
     @State private var viewModel = BrainDumpViewModel()
-    @State private var engine = OpenRouterCategorizationEngine()
-    
-    @State private var isProcessing = false
-    @State private var categorizationResult: CategorizationResult?
-    @State private var processingPathLabel = ""
-    @State private var textBeforeRecording = ""
-    @State private var processingTask: _Concurrency.Task<Void, Never>?
-    
-    // For querying existing goals
-    @Query(filter: #Predicate<Goal> { goal in
-        goal.archivedAt == nil
-    }) private var existingGoals: [Goal]
     
     var body: some View {
         NavigationStack {
@@ -98,7 +86,7 @@ struct BrainDumpView: View {
                         }
                         
                         Button {
-                            startProcessing()
+                            viewModel.startProcessing(modelContext: modelContext)
                         } label: {
                             Text("Process")
                                 .font(.headline)
@@ -124,37 +112,23 @@ struct BrainDumpView: View {
                 }
             }
             // Navigate to Processing / Confirmation
-            .navigationDestination(isPresented: $isProcessing) {
+            .navigationDestination(isPresented: $viewModel.isProcessing) {
                 ProcessingView(
-                    result: $categorizationResult,
-                    isProcessing: $isProcessing,
-                    processingPathLabel: $processingPathLabel,
+                    result: $viewModel.categorizationResult,
+                    isProcessing: $viewModel.isProcessing,
+                    processingPathLabel: $viewModel.processingPathLabel,
                     onConfirmed: {
-                        isProcessing = false
+                        viewModel.isProcessing = false
                         dismiss()
+                    },
+                    onCancel: {
+                        viewModel.cancelProcessing()
                     }
                 )
             }
         }
-        .onChange(of: categorizationResult?.tasks.count) {
-            // Once we have a result from the Processing view, it will handle navigating further
-            // Alternatively, ProcessingView handles the AI Task directly and pushes ConfirmationView
-        }
-        .onChange(of: isProcessing) { _, newValue in
-            if !newValue {
-                processingTask?.cancel()
-                processingTask = nil
-            }
-        }
-        .onChange(of: transcriptionService.partialTranscript) { _, newPart in
-            if transcriptionService.isRecording {
-                viewModel.text = textBeforeRecording + newPart
-            }
-        }
-        .onChange(of: transcriptionService.finalTranscript) { _, newFinal in
-            if !newFinal.isEmpty {
-                viewModel.text = textBeforeRecording + newFinal
-            }
+        .onChange(of: transcriptionService.aggregatedText) { _, newText in
+            viewModel.text = newText
         }
     }
     
@@ -165,46 +139,15 @@ struct BrainDumpView: View {
             }
         } else {
             if transcriptionService.isSpeechAuthorized && transcriptionService.isMicrophoneAuthorized {
-                textBeforeRecording = viewModel.text
-                if !textBeforeRecording.isEmpty && !textBeforeRecording.hasSuffix(" ") {
-                    textBeforeRecording += " "
+                var baseText = viewModel.text
+                if !baseText.isEmpty && !baseText.hasSuffix(" ") {
+                    baseText += " "
                 }
-                transcriptionService.startRecording()
+                transcriptionService.startRecording(baseText: baseText)
             } else {
                 transcriptionService.requestPermissionsIfNeeded()
             }
         }
-    }
-    
-    private func startProcessing() {
-        processingTask?.cancel()
-        categorizationResult = nil
-        isProcessing = true
-        processingPathLabel = initialProcessingPathLabel()
-        
-        // Simulate a small delay for "Making sense..." feeling
-        processingTask = _Concurrency.Task {
-            // Processing logic that hands off to the engine
-            let result = await engine.categorize(text: viewModel.text, existingGoals: existingGoals)
-            guard !_Concurrency.Task.isCancelled else { return }
-            
-            try? await _Concurrency.Task.sleep(nanoseconds: 1_000_000_000) // 1s delay
-            guard !_Concurrency.Task.isCancelled else { return }
-            
-            await MainActor.run {
-                guard self.isProcessing else { return }
-                self.processingPathLabel = result.source.processingLabel
-                self.categorizationResult = result
-            }
-        }
-    }
-
-    private func initialProcessingPathLabel() -> String {
-        let trimmedAPIKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedAPIKey.isEmpty else {
-            return CategorizationSource.legacyLocal(reason: "no API key").processingLabel
-        }
-        return CategorizationSource.byom(model: UserPreferences.aiModel).processingLabel
     }
 }
 
@@ -215,6 +158,7 @@ struct ProcessingView: View {
     @Binding var isProcessing: Bool
     @Binding var processingPathLabel: String
     let onConfirmed: () -> Void
+    let onCancel: () -> Void
     
     @State private var path = NavigationPath()
     
@@ -244,20 +188,13 @@ struct ProcessingView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("Cancel") {
-                    result = nil
-                    isProcessing = false
+                    onCancel()
                 }
             }
         }
         .onDisappear {
             if !isProcessing {
                 result = nil
-            }
-        }
-        .onChange(of: result?.tasks.count) {
-            // Hacky trigger for Swift 5.9 observation
-            if result != nil {
-                 // The parent will handle the destination, or we can use a navigationDestination here
             }
         }
         .navigationDestination(item: $result) { catResult in

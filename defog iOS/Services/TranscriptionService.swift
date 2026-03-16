@@ -13,6 +13,9 @@ class TranscriptionService {
     var isProcessing = false
     var partialTranscript = ""
     var finalTranscript = ""
+    var aggregatedText = ""
+    
+    private var baseText = ""
     
     var isMicrophoneAuthorized = false
     var isSpeechAuthorized = false
@@ -66,8 +69,10 @@ class TranscriptionService {
         checkPermissions()
     }
     
-    func startRecording() {
+    func startRecording(baseText: String = "") {
         guard !isRecording else { return }
+        self.baseText = baseText
+        self.aggregatedText = baseText
         partialTranscript = ""
         finalTranscript = ""
         isRecording = true
@@ -79,6 +84,7 @@ class TranscriptionService {
                     if _Concurrency.Task.isCancelled { break }
                     await MainActor.run {
                         self.partialTranscript = transcript
+                        self.aggregatedText = self.baseText + transcript
                     }
                 }
             } catch {
@@ -96,8 +102,10 @@ class TranscriptionService {
         
         let sfResult = await sfSpeechEngine.stop()
         await MainActor.run {
-            self.finalTranscript = sfResult
-            self.partialTranscript = sfResult
+            let finalSfText = sfResult.isEmpty ? self.partialTranscript : sfResult
+            self.finalTranscript = finalSfText
+            self.partialTranscript = finalSfText
+            self.aggregatedText = self.baseText + finalSfText
         }
         
         if UserPreferences.whisperKitEnabled && UserPreferences.whisperKitDownloaded && whisperKitEngine.isAvailable {
@@ -109,6 +117,7 @@ class TranscriptionService {
                     await MainActor.run {
                         self.finalTranscript = improvedTranscript
                         self.partialTranscript = improvedTranscript
+                        self.aggregatedText = self.baseText + improvedTranscript
                     }
                 }
             } catch {

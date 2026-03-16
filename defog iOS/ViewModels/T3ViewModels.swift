@@ -1,16 +1,64 @@
 import Foundation
 import SwiftData
 
+@MainActor
 @Observable
 class BrainDumpViewModel {
     var text: String = ""
     var isMicrophoneEnabled: Bool = false
     var showPermissionAlert: Bool = false
     
+    var engine: CategorizationEngine
+    var isProcessing: Bool = false
+    var categorizationResult: CategorizationResult? = nil
+    var processingPathLabel: String = ""
+    var processingTask: _Concurrency.Task<Void, Never>? = nil
+    
+    init(engine: CategorizationEngine = OpenRouterCategorizationEngine()) {
+        self.engine = engine
+    }
+    
     // Optional integration for T4 future
     func checkMicrophonePermission() {
         // Mock permission check
         // showPermissionAlert = true / false 
+    }
+    
+    func startProcessing(modelContext: ModelContext) {
+        cancelProcessing()
+        isProcessing = true
+        processingPathLabel = initialProcessingPathLabel()
+        
+        let existingGoals = (try? modelContext.fetch(
+            FetchDescriptor<Goal>(predicate: #Predicate { $0.archivedAt == nil })
+        )) ?? []
+        
+        processingTask = _Concurrency.Task {
+            let result = await engine.categorize(text: text, existingGoals: existingGoals)
+            guard !_Concurrency.Task.isCancelled else { return }
+            
+            try? await _Concurrency.Task.sleep(for: .seconds(1))
+            guard !_Concurrency.Task.isCancelled else { return }
+            
+            guard self.isProcessing else { return }
+            self.processingPathLabel = result.source.processingLabel
+            self.categorizationResult = result
+        }
+    }
+    
+    func cancelProcessing() {
+        processingTask?.cancel()
+        processingTask = nil
+        isProcessing = false
+        categorizationResult = nil
+    }
+    
+    func initialProcessingPathLabel() -> String {
+        let trimmedAPIKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedAPIKey.isEmpty else {
+            return CategorizationSource.legacyLocal(reason: "no API key").processingLabel
+        }
+        return CategorizationSource.byom(model: UserPreferences.aiModel).processingLabel
     }
 }
 
