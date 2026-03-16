@@ -5,12 +5,16 @@ struct TaskCardView: View {
     @Bindable var task: Task
     @Environment(\.modelContext) private var modelContext
     
+    @Query(filter: #Predicate<Goal> { $0.archivedAt == nil }, sort: \Goal.createdAt)
+    private var activeGoals: [Goal]
+    
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
     @State private var isEditing = false
     @State private var editText: String = ""
     @State private var editSchedule: TaskSchedule = .today
+    @State private var editLinkedGoal: Goal? = nil
     @State private var showDeleteConfirmation = false
     
     var body: some View {
@@ -59,6 +63,25 @@ struct TaskCardView: View {
                         .foregroundColor(.blue)
                         .disabled(editText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
+                    
+                    HStack {
+                        Text("Linked goal")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Picker("Linked goal", selection: $editLinkedGoal) {
+                            Text("No goal").tag(Goal?.none)
+                            ForEach(activeGoals) { goal in
+                                Text(goal.name).tag(Optional(goal))
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .tint(.primary)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(8)
+                    }
                 }
             } else {
                 // View Mode
@@ -68,6 +91,19 @@ struct TaskCardView: View {
                         .foregroundColor(task.completed ? .secondary : .primary)
                         .strikethrough(task.completed, color: .secondary)
                         .multilineTextAlignment(.leading)
+                    
+                    if !task.completed, let goal = task.linkedGoal {
+                        HStack(spacing: 3) {
+                            Circle()
+                                .fill(Color(hex: goal.color) ?? .blue)
+                                .frame(width: 6, height: 6)
+                            Text(goal.name)
+                                .font(.caption)
+                                .foregroundColor(Color(hex: goal.color) ?? .blue)
+                        }
+                        .padding(.top, 1)
+                        .padding(.bottom, 2)
+                    }
                     
                     // Schedule Badge (only show if not completed, or maybe always)
                     if !task.completed {
@@ -82,6 +118,7 @@ struct TaskCardView: View {
                     Button(action: {
                         editText = task.text
                         editSchedule = task.schedule
+                        editLinkedGoal = task.linkedGoal
                         isEditing = true
                     }) {
                         Label("Edit", systemImage: "pencil")
@@ -103,7 +140,14 @@ struct TaskCardView: View {
         .padding(.vertical, 12)
         .padding(.horizontal, 16)
         .background(Color(UIColor.secondarySystemGroupedBackground))
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(alignment: .leading) {
+            if let goal = task.linkedGoal {
+                Rectangle()
+                    .fill(Color(hex: goal.color) ?? .blue)
+                    .frame(width: 3)
+            }
+        }
         // Light shadow for depth
         .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 1)
         .alert("Delete Task?", isPresented: $showDeleteConfirmation) {
@@ -145,7 +189,13 @@ struct TaskCardView: View {
             task.completed.toggle()
             if task.completed {
                 task.completedAt = Date()
-                showToastMessage("Task completed!")
+                if let goal = task.linkedGoal {
+                    let entry = GoalEntry(text: task.text, type: .detailed, goal: goal)
+                    modelContext.insert(entry)
+                    showToastMessage("Task done · logged to \(goal.name)")
+                } else {
+                    showToastMessage("Task completed!")
+                }
                 NotificationService.shared.recordActivity()
             } else {
                 task.completedAt = nil
@@ -162,6 +212,7 @@ struct TaskCardView: View {
         withAnimation {
             task.text = trimmedText
             task.schedule = editSchedule
+            task.linkedGoal = editLinkedGoal
             isEditing = false
             try? modelContext.save()
             showToastMessage("Task updated")

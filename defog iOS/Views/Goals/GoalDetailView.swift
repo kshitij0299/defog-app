@@ -188,6 +188,17 @@ struct GoalDetailView: View {
             Button("Cancel", role: .cancel) { }
             Button("Archive", role: .destructive) {
                 goal.archivedAt = Date()
+                
+                let goalId = goal.id
+                let descriptor = FetchDescriptor<Task>(predicate: #Predicate<Task> { task in
+                    task.linkedGoal?.id == goalId
+                })
+                if let tasks = try? modelContext.fetch(descriptor) {
+                    for task in tasks {
+                        task.linkedGoal = nil
+                    }
+                }
+                
                 try? modelContext.save()
                 dismiss() // Pop back to active goals view
             }

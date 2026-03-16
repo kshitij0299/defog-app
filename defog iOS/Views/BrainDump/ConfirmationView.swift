@@ -3,11 +3,16 @@ import SwiftData
 
 struct ConfirmationView: View {
     @Environment(\.modelContext) private var modelContext
+    @Query(filter: #Predicate<Goal> { $0.archivedAt == nil }, sort: \Goal.createdAt)
+    private var activeGoals: [Goal]
     
     @Binding var rootIsActive: Bool
     let onConfirmed: () -> Void
     
     @State var viewModel: ConfirmationViewModel
+    
+    @State private var isTasksTargeted = false
+    @State private var isNewGoalsTargeted = false
     
     var body: some View {
         ZStack {
@@ -44,39 +49,128 @@ struct ConfirmationView: View {
                         } else {
                             
                             // Tasks Section
-                            if !viewModel.result.tasks.isEmpty {
+                            VStack(alignment: .leading, spacing: 16) {
                                 SectionHeader(icon: "checkmark.square", title: "These look like tasks")
                                 
-                                ForEach(Array(viewModel.result.tasks.enumerated()), id: \.offset) { index, task in
-                                    ConfirmationItemRow(text: task.text,
-                                                        tagLabel: scheduleString(task.schedule),
-                                                        tagColor: scheduleColor(task.schedule),
-                                                        onRemove: { viewModel.removeTask(at: index) })
+                                if viewModel.result.tasks.isEmpty {
+                                    Text("Drop items here to create tasks")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .padding()
+                                        .background(Color(uiColor: .systemBackground))
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                .foregroundColor(Color(uiColor: .systemGray4))
+                                        )
+                                } else {
+                                    ForEach(Array(viewModel.result.tasks.enumerated()), id: \.element.id) { index, task in
+                                        let linkedGoal = activeGoals.first(where: { $0.name == task.linkedGoalName })
+                                        let row = ConfirmationItemRow(text: task.text,
+                                                            tagLabel: scheduleString(task.schedule),
+                                                            tagColor: scheduleColor(task.schedule),
+                                                            linkedGoalName: task.linkedGoalName,
+                                                            goalColorHex: linkedGoal?.color,
+                                                            onRemove: { viewModel.removeTask(at: index) },
+                                                            activeGoals: activeGoals,
+                                                            onGoalChange: { newName in
+                                                                viewModel.updateTaskGoal(at: index, newGoalName: newName)
+                                                            })
+                                        
+                                        row.draggable("task:\(task.id.uuidString)") {
+                                            row
+                                                .frame(width: UIScreen.main.bounds.width - 64)
+                                                .scaleEffect(1.03)
+                                                .opacity(0.85)
+                                        }
+                                    }
                                 }
+                            }
+                            .padding(12)
+                            .background(isTasksTargeted ? Color.blue.opacity(0.05) : Color.clear)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(isTasksTargeted ? Color.blue.opacity(0.3) : Color.clear, lineWidth: 2)
+                            )
+                            .padding(.horizontal, -12)
+                            .dropDestination(for: String.self) { items, _ in
+                                handleDrop(items: items, destination: .tasks)
+                            } isTargeted: { targeted in
+                                withAnimation { isTasksTargeted = targeted }
                             }
                             
                             // New Goals Section
-                            if !viewModel.result.newGoals.isEmpty {
+                            VStack(alignment: .leading, spacing: 16) {
                                 SectionHeader(icon: "target", title: "New goals")
                                 
-                                ForEach(Array(viewModel.result.newGoals.enumerated()), id: \.offset) { index, goal in
-                                    ConfirmationItemRow(text: goal.name,
-                                                        tagLabel: nil,
-                                                        tagColor: .clear,
-                                                        onRemove: { viewModel.removeNewGoal(at: index) })
+                                if viewModel.result.newGoals.isEmpty {
+                                    Text("Drop items here to create new goals")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .padding()
+                                        .background(Color(uiColor: .systemBackground))
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                .foregroundColor(Color(uiColor: .systemGray4))
+                                        )
+                                } else {
+                                    ForEach(Array(viewModel.result.newGoals.enumerated()), id: \.element.id) { index, goal in
+                                        let row = ConfirmationItemRow(text: goal.name,
+                                                            tagLabel: nil,
+                                                            tagColor: .clear,
+                                                            onRemove: { viewModel.removeNewGoal(at: index) })
+                                        
+                                        row.draggable("newGoal:\(goal.id.uuidString)") {
+                                            row
+                                                .frame(width: UIScreen.main.bounds.width - 64)
+                                                .scaleEffect(1.03)
+                                                .opacity(0.85)
+                                        }
+                                    }
                                 }
+                            }
+                            .padding(12)
+                            .background(isNewGoalsTargeted ? Color.blue.opacity(0.05) : Color.clear)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(isNewGoalsTargeted ? Color.blue.opacity(0.3) : Color.clear, lineWidth: 2)
+                            )
+                            .padding(.horizontal, -12)
+                            .dropDestination(for: String.self) { items, _ in
+                                handleDrop(items: items, destination: .newGoals)
+                            } isTargeted: { targeted in
+                                withAnimation { isNewGoalsTargeted = targeted }
                             }
                             
                             // Goal Updates Section
                             if !viewModel.result.goalUpdates.isEmpty {
-                                SectionHeader(icon: "pencil.line", title: "Goal updates")
-                                
-                                ForEach(Array(viewModel.result.goalUpdates.enumerated()), id: \.offset) { index, update in
-                                    ConfirmationItemRow(text: update.text,
-                                                        tagLabel: "\(update.matchedGoal.name) ▾",
-                                                        tagColor: .blue.opacity(0.1),
-                                                        onRemove: { viewModel.removeGoalUpdate(at: index) })
+                                VStack(alignment: .leading, spacing: 16) {
+                                    SectionHeader(icon: "pencil.line", title: "Goal updates")
+                                    
+                                    ForEach(Array(viewModel.result.goalUpdates.enumerated()), id: \.element.id) { index, update in
+                                        let row = ConfirmationItemRow(text: update.text,
+                                                            tagLabel: "\(update.matchedGoal.name) ▾",
+                                                            tagColor: .blue.opacity(0.1),
+                                                            onRemove: { viewModel.removeGoalUpdate(at: index) })
+                                        
+                                        row.draggable("goalUpdate:\(update.id.uuidString)") {
+                                            row
+                                                .frame(width: UIScreen.main.bounds.width - 64)
+                                                .scaleEffect(1.03)
+                                                .opacity(0.85)
+                                        }
+                                    }
                                 }
+                                .padding(12)
+                                // We don't drop items onto Goal Updates, so no dropDestination needed here.
+                                .padding(.horizontal, -12)
                             }
                         }
                     }
@@ -121,6 +215,39 @@ struct ConfirmationView: View {
         }
     }
     
+    private enum DropDestinationSection {
+        case tasks
+        case newGoals
+    }
+    
+    private func handleDrop(items: [String], destination: DropDestinationSection) -> Bool {
+        var handled = false
+        for item in items {
+            let parts = item.split(separator: ":").map(String.init)
+            guard parts.count == 2 else { continue }
+            let type = parts[0]
+            guard let id = UUID(uuidString: parts[1]) else { continue }
+            
+            withAnimation(.spring) {
+                if destination == .tasks {
+                    if type == "newGoal" {
+                        viewModel.moveToTasks(id)
+                        handled = true
+                    } else if type == "goalUpdate" {
+                        viewModel.moveGoalUpdateToTasks(id)
+                        handled = true
+                    }
+                } else if destination == .newGoals {
+                    if type == "task" {
+                        viewModel.moveToGoals(id)
+                        handled = true
+                    }
+                }
+            }
+        }
+        return handled
+    }
+    
     private func scheduleString(_ schedule: TaskSchedule) -> String {
         switch schedule {
         case .today: return "Today ▾"
@@ -158,41 +285,97 @@ struct ConfirmationItemRow: View {
     let text: String
     let tagLabel: String?
     let tagColor: Color
+    var linkedGoalName: String? = nil
+    var goalColorHex: String? = nil
     let onRemove: () -> Void
+    var activeGoals: [Goal] = []
+    var onGoalChange: ((String?) -> Void)? = nil
     
     var body: some View {
-        HStack(spacing: 8) {
-            Text(text)
-                .font(.subheadline)
-                .foregroundColor(.primary)
-                .lineLimit(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            if let tagLabel = tagLabel {
-                Text(tagLabel)
-                    .font(.caption2.weight(.semibold))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(tagColor)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Text(text)
+                    .font(.subheadline)
                     .foregroundColor(.primary)
-                    .cornerRadius(12)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if let tagLabel = tagLabel {
+                    Text(tagLabel)
+                        .font(.caption2.weight(.semibold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(tagColor)
+                        .foregroundColor(.primary)
+                        .cornerRadius(12)
+                }
+                
+                Button {
+                    onRemove()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundColor(.secondary)
+                        .padding(.leading, 4)
+                }
             }
             
-            Button {
-                onRemove()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.subheadline.weight(.bold))
-                    .foregroundColor(.secondary)
-                    .padding(.leading, 4)
+            if onGoalChange != nil {
+                Menu {
+                    Button("No goal") {
+                        onGoalChange?(nil)
+                    }
+                    ForEach(activeGoals) { goal in
+                        Button(goal.name) {
+                            onGoalChange?(goal.name)
+                        }
+                    }
+                } label: {
+                    if let goalName = linkedGoalName {
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
+                                .frame(width: 6, height: 6)
+                            Text("\(goalName) ▾")
+                                .font(.caption2)
+                                .foregroundColor(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
+                        }
+                        .padding(.horizontal, 9)
+                        .padding(.vertical, 4)
+                        .background((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.3), lineWidth: 1)
+                        )
+                    } else {
+                        Text("+ Link to goal")
+                            .font(.caption2)
+                            .foregroundColor(Color(uiColor: .systemGray2))
+                            .padding(.horizontal, 9)
+                            .padding(.vertical, 4)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
+                                    .foregroundColor(Color(uiColor: .systemGray3))
+                            )
+                    }
+                }
             }
         }
         .padding()
         .background(Color(uiColor: .systemBackground))
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color(uiColor: .systemGray5), lineWidth: 1)
         )
+        .overlay(alignment: .leading) {
+            if linkedGoalName != nil {
+                Rectangle()
+                    .fill(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
+                    .frame(width: 3)
+            }
+        }
     }
 }

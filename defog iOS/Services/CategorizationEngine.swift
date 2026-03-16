@@ -49,6 +49,9 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         - If user says "tomorrow/this week/soon" => thisWeek.
         - Otherwise schedule = someday.
         - Only set matchedGoalName if it clearly maps to one of the provided existing goals.
+        - For tasks, if it clearly relates to an existing goal, set linkedGoalName to that goal's name.
+        - Goals must be broad, ongoing pursuits that a person works toward over weeks or months — e.g., 'Learn Music', 'Motion Design', 'Fitness', 'Read More'. Specific one-time activities like 'learn a new chord progression', 'do 10 pushups', or 'read one chapter' are tasks, not goals — even if they sound aspirational. When in doubt, classify as a task.
+        - If a specific activity clearly belongs under a broader existing goal (e.g., "learn a new chord progression" -> existing "Guitar" goal), classify it as a task linked to that goal, not a new goal.
         """
 
         let userPrompt = """
@@ -57,7 +60,7 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
 
         Return this JSON shape exactly:
         {
-          "tasks": [{"text":"string","schedule":"today|thisWeek|someday","confidence":0.0}],
+          "tasks": [{"text":"string","schedule":"today|thisWeek|someday","linkedGoalName":"string|null","confidence":0.0}],
           "newGoals": [{"name":"string","confidence":0.0}],
           "goalUpdates": [{"text":"string","matchedGoalName":"string","confidence":0.0}]
         }
@@ -216,10 +219,13 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         let tasks: [CategorizedTask] = output.tasks.compactMap { item in
             let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !text.isEmpty else { return nil }
+            let linkedName = (item.linkedGoalName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            let matchedLinkedGoalName = linkedName.isEmpty ? nil : matchExistingGoalName(linkedName, existingGoals: existingGoals)?.name
             return CategorizedTask(
                 text: text,
                 schedule: TaskSchedule(rawValue: item.schedule) ?? .someday,
-                confidence: item.confidence ?? 0.9
+                confidence: item.confidence ?? 0.9,
+                linkedGoalName: matchedLinkedGoalName
             )
         }
 
@@ -379,11 +385,14 @@ private struct OpenRouterCategorizationOutput: Decodable {
     struct TaskItem: Decodable {
         let text: String
         let schedule: String
+        let linkedGoalName: String?
         let confidence: Double?
 
         private enum CodingKeys: String, CodingKey {
             case text
             case schedule
+            case linkedGoalName
+            case linked_goal_name
             case confidence
         }
 
@@ -392,6 +401,7 @@ private struct OpenRouterCategorizationOutput: Decodable {
                let rawText = try? single.decode(String.self) {
                 text = rawText
                 schedule = "someday"
+                linkedGoalName = nil
                 confidence = nil
                 return
             }
@@ -399,6 +409,9 @@ private struct OpenRouterCategorizationOutput: Decodable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             text = try container.decodeIfPresent(String.self, forKey: .text) ?? ""
             schedule = try container.decodeIfPresent(String.self, forKey: .schedule) ?? "someday"
+            let camelLinked = try container.decodeIfPresent(String.self, forKey: .linkedGoalName)
+            let snakeLinked = try container.decodeIfPresent(String.self, forKey: .linked_goal_name)
+            linkedGoalName = camelLinked ?? snakeLinked
             confidence = try container.decodeIfPresent(Double.self, forKey: .confidence)
         }
     }
@@ -596,6 +609,18 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
             isTask = true
         }
         
+        // Add specificity check for goals
+        if isGoal {
+            let words = normalizedSentence.lowercased().split(separator: " ").map(String.init)
+            let hasQuantifier = words.contains(where: { ["a", "an", "one", "some"].contains($0) || Int($0) != nil }) || normalizedSentence.lowercased().contains("a new")
+            let hasSpecificObject = self.hasSpecificObjectPattern(normalizedSentence)
+            
+            if hasQuantifier || hasSpecificObject {
+                isGoal = false
+                isTask = true
+            }
+        }
+        
         // We prioritize explicit goal verbs over task verbs if both exist, for the purpose of the prototype
         if isGoal {
             // Extract the target of the goal (heuristic: text after the verb)
@@ -608,8 +633,77 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
                 resultNewGoals.append(CategorizedNewGoal(name: extractedTarget, confidence: 0.8))
             }
         } else if isTask {
-            resultTasks.append(CategorizedTask(text: normalizedSentence, schedule: schedule, confidence: 0.85))
+            var matchedLinkedGoalName: String? = nil
+            if !nounPhrases.isEmpty {
+                var candidates = nounPhrases
+                if nounPhrases.count > 1 {
+                    for i in 0..<(nounPhrases.count - 1) {
+                        candidates.append("\(nounPhrases[i]) \(nounPhrases[i+1])")
+                    }
+                }
+                
+                var bestGoal: Goal? = nil
+                var bestScore = 0.0
+                
+                for candidate in candidates {
+                    let normalizedCandidate = candidate.lowercased().trimmingCharacters(in: .punctuationCharacters)
+                    guard !normalizedCandidate.isEmpty else { continue }
+                    
+                    for goal in existingGoals {
+                        let normalizedGoalName = goal.name.lowercased().trimmingCharacters(in: .punctuationCharacters)
+                        guard !normalizedGoalName.isEmpty else { continue }
+                        
+                        var score = 0.0
+                        if normalizedCandidate == normalizedGoalName {
+                            score = 1.0
+                        } else if normalizedCandidate.contains(normalizedGoalName) || normalizedGoalName.contains(normalizedCandidate) {
+                            score = 0.9
+                        } else {
+                            let distance = levenshtein(normalizedCandidate, normalizedGoalName)
+                            let maxLength = max(normalizedCandidate.count, normalizedGoalName.count)
+                            score = 1.0 - (Double(distance) / Double(maxLength))
+                        }
+                        
+                        if score >= 0.75 && score > bestScore {
+                            bestScore = score
+                            bestGoal = goal
+                        }
+                    }
+                }
+                matchedLinkedGoalName = bestGoal?.name
+            }
+            resultTasks.append(CategorizedTask(text: normalizedSentence, schedule: schedule, confidence: 0.85, linkedGoalName: matchedLinkedGoalName))
         }
+    }
+
+    private func hasSpecificObjectPattern(_ text: String) -> Bool {
+        let tagger = NLTagger(tagSchemes: [.lexicalClass])
+        tagger.string = text
+        let options: NLTagger.Options = [.omitWhitespace, .omitPunctuation]
+        
+        var foundDeterminer = false
+        var hasPattern = false
+        let specificDeterminers: Set<String> = ["the", "this", "that", "these", "those", "my", "your", "his", "her", "our", "their"]
+        
+        tagger.enumerateTags(in: text.startIndex..<text.endIndex, unit: .word, scheme: .lexicalClass, options: options) { tag, tokenRange in
+            guard let tag = tag else { return true }
+            let word = String(text[tokenRange]).lowercased()
+            
+            if specificDeterminers.contains(word) {
+                foundDeterminer = true
+            } else if tag == .noun {
+                if foundDeterminer {
+                    hasPattern = true
+                    return false
+                }
+            } else if tag != .adjective && tag != .adverb {
+                foundDeterminer = false
+            }
+            
+            return true
+        }
+        
+        return hasPattern
     }
 
     private func splitIntoClauses(_ sentence: String) -> [String] {

@@ -11,7 +11,10 @@ final class Task {
     var createdAt: Date
     var completedAt: Date?
     
-    init(id: UUID = UUID(), text: String, completed: Bool = false, schedule: TaskSchedule, source: InputSource, createdAt: Date = Date(), completedAt: Date? = nil) {
+    @Relationship(deleteRule: .nullify)
+    var linkedGoal: Goal?
+    
+    init(id: UUID = UUID(), text: String, completed: Bool = false, schedule: TaskSchedule, source: InputSource, createdAt: Date = Date(), completedAt: Date? = nil, linkedGoal: Goal? = nil) {
         self.id = id
         self.text = text
         self.completed = completed
@@ -19,5 +22,6 @@ final class Task {
         self.source = source
         self.createdAt = createdAt
         self.completedAt = completedAt
+        self.linkedGoal = linkedGoal
     }
 }

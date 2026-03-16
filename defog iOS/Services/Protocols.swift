@@ -21,18 +21,22 @@ enum CategorizationSource: Equatable, Hashable {
     }
 }
 
-struct CategorizedTask {
+struct CategorizedTask: Identifiable {
+    var id = UUID()
     var text: String
     var schedule: TaskSchedule
     var confidence: Double
+    var linkedGoalName: String?
 }
 
-struct CategorizedNewGoal {
+struct CategorizedNewGoal: Identifiable {
+    var id = UUID()
     var name: String
     var confidence: Double
 }
 
-struct CategorizedGoalUpdate {
+struct CategorizedGoalUpdate: Identifiable {
+    var id = UUID()
     var text: String
     var matchedGoal: Goal
     var confidence: Double

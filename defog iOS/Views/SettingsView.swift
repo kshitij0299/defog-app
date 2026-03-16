@@ -65,22 +65,21 @@ struct SettingsView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "checkmark.seal.fill")
                                     .foregroundColor(.green)
-                                Text("BYOM connected")
+                                Text("BYOM is connected and responding.")
                                     .foregroundColor(.green)
                                     .font(.subheadline.weight(.semibold))
                             }
                             Spacer()
                             Button {
-                                byomCollapsed = false
+                                withAnimation {
+                                    byomCollapsed = false
+                                }
                             } label: {
                                 Image(systemName: "pencil")
                                     .foregroundColor(.secondary)
                             }
                             .buttonStyle(.plain)
                         }
-                        Text("Model: \(aiModel)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
                     } else {
                         TextField("Endpoint URL", text: $aiEndpoint)
                             .textInputAutocapitalization(.never)
@@ -520,8 +519,10 @@ struct SettingsView: View {
             }
 
             byomTestPassed = true
-            byomTestMessage = "Connected · \(model) responding."
-            byomCollapsed = true
+            byomTestMessage = "BYOM is connected and responding."
+            withAnimation {
+                byomCollapsed = true
+            }
         } catch {
             byomTestPassed = false
             byomTestMessage = "Connection error: \(error.localizedDescription)"
