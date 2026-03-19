@@ -12,8 +12,6 @@ struct SettingsView: View {
     
     // Default system local container reference for the service
     @Environment(\.modelContext) private var modelContext
-    @Environment(TranscriptionService.self) private var transcriptionService
-    
     @AppStorage("darkMode") private var isDarkMode = false
     @AppStorage("remindersEnabled") private var remindersEnabled = false
     @AppStorage("aiAPIKey") private var aiAPIKey = ""
@@ -134,14 +132,6 @@ struct SettingsView: View {
                     }
                 }
 
-                Section(
-                    header: Text("VOICE INPUT"),
-                    footer: Text("Voice transcription uses Apple Speech (SFSpeech) only. WhisperKit has been removed from this build.")
-                ) {
-                    Text("High-accuracy voice is not available in this build.")
-                        .foregroundColor(.secondary)
-                }
-                
                 Section(header: Text("STORAGE & SYNC")) {
                     HStack {
                         Text("Current Mode")
