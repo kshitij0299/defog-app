@@ -66,7 +66,7 @@ struct BrainDumpView: View {
                     } else if transcriptionService.isProcessing {
                         HStack {
                             ProgressView().scaleEffect(0.7)
-                            Text("Enhancing transcription with WhisperKit...").font(.caption).foregroundColor(.secondary)
+                            Text("Finalizing transcription...").font(.caption).foregroundColor(.secondary)
                         }
                         .padding(.horizontal)
                     }

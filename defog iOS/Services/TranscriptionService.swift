@@ -34,18 +34,6 @@ class TranscriptionService {
     
     init() {
         checkPermissions()
-        if !whisperKitEngine.isSupported {
-            whisperKitDownloadState = .unavailable(message: "WhisperKit is not available in this build.")
-            return
-        }
-
-        // If whisperKit was already downloaded & enabled, prepare it
-        if UserPreferences.whisperKitEnabled && UserPreferences.whisperKitDownloaded {
-            whisperKitDownloadState = .preparing
-            _Concurrency.Task { await prepareWhisperKitIfNeeded() }
-        } else {
-            whisperKitDownloadState = .idle
-        }
     }
     
     func checkPermissions() {
@@ -106,24 +94,6 @@ class TranscriptionService {
             self.finalTranscript = finalSfText
             self.partialTranscript = finalSfText
             self.aggregatedText = self.baseText + finalSfText
-        }
-        
-        if UserPreferences.whisperKitEnabled && UserPreferences.whisperKitDownloaded && whisperKitEngine.isAvailable {
-            await MainActor.run { self.isProcessing = true }
-            do {
-                if let audioBuffer = sfSpeechEngine.lastAudioBuffer {
-                    // Try to re-transcribe with WhisperKit
-                    let improvedTranscript = try await whisperKitEngine.transcribe(audio: audioBuffer)
-                    await MainActor.run {
-                        self.finalTranscript = improvedTranscript
-                        self.partialTranscript = improvedTranscript
-                        self.aggregatedText = self.baseText + improvedTranscript
-                    }
-                }
-            } catch {
-                print("WhisperKit transcription failed, keeping SFSpeech result: \(error)")
-            }
-            await MainActor.run { self.isProcessing = false }
         }
     }
     
@@ -226,10 +196,6 @@ class SFSpeechTranscriptionEngine {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     
-    // Store the last recording's audio to pass to WhisperKit later
-    var lastAudioBuffer: [Float]?
-    private var pcmBufferArray = [Float]()
-    
     func transcribeStream() -> AsyncThrowingStream<String, Error> {
         AsyncThrowingStream { continuation in
             do {
@@ -247,9 +213,6 @@ class SFSpeechTranscriptionEngine {
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-        
-        pcmBufferArray.removeAll()
-        lastAudioBuffer = nil
         
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else {
@@ -281,36 +244,9 @@ class SFSpeechTranscriptionEngine {
                 continuation.finish(throwing: error)
             }
         }
-        
-        // Format for WhisperKit (16kHz, mono, float)
-        let whisperFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32,
-                                          sampleRate: 16000,
-                                          channels: 1,
-                                          interleaved: false)!
-        let converter = AVAudioConverter(from: recordingFormat, to: whisperFormat)
-        
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, when in
+
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
             self.recognitionRequest?.append(buffer)
-            
-            // Also store audio for WhisperKit fallback
-            if let converter = converter {
-                let ratio = whisperFormat.sampleRate / recordingFormat.sampleRate
-                let capacity = AVAudioFrameCount((Double(buffer.frameLength) * ratio).rounded(.up))
-                if let convertedBuffer = AVAudioPCMBuffer(pcmFormat: whisperFormat, frameCapacity: capacity) {
-                    var error: NSError? = nil
-                    let inputBlock: AVAudioConverterInputBlock = { inNumPackets, outStatus in
-                        outStatus.pointee = .haveData
-                        return buffer
-                    }
-                    converter.convert(to: convertedBuffer, error: &error, withInputFrom: inputBlock)
-                    
-                    if error == nil, let channelData = convertedBuffer.floatChannelData?[0] {
-                        let frameLength = Int(convertedBuffer.frameLength)
-                        let array = Array(UnsafeBufferPointer(start: channelData, count: frameLength))
-                        self.pcmBufferArray.append(contentsOf: array)
-                    }
-                }
-            }
         }
         
         audioEngine.prepare()
@@ -321,8 +257,6 @@ class SFSpeechTranscriptionEngine {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         recognitionRequest?.endAudio()
-        
-        self.lastAudioBuffer = self.pcmBufferArray
         
         // Give a little time to finish processing latest phrases
         try? await _Concurrency.Task.sleep(nanoseconds: 200_000_000)

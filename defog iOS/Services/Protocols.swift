@@ -42,7 +42,6 @@ struct CategorizedGoalUpdate: Identifiable {
     var confidence: Double
 }
 
-@MainActor
 protocol CategorizationEngine {
     func categorize(text: String, existingGoals: [Goal]) async -> CategorizationResult
 }

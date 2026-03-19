@@ -32,11 +32,13 @@ struct UserPreferences {
         set { UserDefaults.standard.set(newValue, forKey: "remindersEnabled") }
     }
     
+    // Legacy WhisperKit flags (kept for backward compatibility + future re-enabling).
     static var whisperKitEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: "whisperKitEnabled") }
         set { UserDefaults.standard.set(newValue, forKey: "whisperKitEnabled") }
     }
     
+    // Legacy WhisperKit flags (kept for backward compatibility + future re-enabling).
     static var whisperKitDownloaded: Bool {
         get { UserDefaults.standard.bool(forKey: "whisperKitDownloaded") }
         set { UserDefaults.standard.set(newValue, forKey: "whisperKitDownloaded") }

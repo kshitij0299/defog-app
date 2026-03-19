@@ -14,7 +14,6 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(TranscriptionService.self) private var transcriptionService
     
-    @AppStorage("whisperKitEnabled") private var whisperKitEnabled = false
     @AppStorage("darkMode") private var isDarkMode = false
     @AppStorage("remindersEnabled") private var remindersEnabled = false
     @AppStorage("aiAPIKey") private var aiAPIKey = ""
@@ -134,57 +133,13 @@ struct SettingsView: View {
                         .font(.caption)
                     }
                 }
-                
-                Section(header: Text("VOICE INPUT"), footer: Text("High-accuracy voice uses on-device AI to improve transcription quality after you finish speaking.")) {
-                    Toggle(isOn: bindingForWhisperKit) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("High-accuracy voice")
-                            
-                            if case .ready = transcriptionService.whisperKitDownloadState {
-                                Text("Model downloaded and ready")
-                                    .font(.caption)
-                                    .foregroundColor(.green)
-                            } else if !UserPreferences.whisperKitDownloaded {
-                                Text("Downloads ~150MB on first enable")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .disabled(isDownloading)
-                    
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 8) {
-                            Image(systemName: whisperKitStatusIconName)
-                                .foregroundColor(whisperKitStatusColor)
-                            Text(whisperKitStatusText)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
 
-                        if isDownloading {
-                            ProgressView(value: transcriptionService.whisperKitDownloadProgress, total: 1.0)
-                        }
-                    }
-                    .padding(.vertical, 2)
-
-                    if shouldShowWhisperRetry {
-                        Button("Retry model download") {
-                            _Concurrency.Task {
-                                await transcriptionService.downloadWhisperKit()
-                            }
-                        }
-                        .font(.caption.weight(.semibold))
-                    }
-
-                    if isDownloading {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Downloading model... \(Int(transcriptionService.whisperKitDownloadProgress * 100))%")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 4)
-                    }
+                Section(
+                    header: Text("VOICE INPUT"),
+                    footer: Text("Voice transcription uses Apple Speech (SFSpeech) only. WhisperKit has been removed from this build.")
+                ) {
+                    Text("High-accuracy voice is not available in this build.")
+                        .foregroundColor(.secondary)
                 }
                 
                 Section(header: Text("STORAGE & SYNC")) {
@@ -305,84 +260,6 @@ struct SettingsView: View {
                 }
             }
         }
-    }
-    
-    private var isDownloading: Bool {
-        transcriptionService.isDownloadingWhisperKit
-    }
-
-    private var whisperKitStatusText: String {
-        switch transcriptionService.whisperKitDownloadState {
-        case .idle:
-            return whisperKitEnabled ? "Waiting to start download..." : "High-accuracy voice is off."
-        case .preparing:
-            return "Preparing Whisper model..."
-        case .downloading(let progress):
-            return "Downloading model... \(Int(progress * 100))%"
-        case .ready:
-            return "Model ready."
-        case .failed(let message):
-            return "Download failed: \(message)"
-        case .unavailable(let message):
-            return message
-        }
-    }
-
-    private var whisperKitStatusIconName: String {
-        switch transcriptionService.whisperKitDownloadState {
-        case .ready:
-            return "checkmark.circle.fill"
-        case .failed:
-            return "xmark.octagon.fill"
-        case .unavailable:
-            return "exclamationmark.triangle.fill"
-        case .downloading, .preparing:
-            return "arrow.down.circle.fill"
-        case .idle:
-            return "info.circle"
-        }
-    }
-
-    private var whisperKitStatusColor: Color {
-        switch transcriptionService.whisperKitDownloadState {
-        case .ready:
-            return .green
-        case .failed:
-            return .red
-        case .unavailable:
-            return .orange
-        case .downloading, .preparing:
-            return .blue
-        case .idle:
-            return .secondary
-        }
-    }
-
-    private var shouldShowWhisperRetry: Bool {
-        if case .failed = transcriptionService.whisperKitDownloadState {
-            return whisperKitEnabled && !isDownloading
-        }
-        return false
-    }
-    
-    private var bindingForWhisperKit: Binding<Bool> {
-        Binding(
-            get: { whisperKitEnabled },
-            set: { newValue in
-                whisperKitEnabled = newValue
-                UserPreferences.whisperKitEnabled = newValue
-                
-                guard newValue else { return }
-
-                _Concurrency.Task {
-                    if UserPreferences.whisperKitDownloaded {
-                        await transcriptionService.prepareWhisperKitIfNeeded()
-                    } else {
-                        await transcriptionService.downloadWhisperKit()
-                    }
-                }
-            }
-        )
     }
     
     private var bindingForDarkMode: Binding<Bool> {

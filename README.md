@@ -8,7 +8,7 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 |---|---|
 | `defog iOS/` | Native iOS app — all source code |
 | `defog iOS/Models/` | SwiftData models: `Task`, `Goal`, `GoalEntry`, `Enums` |
-| `defog iOS/Services/` | `CategorizationEngine` (OpenRouter BYOM + legacy fallback), `TranscriptionService` (SFSpeech + WhisperKit), `NotificationService`, `StorageMigrationService`, `UserPreferences` |
+| `defog iOS/Services/` | `CategorizationEngine` (OpenRouter BYOM + legacy fallback), `TranscriptionService` (SFSpeech), `NotificationService`, `StorageMigrationService`, `UserPreferences` |
 | `defog iOS/ViewModels/` | `ConfirmationViewModel` and related in-flight models |
 | `defog iOS/Views/` | All SwiftUI screens — BrainDump, Confirmation, Tasks, Goals, Home, Settings, Onboarding |
 | `defog.xcodeproj/` | Xcode project file |
@@ -20,7 +20,7 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 - **UI:** SwiftUI
 - **Persistence:** SwiftData (local) + CloudKit (optional iCloud sync)
 - **AI categorization:** OpenRouter BYOM (any OpenAI-compatible endpoint) with `LegacyRuleBasedCategorizationEngine` fallback
-- **Voice transcription:** `SFSpeechRecognizer` (immediate) + WhisperKit (opt-in, on-device, ~150MB download)
+- **Voice transcription:** `SFSpeechRecognizer` (immediate)
 - **Minimum deployment:** iOS 17
 
 ## Getting started
@@ -46,5 +46,5 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 ## Configuration
 
 - **AI:** Settings → AI Settings → paste any OpenRouter-compatible API key + choose model. Falls back to on-device rule-based categorization if no key is set.
-- **Voice:** Settings → Voice → enable "High-accuracy voice" to download the WhisperKit model (~150MB). Falls back to Apple's SFSpeechRecognizer immediately.
+- **Voice:** Settings → Voice. Voice transcription is handled by Apple's SFSpeech framework.
 - **Sync:** Chosen at first launch. Local → iCloud upgrade available in Settings. iCloud → local is not supported.
