@@ -41,33 +41,17 @@ struct TaskCardView: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: 8) {
-                    Group {
-                        if isTaskTextFocused {
-                            TextField("Task description", text: $task.text)
-                                .textFieldStyle(.plain)
-                                .font(.body)
-                                .foregroundColor(task.completed ? .secondary : .primary)
-                                .strikethrough(task.completed, color: .secondary)
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                                .multilineTextAlignment(.leading)
-                                .focused($isTaskTextFocused)
-                                .submitLabel(.done)
-                                .onSubmit(saveChanges)
-                        } else {
-                            Text(task.text)
-                                .font(.body)
-                                .foregroundColor(task.completed ? .secondary : .primary)
-                                .strikethrough(task.completed, color: .secondary)
-                                .lineLimit(2)
-                                .truncationMode(.tail)
-                                .multilineTextAlignment(.leading)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    isTaskTextFocused = true
-                                }
-                        }
-                    }
+                    TextField("Task description", text: $task.text)
+                        .textFieldStyle(.plain)
+                        .font(.body)
+                        .foregroundColor(task.completed ? .secondary : .primary)
+                        .strikethrough(task.completed, color: .secondary)
+                        .lineLimit(2)
+                        .truncationMode(.tail)
+                        .multilineTextAlignment(.leading)
+                        .focused($isTaskTextFocused)
+                        .submitLabel(.done)
+                        .onSubmit(saveChanges)
                     .accessibilityLabel("Task text")
                     .accessibilityHint("Double-tap to edit task text")
                     .onChange(of: isTaskTextFocused) { _, isFocused in
