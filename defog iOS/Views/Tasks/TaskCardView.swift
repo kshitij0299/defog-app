@@ -29,58 +29,58 @@ struct TaskCardView: View {
             .padding(.top, 2)
             
             if isEditing {
-                // Edit Mode
-                VStack(alignment: .leading, spacing: 8) {
+                // Inline edit mode with reduced visual density.
+                VStack(alignment: .leading, spacing: 10) {
                     TextField("Task description", text: $editText)
                         .textFieldStyle(.roundedBorder)
                         .submitLabel(.done)
                         .onSubmit(saveChanges)
                     
-                    HStack {
+                    HStack(spacing: 8) {
                         Picker("Schedule", selection: $editSchedule) {
                             Text("Today").tag(TaskSchedule.today)
                             Text("This Week").tag(TaskSchedule.thisWeek)
                             Text("Someday").tag(TaskSchedule.someday)
                         }
                         .pickerStyle(.menu)
-                        .labelsHidden()
                         .tint(.primary)
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(8)
+                        .accessibilityLabel("Schedule")
+                        .padding(.horizontal, 10)
+                        .frame(height: 36)
+                        .background(Color(UIColor.tertiarySystemFill))
+                        .clipShape(Capsule())
                         
-                        Spacer()
-                        
-                        Button("Cancel") {
-                            isEditing = false
-                        }
-                        .font(.subheadline)
-                        .foregroundColor(.red)
-                        
-                        Button("Save") {
-                            saveChanges()
-                        }
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(.blue)
-                        .disabled(editText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    }
-                    
-                    HStack {
-                        Text("Linked goal")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-                        Picker("Linked goal", selection: $editLinkedGoal) {
-                            Text("No goal").tag(Goal?.none)
+                        Picker("Goal", selection: $editLinkedGoal) {
+                            Text("No Goal").tag(Goal?.none)
                             ForEach(activeGoals) { goal in
                                 Text(goal.name).tag(Optional(goal))
                             }
                         }
                         .pickerStyle(.menu)
                         .tint(.primary)
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(8)
+                        .accessibilityLabel("Linked goal")
+                        .padding(.horizontal, 10)
+                        .frame(height: 36)
+                        .background(Color(UIColor.tertiarySystemFill))
+                        .clipShape(Capsule())
+                        
+                        Spacer(minLength: 0)
+                        
+                        Button("Cancel") {
+                            isEditing = false
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(minHeight: 44)
+                        
+                        Button("Save") {
+                            saveChanges()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                        .font(.subheadline.weight(.semibold))
+                        .frame(minHeight: 44)
+                        .disabled(editText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
                 }
             } else {
@@ -168,14 +168,30 @@ struct TaskCardView: View {
     @ViewBuilder
     private var scheduleBadge: some View {
         let (title, color) = badgeDetails
-        
-        Text(title)
-            .font(.caption2.weight(.medium))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(color.opacity(0.15))
-            .foregroundColor(color)
-            .clipShape(Capsule())
+
+        Menu {
+            Button("Today") {
+                updateSchedule(.today)
+            }
+
+            Button("This Week") {
+                updateSchedule(.thisWeek)
+            }
+
+            Button("Someday") {
+                updateSchedule(.someday)
+            }
+        } label: {
+            Text("\(title) ▾")
+                .font(.caption2.weight(.medium))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(color.opacity(0.15))
+                .foregroundColor(color)
+                .clipShape(Capsule())
+        }
+        .accessibilityLabel("Schedule")
+        .accessibilityHint("Change task schedule")
     }
     
     @ViewBuilder
@@ -291,6 +307,32 @@ struct TaskCardView: View {
                     showToastMessage("No goal linked")
                 }
             }
+        }
+    }
+
+    private func updateSchedule(_ schedule: TaskSchedule) {
+        let previousSchedule = task.schedule
+
+        withAnimation {
+            task.schedule = schedule
+            try? modelContext.save()
+
+            if previousSchedule == schedule {
+                showToastMessage("Already set to \(badgeTitle(for: schedule))")
+            } else {
+                showToastMessage("Moved to \(badgeTitle(for: schedule))")
+            }
+        }
+    }
+
+    private func badgeTitle(for schedule: TaskSchedule) -> String {
+        switch schedule {
+        case .today:
+            return "Today"
+        case .thisWeek:
+            return "This Week"
+        case .someday:
+            return "Someday"
         }
     }
     
