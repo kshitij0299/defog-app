@@ -86,11 +86,40 @@ struct TaskCardView: View {
             } else {
                 // View Mode
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(task.text)
-                        .font(.body)
-                        .foregroundColor(task.completed ? .secondary : .primary)
-                        .strikethrough(task.completed, color: .secondary)
-                        .multilineTextAlignment(.leading)
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(task.text)
+                            .font(.body)
+                            .foregroundColor(task.completed ? .secondary : .primary)
+                            .strikethrough(task.completed, color: .secondary)
+                            .lineLimit(2)
+                            .truncationMode(.tail)
+                            .multilineTextAlignment(.leading)
+
+                        Spacer(minLength: 2)
+
+                        // Menu
+                        Menu {
+                            Button(action: {
+                                editText = task.text
+                                editSchedule = task.schedule
+                                editLinkedGoal = task.linkedGoal
+                                isEditing = true
+                            }) {
+                                Label("Edit", systemImage: "pencil")
+                            }
+
+                            Button(role: .destructive, action: {
+                                showDeleteConfirmation = true
+                            }) {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(.secondary)
+                                .padding(4)
+                                .contentShape(Rectangle())
+                        }
+                    }
                     
                     if !task.completed, let goal = task.linkedGoal {
                         HStack(spacing: 3) {
@@ -105,47 +134,26 @@ struct TaskCardView: View {
                         .padding(.bottom, 2)
                     }
                     
-                    // Schedule Badge (only show if not completed, or maybe always)
+                    // Schedule and goal pills
                     if !task.completed {
-                        scheduleBadge
+                        taskPills
                     }
-                }
-                
-                Spacer(minLength: 8)
-                
-                // Menu
-                Menu {
-                    Button(action: {
-                        editText = task.text
-                        editSchedule = task.schedule
-                        editLinkedGoal = task.linkedGoal
-                        isEditing = true
-                    }) {
-                        Label("Edit", systemImage: "pencil")
-                    }
-                    
-                    Button(role: .destructive, action: {
-                        showDeleteConfirmation = true
-                    }) {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(.secondary)
-                        .padding(8)
-                        .contentShape(Rectangle())
                 }
             }
         }
+        .padding(.leading, 0)
         .padding(.vertical, 12)
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 12)
         .background(Color(UIColor.secondarySystemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(alignment: .leading) {
             if let goal = task.linkedGoal {
                 Rectangle()
                     .fill(Color(hex: goal.color) ?? .blue)
-                    .frame(width: 3)
+                    .frame(width: 4)
+                    .clipShape(Capsule())
+                    .padding(.vertical, 6)
+                    .padding(.leading, 4)
             }
         }
         // Light shadow for depth
@@ -161,6 +169,14 @@ struct TaskCardView: View {
     }
     
     @ViewBuilder
+    private var taskPills: some View {
+        HStack(spacing: 8) {
+            scheduleBadge
+            goalBadge
+        }
+    }
+    
+    @ViewBuilder
     private var scheduleBadge: some View {
         let (title, color) = badgeDetails
         
@@ -171,6 +187,51 @@ struct TaskCardView: View {
             .background(color.opacity(0.15))
             .foregroundColor(color)
             .clipShape(Capsule())
+    }
+    
+    @ViewBuilder
+    private var goalBadge: some View {
+        Menu {
+            Button("No goal") {
+                updateLinkedGoal(nil)
+            }
+            
+            ForEach(activeGoals) { goal in
+                Button(goal.name) {
+                    updateLinkedGoal(goal)
+                }
+            }
+        } label: {
+            if let goal = task.linkedGoal {
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(Color(hex: goal.color) ?? .blue)
+                        .frame(width: 6, height: 6)
+                    Text("\(goal.name) ▾")
+                        .font(.caption2.weight(.medium))
+                        .foregroundColor(Color(hex: goal.color) ?? .blue)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background((Color(hex: goal.color) ?? .blue).opacity(0.1))
+                .clipShape(Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke((Color(hex: goal.color) ?? .blue).opacity(0.3), lineWidth: 1)
+                )
+            } else {
+                Text("+ Link to goal")
+                    .font(.caption2.weight(.medium))
+                    .foregroundColor(Color(uiColor: .systemGray2))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .overlay(
+                        Capsule()
+                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
+                            .foregroundColor(Color(uiColor: .systemGray3))
+                    )
+            }
+        }
     }
     
     private var badgeDetails: (String, Color) {
@@ -216,6 +277,31 @@ struct TaskCardView: View {
             isEditing = false
             try? modelContext.save()
             showToastMessage("Task updated")
+        }
+    }
+    
+    private func updateLinkedGoal(_ goal: Goal?) {
+        let previousGoalName = task.linkedGoal?.name
+        
+        withAnimation {
+            task.linkedGoal = goal
+            try? modelContext.save()
+            
+            if let goal {
+                if previousGoalName == nil {
+                    showToastMessage("Task linked to \(goal.name)")
+                } else if previousGoalName != goal.name {
+                    showToastMessage("Task moved to \(goal.name)")
+                } else {
+                    showToastMessage("Already linked to \(goal.name)")
+                }
+            } else {
+                if previousGoalName != nil {
+                    showToastMessage("Goal removed")
+                } else {
+                    showToastMessage("No goal linked")
+                }
+            }
         }
     }
     
