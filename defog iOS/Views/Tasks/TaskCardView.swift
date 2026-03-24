@@ -86,7 +86,7 @@ struct TaskCardView: View {
             } else {
                 // View Mode
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(alignment: .center, spacing: 8) {
+                    HStack(alignment: .top, spacing: 8) {
                         Text(task.text)
                             .font(.body)
                             .foregroundColor(task.completed ? .secondary : .primary)
@@ -117,26 +117,15 @@ struct TaskCardView: View {
                             Image(systemName: "ellipsis")
                                 .foregroundColor(.secondary)
                                 .padding(4)
+                                .padding(.top, 5)
                                 .contentShape(Rectangle())
                         }
-                    }
-                    
-                    if !task.completed, let goal = task.linkedGoal {
-                        HStack(spacing: 3) {
-                            Circle()
-                                .fill(Color(hex: goal.color) ?? .blue)
-                                .frame(width: 6, height: 6)
-                            Text(goal.name)
-                                .font(.caption)
-                                .foregroundColor(Color(hex: goal.color) ?? .blue)
-                        }
-                        .padding(.top, 1)
-                        .padding(.bottom, 2)
                     }
                     
                     // Schedule and goal pills
                     if !task.completed {
                         taskPills
+                            .padding(.top, 6)
                     }
                 }
             }
