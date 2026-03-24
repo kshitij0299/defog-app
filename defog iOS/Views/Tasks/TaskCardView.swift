@@ -2,6 +2,10 @@ import SwiftUI
 import SwiftData
 
 struct TaskCardView: View {
+    private let pillHorizontalPadding: CGFloat = 10
+    private let pillVerticalPadding: CGFloat = 7
+    private let pillMinTapTarget: CGFloat = 44
+
     @Bindable var task: Task
     @Environment(\.modelContext) private var modelContext
     
@@ -11,10 +15,8 @@ struct TaskCardView: View {
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
-    @State private var isEditing = false
-    @State private var editText: String = ""
-    @State private var editSchedule: TaskSchedule = .today
-    @State private var editLinkedGoal: Goal? = nil
+    @FocusState private var isTaskTextFocused: Bool
+    @State private var lastCommittedTaskText: String = ""
     @State private var showDeleteConfirmation = false
     
     var body: some View {
@@ -26,107 +28,92 @@ struct TaskCardView: View {
                     .foregroundColor(task.completed ? .blue : .gray)
             }
             .buttonStyle(.plain)
+            .contentShape(Rectangle())
+            .background {
+                Rectangle()
+                    .fill(.clear)
+                    .frame(width: 44, height: 44)
+            }
             .padding(.top, 2)
+            .accessibilityLabel(task.completed ? "Mark task incomplete" : "Mark task complete")
+            .accessibilityValue(task.completed ? "Completed" : "Not completed")
+            .accessibilityHint("Double-tap to toggle completion")
             
-            if isEditing {
-                // Inline edit mode with reduced visual density.
-                VStack(alignment: .leading, spacing: 10) {
-                    TextField("Task description", text: $editText)
-                        .textFieldStyle(.roundedBorder)
-                        .submitLabel(.done)
-                        .onSubmit(saveChanges)
-                    
-                    HStack(spacing: 8) {
-                        Picker("Schedule", selection: $editSchedule) {
-                            Text("Today").tag(TaskSchedule.today)
-                            Text("This Week").tag(TaskSchedule.thisWeek)
-                            Text("Someday").tag(TaskSchedule.someday)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .top, spacing: 8) {
+                    Group {
+                        if isTaskTextFocused {
+                            TextField("Task description", text: $task.text)
+                                .textFieldStyle(.plain)
+                                .font(.body)
+                                .foregroundColor(task.completed ? .secondary : .primary)
+                                .strikethrough(task.completed, color: .secondary)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                                .multilineTextAlignment(.leading)
+                                .focused($isTaskTextFocused)
+                                .submitLabel(.done)
+                                .onSubmit(saveChanges)
+                        } else {
+                            Text(task.text)
+                                .font(.body)
+                                .foregroundColor(task.completed ? .secondary : .primary)
+                                .strikethrough(task.completed, color: .secondary)
+                                .lineLimit(2)
+                                .truncationMode(.tail)
+                                .multilineTextAlignment(.leading)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    isTaskTextFocused = true
+                                }
                         }
-                        .pickerStyle(.menu)
-                        .tint(.primary)
-                        .accessibilityLabel("Schedule")
-                        .padding(.horizontal, 10)
-                        .frame(height: 36)
-                        .background(Color(UIColor.tertiarySystemFill))
-                        .clipShape(Capsule())
-                        
-                        Picker("Goal", selection: $editLinkedGoal) {
-                            Text("No Goal").tag(Goal?.none)
-                            ForEach(activeGoals) { goal in
-                                Text(goal.name).tag(Optional(goal))
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .tint(.primary)
-                        .accessibilityLabel("Linked goal")
-                        .padding(.horizontal, 10)
-                        .frame(height: 36)
-                        .background(Color(UIColor.tertiarySystemFill))
-                        .clipShape(Capsule())
-                        
-                        Spacer(minLength: 0)
-                        
-                        Button("Cancel") {
-                            isEditing = false
-                        }
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(minHeight: 44)
-                        
-                        Button("Save") {
+                    }
+                    .accessibilityLabel("Task text")
+                    .accessibilityHint("Double-tap to edit task text")
+                    .onChange(of: isTaskTextFocused) { _, isFocused in
+                        if isFocused {
+                            lastCommittedTaskText = task.text
+                        } else {
                             saveChanges()
                         }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.small)
-                        .font(.subheadline.weight(.semibold))
-                        .frame(minHeight: 44)
-                        .disabled(editText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
-                }
-            } else {
-                // View Mode
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(alignment: .top, spacing: 8) {
-                        Text(task.text)
-                            .font(.body)
-                            .foregroundColor(task.completed ? .secondary : .primary)
-                            .strikethrough(task.completed, color: .secondary)
-                            .lineLimit(2)
-                            .truncationMode(.tail)
-                            .multilineTextAlignment(.leading)
 
-                        Spacer(minLength: 2)
-
-                        // Menu
-                        Menu {
-                            Button(action: {
-                                editText = task.text
-                                editSchedule = task.schedule
-                                editLinkedGoal = task.linkedGoal
-                                isEditing = true
-                            }) {
-                                Label("Edit", systemImage: "pencil")
-                            }
-
-                            Button(role: .destructive, action: {
-                                showDeleteConfirmation = true
-                            }) {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(.secondary)
-                                .padding(4)
-                                .padding(.top, 5)
-                                .contentShape(Rectangle())
+                    Spacer(minLength: 2)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            dismissInlineEditing()
                         }
+
+                    // Menu
+                    Menu {
+                        Button(role: .destructive, action: {
+                            dismissInlineEditing()
+                            showDeleteConfirmation = true
+                        }) {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(.secondary)
+                            .padding(4)
+                            .contentShape(Rectangle())
+                            .background {
+                                Rectangle()
+                                    .fill(.clear)
+                                    .frame(width: 44, height: 44)
+                            }
                     }
-                    
-                    // Schedule and goal pills
-                    if !task.completed {
-                        taskPills
-                            .padding(.top, 6)
-                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        dismissInlineEditing()
+                    })
+                    .accessibilityLabel("More actions")
+                    .accessibilityHint("Contains task actions")
+                }
+                
+                // Schedule and goal pills
+                if !task.completed {
+                    taskPills
+                        .padding(.top, 6)
                 }
             }
         }
@@ -154,6 +141,9 @@ struct TaskCardView: View {
             }
         } message: {
             Text("Are you sure you want to delete this task?")
+        }
+        .onAppear {
+            lastCommittedTaskText = task.text
         }
     }
     
@@ -184,14 +174,17 @@ struct TaskCardView: View {
         } label: {
             Text("\(title) ▾")
                 .font(.caption2.weight(.medium))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+                .padding(.horizontal, pillHorizontalPadding)
+                .padding(.vertical, pillVerticalPadding)
                 .background(color.opacity(0.15))
                 .foregroundColor(color)
                 .clipShape(Capsule())
+                .frame(minHeight: pillMinTapTarget)
+                .contentShape(Rectangle())
         }
         .accessibilityLabel("Schedule")
-        .accessibilityHint("Change task schedule")
+        .accessibilityValue(title)
+        .accessibilityHint("Double-tap to change task schedule")
     }
     
     @ViewBuilder
@@ -216,27 +209,34 @@ struct TaskCardView: View {
                         .font(.caption2.weight(.medium))
                         .foregroundColor(Color(hex: goal.color) ?? .blue)
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+                .padding(.horizontal, pillHorizontalPadding)
+                .padding(.vertical, pillVerticalPadding)
                 .background((Color(hex: goal.color) ?? .blue).opacity(0.1))
                 .clipShape(Capsule())
                 .overlay(
                     Capsule()
                         .stroke((Color(hex: goal.color) ?? .blue).opacity(0.3), lineWidth: 1)
                 )
+                .frame(minHeight: pillMinTapTarget)
+                .contentShape(Rectangle())
             } else {
                 Text("+ Link to goal")
                     .font(.caption2.weight(.medium))
                     .foregroundColor(Color(uiColor: .systemGray2))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
+                    .padding(.horizontal, pillHorizontalPadding)
+                    .padding(.vertical, pillVerticalPadding)
                     .overlay(
                         Capsule()
                             .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
                             .foregroundColor(Color(uiColor: .systemGray3))
                     )
+                    .frame(minHeight: pillMinTapTarget)
+                    .contentShape(Rectangle())
             }
         }
+        .accessibilityLabel("Linked goal")
+        .accessibilityValue(task.linkedGoal?.name ?? "No goal")
+        .accessibilityHint("Double-tap to choose a goal")
     }
     
     private var badgeDetails: (String, Color) {
@@ -251,6 +251,7 @@ struct TaskCardView: View {
     }
     
     private func toggleCompletion() {
+        dismissInlineEditing()
         withAnimation {
             task.completed.toggle()
             if task.completed {
@@ -272,20 +273,25 @@ struct TaskCardView: View {
     }
     
     private func saveChanges() {
-        let trimmedText = editText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedText.isEmpty else { return }
-        
-        withAnimation {
-            task.text = trimmedText
-            task.schedule = editSchedule
-            task.linkedGoal = editLinkedGoal
-            isEditing = false
-            try? modelContext.save()
-            showToastMessage("Task updated")
+        let trimmedText = task.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else {
+            task.text = lastCommittedTaskText
+            return
         }
+        
+        guard trimmedText != lastCommittedTaskText else {
+            task.text = trimmedText
+            return
+        }
+
+        task.text = trimmedText
+        try? modelContext.save()
+        lastCommittedTaskText = trimmedText
+        showToastMessage("Task updated")
     }
     
     private func updateLinkedGoal(_ goal: Goal?) {
+        dismissInlineEditing()
         let previousGoalName = task.linkedGoal?.name
         
         withAnimation {
@@ -311,6 +317,7 @@ struct TaskCardView: View {
     }
 
     private func updateSchedule(_ schedule: TaskSchedule) {
+        dismissInlineEditing()
         let previousSchedule = task.schedule
 
         withAnimation {
@@ -349,5 +356,9 @@ struct TaskCardView: View {
         withAnimation {
             showToast = true
         }
+    }
+
+    private func dismissInlineEditing() {
+        isTaskTextFocused = false
     }
 }

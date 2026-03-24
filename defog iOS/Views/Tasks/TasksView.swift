@@ -64,6 +64,7 @@ struct TasksView: View {
             }
             .padding(.vertical)
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Tasks")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

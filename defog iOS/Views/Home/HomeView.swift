@@ -105,6 +105,7 @@ struct HomeView: View {
                 Spacer()
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Home")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
