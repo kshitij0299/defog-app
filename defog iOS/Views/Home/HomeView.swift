@@ -108,11 +108,20 @@ struct HomeView: View {
         .navigationTitle("Home")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showSummary = true
-                } label: {
-                    Image(systemName: "sun.max")
-                        .foregroundColor(.primary)
+                HStack(spacing: 16) {
+                    Button {
+                        showSummary = true
+                    } label: {
+                        Image(systemName: "sun.max")
+                            .foregroundColor(.primary)
+                    }
+
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.primary)
+                    }
                 }
             }
         }

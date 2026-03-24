@@ -25,8 +25,7 @@ struct SettingsView: View {
     @State private var byomTestMessage = "Not tested yet"
     
     var body: some View {
-        NavigationStack {
-            List {
+        List {
                 Section(header: Text("APP TOUR")) {
                     Button(action: {
                         showingOnboarding = true
@@ -166,6 +165,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .toolbar(.hidden, for: .tabBar)
             .onAppear {
                 syncAISettingsIfNeeded()
             }
@@ -204,7 +204,6 @@ struct SettingsView: View {
                     }
                 }
             }
-        }
     }
     
     private func startMigration() {
@@ -411,5 +410,7 @@ private struct BYOMConnectionTestMessage: Encodable {
 }
 
 #Preview {
-    SettingsView()
+    NavigationStack {
+        SettingsView()
+    }
 }

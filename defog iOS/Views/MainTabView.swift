@@ -4,7 +4,6 @@ struct MainTabView: View {
     @State private var homePath = NavigationPath()
     @State private var tasksPath = NavigationPath()
     @State private var goalsPath = NavigationPath()
-    @State private var settingsPath = NavigationPath()
     @State private var showBrainDump = false
     
     var body: some View {
@@ -29,13 +28,6 @@ struct MainTabView: View {
                 }
                 .tabItem {
                     Label("Goals", systemImage: "target")
-                }
-
-                NavigationStack(path: $settingsPath) {
-                    SettingsView()
-                }
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape")
                 }
             }
             

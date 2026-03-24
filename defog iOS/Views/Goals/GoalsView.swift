@@ -42,6 +42,16 @@ struct GoalsView: View {
             }
         }
         .navigationTitle("Goals")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
+        }
         .navigationDestination(for: Goal.self) { goal in
             GoalDetailView(goal: goal)
         }

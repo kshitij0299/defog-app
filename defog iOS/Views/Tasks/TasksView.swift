@@ -65,6 +65,16 @@ struct TasksView: View {
             .padding(.vertical)
         }
         .navigationTitle("Tasks")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
+        }
         .background(Color(UIColor.systemGroupedBackground))
         .toast(isShowing: $showToast, message: toastMessage)
     }
