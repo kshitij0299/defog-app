@@ -12,6 +12,7 @@ struct SettingsView: View {
     
     // Default system local container reference for the service
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.setTabBarHidden) private var setTabBarHidden
     @AppStorage("darkMode") private var isDarkMode = false
     @AppStorage("remindersEnabled") private var remindersEnabled = false
     @AppStorage("aiAPIKey") private var aiAPIKey = ""
@@ -165,9 +166,12 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .toolbar(.hidden, for: .tabBar)
             .onAppear {
+                setTabBarHidden(true)
                 syncAISettingsIfNeeded()
+            }
+            .onDisappear {
+                setTabBarHidden(false)
             }
             .onChange(of: aiEndpoint) { _, _ in resetBYOMTestState() }
             .onChange(of: aiAPIKey) { _, _ in resetBYOMTestState() }

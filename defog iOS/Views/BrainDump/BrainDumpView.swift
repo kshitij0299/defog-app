@@ -212,12 +212,14 @@ extension CategorizationResult: Hashable {
     static func == (lhs: CategorizationResult, rhs: CategorizationResult) -> Bool {
         return lhs.tasks.count == rhs.tasks.count &&
                lhs.newGoals.count == rhs.newGoals.count &&
-               lhs.goalUpdates.count == rhs.goalUpdates.count
+               lhs.goalUpdates.count == rhs.goalUpdates.count &&
+               lhs.taskCompletions.count == rhs.taskCompletions.count
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(tasks.count)
         hasher.combine(newGoals.count)
         hasher.combine(goalUpdates.count)
+        hasher.combine(taskCompletions.count)
     }
 }

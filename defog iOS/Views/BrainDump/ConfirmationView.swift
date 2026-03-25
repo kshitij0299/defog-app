@@ -6,6 +6,9 @@ struct ConfirmationView: View {
     @Query(filter: #Predicate<Goal> { $0.archivedAt == nil }, sort: \Goal.createdAt)
     private var activeGoals: [Goal]
     
+    @Query(sort: \Task.createdAt, order: .reverse)
+    private var storedTasks: [Task]
+    
     @Binding var rootIsActive: Bool
     let onConfirmed: () -> Void
     
@@ -25,7 +28,7 @@ struct ConfirmationView: View {
                     Text("Review & Confirm")
                         .font(.title2.weight(.bold))
                     
-                    Text("Tap × to remove · tap tag to reschedule · tap goal chip to reassign")
+                    Text("Tap × to remove · tap tag to reschedule · tap goal chip to reassign · completions mark existing tasks done")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -47,6 +50,23 @@ struct ConfirmationView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding(.top, 40)
                         } else {
+                            
+                            if !viewModel.result.taskCompletions.isEmpty {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    SectionHeader(icon: "checkmark.circle.fill", title: "Marking complete")
+                                    
+                                    ForEach(Array(viewModel.result.taskCompletions.enumerated()), id: \.element.id) { index, completion in
+                                        let title = storedTasks.first(where: { $0.id == completion.matchedTaskId })?.text
+                                            ?? "Open task"
+                                        TaskCompletionRow(
+                                            taskTitle: title,
+                                            onRemove: { viewModel.removeTaskCompletion(at: index) }
+                                        )
+                                    }
+                                }
+                                .padding(12)
+                                .padding(.horizontal, -12)
+                            }
                             
                             // Tasks Section
                             VStack(alignment: .leading, spacing: 16) {
@@ -262,6 +282,40 @@ struct ConfirmationView: View {
         case .thisWeek: return Color.indigo.opacity(0.2)
         case .someday: return Color.gray.opacity(0.2)
         }
+    }
+}
+
+struct TaskCompletionRow: View {
+    let taskTitle: String
+    let onRemove: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.body)
+                .foregroundStyle(.green)
+            Text(taskTitle)
+                .font(.subheadline)
+                .strikethrough(true)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Button {
+                onRemove()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 4)
+            }
+        }
+        .padding()
+        .background(Color(uiColor: .systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.green.opacity(0.35), lineWidth: 1)
+        )
     }
 }
 

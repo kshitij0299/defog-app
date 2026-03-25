@@ -33,8 +33,13 @@ class BrainDumpViewModel {
             FetchDescriptor<Goal>(predicate: #Predicate { $0.archivedAt == nil })
         )) ?? []
         
+        let openTasksRaw = (try? modelContext.fetch(
+            FetchDescriptor<Task>(predicate: #Predicate { $0.completed == false }, sortBy: [SortDescriptor(\.createdAt)])
+        )) ?? []
+        let openTaskSummaries = openTasksRaw.map { ExistingOpenTaskSummary(id: $0.id, text: $0.text) }
+        
         processingTask = _Concurrency.Task {
-            let result = await engine.categorize(text: text, existingGoals: existingGoals)
+            let result = await engine.categorize(text: text, existingGoals: existingGoals, openTasks: openTaskSummaries)
             guard !_Concurrency.Task.isCancelled else { return }
             
             try? await _Concurrency.Task.sleep(for: .seconds(1))
@@ -87,6 +92,11 @@ class ConfirmationViewModel {
         result.goalUpdates.remove(at: index)
     }
     
+    func removeTaskCompletion(at index: Int) {
+        guard result.taskCompletions.indices.contains(index) else { return }
+        result.taskCompletions.remove(at: index)
+    }
+    
     func updateTaskSchedule(at index: Int, schedule: TaskSchedule) {
         guard result.tasks.indices.contains(index) else { return }
         result.tasks[index].schedule = schedule
@@ -131,7 +141,7 @@ class ConfirmationViewModel {
     }
     
     var isEmpty: Bool {
-        return result.tasks.isEmpty && result.newGoals.isEmpty && result.goalUpdates.isEmpty
+        return result.tasks.isEmpty && result.newGoals.isEmpty && result.goalUpdates.isEmpty && result.taskCompletions.isEmpty
     }
     
     // MARK: - Save
@@ -171,6 +181,18 @@ class ConfirmationViewModel {
         let existingGoals = (try? modelContext.fetch(FetchDescriptor<Goal>())) ?? []
         var activeGoalsTracker = existingGoals
 
+        let persistedTasks = (try? modelContext.fetch(FetchDescriptor<Task>())) ?? []
+        
+        for completion in result.taskCompletions {
+            guard let match = persistedTasks.first(where: { $0.id == completion.matchedTaskId && !$0.completed }) else { continue }
+            match.completed = true
+            match.completedAt = Date()
+            if let goal = match.linkedGoal {
+                let entry = GoalEntry(text: match.text, type: .detailed, goal: goal)
+                modelContext.insert(entry)
+            }
+        }
+        
         // Save Tasks
         for catTask in result.tasks {
             let task = Task(text: catTask.text, schedule: catTask.schedule, source: .typed)

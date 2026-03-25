@@ -3,6 +3,7 @@ import SwiftData
 
 struct DailySummaryView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.setTabBarHidden) private var setTabBarHidden
     
     // We fetch all tasks and goals, then filter them by date in memory
     // because dynamic date predicates in @Query can be tricky.
@@ -172,7 +173,12 @@ struct DailySummaryView: View {
                 }
             }
         }
-        .toolbar(.hidden, for: .tabBar) // Try to hide standard tab bar if applicable
+        .onAppear {
+            setTabBarHidden(true)
+        }
+        .onDisappear {
+            setTabBarHidden(false)
+        }
         .navigationBarBackButtonHidden(true)
     }
 }

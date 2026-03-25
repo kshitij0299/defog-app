@@ -1,9 +1,17 @@
 import Foundation
 
+/// Snapshot of an incomplete task for categorization (matches SwiftData `Task` by id).
+struct ExistingOpenTaskSummary: Identifiable, Sendable, Equatable {
+    let id: UUID
+    let text: String
+}
+
 struct CategorizationResult {
     var tasks: [CategorizedTask]
     var newGoals: [CategorizedNewGoal]
     var goalUpdates: [CategorizedGoalUpdate]
+    /// User reported finishing these existing open tasks; confirm to mark complete in SwiftData.
+    var taskCompletions: [CategorizedTaskCompletion]
     var source: CategorizationSource
 }
 
@@ -42,8 +50,14 @@ struct CategorizedGoalUpdate: Identifiable {
     var confidence: Double
 }
 
+struct CategorizedTaskCompletion: Identifiable {
+    var id = UUID()
+    var matchedTaskId: UUID
+    var confidence: Double
+}
+
 protocol CategorizationEngine {
-    func categorize(text: String, existingGoals: [Goal]) async -> CategorizationResult
+    func categorize(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary]) async -> CategorizationResult
 }
 
 protocol TranscriptionEngine {

@@ -1,5 +1,16 @@
 import SwiftUI
 
+private struct TabBarHiddenSetterKey: EnvironmentKey {
+    static let defaultValue: (Bool) -> Void = { _ in }
+}
+
+extension EnvironmentValues {
+    var setTabBarHidden: (Bool) -> Void {
+        get { self[TabBarHiddenSetterKey.self] }
+        set { self[TabBarHiddenSetterKey.self] = newValue }
+    }
+}
+
 struct MainTabView: View {
     private enum TabItem: Hashable {
         case home
@@ -14,8 +25,11 @@ struct MainTabView: View {
     @State private var showBrainDump = false
     @State private var selectedTab: TabItem? = .home
     @State private var previousTab: TabItem = .home
+    @State private var isTabBarHidden = false
     
     var body: some View {
+        let shouldHideTabBar = isTabBarHidden || showBrainDump
+
         TabView(selection: $selectedTab) {
             Tab("Home", systemImage: "house", value: .home) {
                 NavigationStack(path: $homePath) {
@@ -40,7 +54,9 @@ struct MainTabView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .toolbarVisibility(shouldHideTabBar ? .hidden : .visible, for: .tabBar)
         .onChange(of: selectedTab) { _, newValue in
+            isTabBarHidden = false
             if newValue == .add {
                 selectedTab = previousTab
                 showBrainDump = true
@@ -51,6 +67,9 @@ struct MainTabView: View {
         .fullScreenCover(isPresented: $showBrainDump) {
             BrainDumpView()
         }
+        .environment(\.setTabBarHidden, { hidden in
+            isTabBarHidden = hidden
+        })
     }
 }
 
