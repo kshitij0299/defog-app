@@ -3,6 +3,7 @@ import SwiftData
 
 struct TasksView: View {
     @Query(sort: \Task.createdAt, order: .reverse) private var tasks: [Task]
+    @Environment(\.openSettings) private var openSettings
     
     @State private var showCompleted = false
     @State private var showToast = false
@@ -68,8 +69,8 @@ struct TasksView: View {
         .navigationTitle("Tasks")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    SettingsView()
+                Button {
+                    openSettings()
                 } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)

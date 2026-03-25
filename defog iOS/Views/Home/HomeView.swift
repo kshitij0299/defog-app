@@ -22,6 +22,8 @@ struct HomeView: View {
     @State private var toastMessage = ""
     @State private var showSummary = false
 
+    @Environment(\.openSettings) private var openSettings
+
     private var todayTasks: [Task] {
         incompleteTasks.filter { $0.schedule == .today }
     }
@@ -117,8 +119,8 @@ struct HomeView: View {
                             .foregroundColor(.primary)
                     }
 
-                    NavigationLink {
-                        SettingsView()
+                    Button {
+                        openSettings()
                     } label: {
                         Image(systemName: "gearshape")
                             .foregroundColor(.primary)

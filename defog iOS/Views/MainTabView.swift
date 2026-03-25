@@ -4,10 +4,19 @@ private struct TabBarHiddenSetterKey: EnvironmentKey {
     static let defaultValue: (Bool) -> Void = { _ in }
 }
 
+private struct OpenSettingsKey: EnvironmentKey {
+    static let defaultValue: () -> Void = {}
+}
+
 extension EnvironmentValues {
     var setTabBarHidden: (Bool) -> Void {
         get { self[TabBarHiddenSetterKey.self] }
         set { self[TabBarHiddenSetterKey.self] = newValue }
+    }
+
+    var openSettings: () -> Void {
+        get { self[OpenSettingsKey.self] }
+        set { self[OpenSettingsKey.self] = newValue }
     }
 }
 
@@ -26,9 +35,10 @@ struct MainTabView: View {
     @State private var selectedTab: TabItem? = .home
     @State private var previousTab: TabItem = .home
     @State private var isTabBarHidden = false
+    @State private var showSettings = false
     
     var body: some View {
-        let shouldHideTabBar = isTabBarHidden || showBrainDump
+        let shouldHideTabBar = isTabBarHidden || showBrainDump || showSettings
 
         TabView(selection: $selectedTab) {
             Tab("Home", systemImage: "house", value: .home) {
@@ -67,8 +77,17 @@ struct MainTabView: View {
         .fullScreenCover(isPresented: $showBrainDump) {
             BrainDumpView()
         }
+        .fullScreenCover(isPresented: $showSettings) {
+            NavigationStack {
+                SettingsView()
+                    .interactiveDismissDisabled(true)
+            }
+        }
         .environment(\.setTabBarHidden, { hidden in
             isTabBarHidden = hidden
+        })
+        .environment(\.openSettings, {
+            showSettings = true
         })
     }
 }

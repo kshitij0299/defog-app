@@ -12,6 +12,8 @@ struct GoalsView: View {
     
     // For navigation injection if relying on NavigationStack. 
     // Assuming this view is embedded in MainTabView's NavigationStack.
+
+    @Environment(\.openSettings) private var openSettings
     
     var body: some View {
         ScrollView {
@@ -44,8 +46,8 @@ struct GoalsView: View {
         .navigationTitle("Goals")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    SettingsView()
+                Button {
+                    openSettings()
                 } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)

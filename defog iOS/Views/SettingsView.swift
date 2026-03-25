@@ -5,6 +5,7 @@ struct SettingsView: View {
     private let defaultOpenRouterEndpoint = "https://openrouter.ai/api/v1/chat/completions"
     private let defaultOpenRouterModel = "openai/gpt-4o-mini"
 
+    @Environment(\.dismiss) private var dismiss
     @State private var showingOnboarding = false
     @State private var showingMigrationAlert = false
     @State private var isMigrating = false
@@ -166,6 +167,17 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.primary)
+                    }
+                }
+            }
+            .navigationBarBackButtonHidden(true)
             .onAppear {
                 setTabBarHidden(true)
                 syncAISettingsIfNeeded()
