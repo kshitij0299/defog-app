@@ -36,6 +36,7 @@ struct HomeView: View {
                     HStack {
                         Text("Active Goals")
                             .font(.title2.weight(.bold))
+                            .fontDesign(.rounded)
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -66,6 +67,7 @@ struct HomeView: View {
                     HStack {
                         Text("Today's Tasks")
                             .font(.title2.weight(.bold))
+                            .fontDesign(.rounded)
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -94,6 +96,7 @@ struct HomeView: View {
                                     Image(systemName: "arrow.right")
                                 }
                                 .font(.subheadline.weight(.medium))
+                                .fontDesign(.rounded)
                                 .foregroundColor(.blue)
                                 .padding(.horizontal)
                                 .padding(.top, 4)

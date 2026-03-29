@@ -21,6 +21,7 @@ struct GoalCardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(goal.name)
                     .font(.headline)
+                    .fontDesign(.rounded)
                 
                 HStack(spacing: 12) {
                     Text("\(goal.entries.count) \((goal.entries.count == 1) ? "entry" : "entries")")
@@ -34,6 +35,7 @@ struct GoalCardView: View {
                             Text("\(currentStreak) days")
                                 .font(.caption)
                                 .foregroundColor(.orange)
+                                .fontDesign(.rounded)
                         }
                     }
                 }

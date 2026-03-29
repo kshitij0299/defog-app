@@ -17,6 +17,7 @@ struct BrainDumpView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Brain Dump")
                         .font(.title2.weight(.bold))
+                        .fontDesign(.rounded)
                         .padding(.horizontal)
                     
                     Text("Tell me everything on your mind")
@@ -39,6 +40,7 @@ struct BrainDumpView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Example")
                             .font(.caption.weight(.semibold))
+                            .fontDesign(.rounded)
                             .foregroundColor(.secondary)
                         Text("\"Buy groceries, call dentist, learn motion design...\"")
                             .font(.caption)

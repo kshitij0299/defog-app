@@ -2,10 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct TaskCardView: View {
-    private let pillHorizontalPadding: CGFloat = 10
-    private let pillVerticalPadding: CGFloat = 7
-    private let pillMinTapTarget: CGFloat = 44
-
     @Bindable var task: Task
     @Environment(\.modelContext) private var modelContext
     
@@ -156,15 +152,10 @@ struct TaskCardView: View {
                 updateSchedule(.someday)
             }
         } label: {
-            Text("\(title) ▾")
-                .font(.caption2.weight(.medium))
-                .padding(.horizontal, pillHorizontalPadding)
-                .padding(.vertical, pillVerticalPadding)
-                .background(color.opacity(0.15))
-                .foregroundColor(color)
-                .clipShape(Capsule())
-                .frame(minHeight: pillMinTapTarget)
-                .contentShape(Rectangle())
+            TaskPillView(
+                title: "\(title) ▾",
+                style: .schedule(color: color)
+            )
         }
         .accessibilityLabel("Schedule")
         .accessibilityValue(title)
@@ -185,37 +176,15 @@ struct TaskCardView: View {
             }
         } label: {
             if let goal = task.linkedGoal {
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(Color(hex: goal.color) ?? .blue)
-                        .frame(width: 6, height: 6)
-                    Text("\(goal.name) ▾")
-                        .font(.caption2.weight(.medium))
-                        .foregroundColor(Color(hex: goal.color) ?? .blue)
-                }
-                .padding(.horizontal, pillHorizontalPadding)
-                .padding(.vertical, pillVerticalPadding)
-                .background((Color(hex: goal.color) ?? .blue).opacity(0.1))
-                .clipShape(Capsule())
-                .overlay(
-                    Capsule()
-                        .stroke((Color(hex: goal.color) ?? .blue).opacity(0.3), lineWidth: 1)
+                TaskPillView(
+                    title: "\(goal.name) ▾",
+                    style: .linkedGoal(color: Color(hex: goal.color) ?? .blue)
                 )
-                .frame(minHeight: pillMinTapTarget)
-                .contentShape(Rectangle())
             } else {
-                Text("+ Link to goal")
-                    .font(.caption2.weight(.medium))
-                    .foregroundColor(Color(uiColor: .systemGray2))
-                    .padding(.horizontal, pillHorizontalPadding)
-                    .padding(.vertical, pillVerticalPadding)
-                    .overlay(
-                        Capsule()
-                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
-                            .foregroundColor(Color(uiColor: .systemGray3))
-                    )
-                    .frame(minHeight: pillMinTapTarget)
-                    .contentShape(Rectangle())
+                TaskPillView(
+                    title: "+ Link to goal",
+                    style: .unlinkedGoal
+                )
             }
         }
         .accessibilityLabel("Linked goal")

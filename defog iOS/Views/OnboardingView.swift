@@ -104,6 +104,7 @@ struct OnboardingSlide: View {
             Text(title)
                 .font(.largeTitle)
                 .bold()
+                .fontDesign(.rounded)
                 .multilineTextAlignment(.center)
             
             Text(description)

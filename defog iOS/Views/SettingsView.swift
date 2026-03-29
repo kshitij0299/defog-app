@@ -27,146 +27,248 @@ struct SettingsView: View {
     @State private var byomTestMessage = "Not tested yet"
     
     var body: some View {
-        List {
-                Section(header: Text("APP TOUR")) {
-                    Button(action: {
-                        showingOnboarding = true
-                    }) {
-                        HStack {
-                            Image(systemName: "questionmark.circle")
-                            Text("What's the difference?")
-                            Spacer()
+        ZStack {
+            Color(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 32) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("APP TOUR")
+
+                        VStack(spacing: 1) {
+                            Button(action: {
+                                showingOnboarding = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "questionmark.circle")
+                                    Text("What's the difference?")
+                                    Spacer()
+                                }
+                                .foregroundColor(.primary)
+                                .padding()
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+                            }
+                            .buttonStyle(.plain)
+
+                            HStack {
+                                Text("Version")
+                                Spacer()
+                                if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                                    Text(version)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding()
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
                         }
+                        .cornerRadius(12)
                     }
-                    .foregroundColor(.primary)
-                    
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                            Text(version)
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("APPEARANCE")
+
+                        Toggle("Dark Mode", isOn: bindingForDarkMode)
+                            .padding()
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("BYOM")
+
+                        VStack(spacing: 1) {
+                            if shouldShowCollapsedBYOM {
+                                HStack {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "checkmark.seal.fill")
+                                            .foregroundColor(.green)
+                                        Text("BYOM is connected and responding.")
+                                            .foregroundColor(.green)
+                                            .font(.subheadline.weight(.semibold))
+                                    }
+                                    Spacer()
+                                    Button {
+                                        withAnimation {
+                                            byomCollapsed = false
+                                        }
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                .padding()
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+                            } else {
+                                TextField("Endpoint URL", text: $aiEndpoint)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled()
+                                    .padding()
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
+
+                                SecureField("API Key", text: $aiAPIKey)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled()
+                                    .padding()
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
+
+                                TextField("Model ID", text: $aiModel)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled()
+                                    .padding()
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
+
+                                Button {
+                                    _Concurrency.Task {
+                                        await testBYOMConnection()
+                                    }
+                                } label: {
+                                    HStack {
+                                        if isTestingBYOM {
+                                            ProgressView()
+                                                .controlSize(.small)
+                                            Text("Testing BYOM...")
+                                        } else if byomTestPassed == true {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(.green)
+                                            Text(byomTestMessage)
+                                        } else if byomTestPassed == false {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.red)
+                                            Text(byomTestMessage)
+                                                .lineLimit(nil)
+                                                .multilineTextAlignment(.leading)
+                                        } else {
+                                            Image(systemName: "bolt.horizontal.circle")
+                                                .foregroundColor(.secondary)
+                                            Text("Test BYOM Connection")
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding()
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(isTestingBYOM || !canTestBYOM)
+                            }
+                        }
+                        .cornerRadius(12)
+
+                        Text("Bring your own model via an OpenAI-compatible endpoint. Defaults are set for OpenRouter. If API key is empty, app falls back to legacy local rules.")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("REMINDERS")
+
+                        VStack(spacing: 1) {
+                            Toggle("Inactivity reminder", isOn: bindingForReminders)
+                                .padding()
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+
+                            if showNotificationDeniedMsg {
+                                Button("Open Settings") {
+                                    NotificationService.openSettings()
+                                }
+                                .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+                            }
+                        }
+                        .cornerRadius(12)
+
+                        if showNotificationDeniedMsg {
+                            Text("Enable notifications in Settings to use reminders.")
+                                .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
                     }
-                }
-                
-                Section(header: Text("APPEARANCE")) {
-                    Toggle("Dark Mode", isOn: bindingForDarkMode)
-                }
+                    .padding(.horizontal)
 
-                Section(
-                    header: Text("BYOM"),
-                    footer: Text("Bring your own model via an OpenAI-compatible endpoint. Defaults are set for OpenRouter. If API key is empty, app falls back to legacy local rules.")
-                ) {
-                    if shouldShowCollapsedBYOM {
-                        HStack {
-                            HStack(spacing: 8) {
-                                Image(systemName: "checkmark.seal.fill")
-                                    .foregroundColor(.green)
-                                Text("BYOM is connected and responding.")
-                                    .foregroundColor(.green)
-                                    .font(.subheadline.weight(.semibold))
-                            }
-                            Spacer()
-                            Button {
-                                withAnimation {
-                                    byomCollapsed = false
-                                }
-                            } label: {
-                                Image(systemName: "pencil")
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("STORAGE & SYNC")
+
+                        VStack(spacing: 1) {
+                            HStack {
+                                Text("Current Mode")
+                                Spacer()
+                                Text(UserPreferences.storageMode == .iCloud ? "iCloud Sync" : "This device only")
                                     .foregroundColor(.secondary)
                             }
-                            .buttonStyle(.plain)
-                        }
-                    } else {
-                        TextField("Endpoint URL", text: $aiEndpoint)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
+                            .padding()
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
 
-                        SecureField("API Key", text: $aiAPIKey)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-
-                        TextField("Model ID", text: $aiModel)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-
-                        Button {
-                            _Concurrency.Task {
-                                await testBYOMConnection()
+                            if UserPreferences.storageMode == .local {
+                                Button(action: {
+                                    showingMigrationAlert = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "icloud.and.arrow.up")
+                                        Text("Upgrade to iCloud")
+                                        Spacer()
+                                    }
+                                    .foregroundColor(.accentColor)
+                                    .padding()
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
+                                }
+                                .buttonStyle(.plain)
                             }
+                        }
+                        .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        sectionHeader("DATA MANAGEMENT")
+
+                        NavigationLink {
+                            ArchivedGoalsView()
                         } label: {
                             HStack {
-                                if isTestingBYOM {
-                                    ProgressView()
-                                        .controlSize(.small)
-                                    Text("Testing BYOM...")
-                                } else if byomTestPassed == true {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
-                                    Text(byomTestMessage)
-                                } else if byomTestPassed == false {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.red)
-                                    Text(byomTestMessage)
-                                        .lineLimit(nil)
-                                        .multilineTextAlignment(.leading)
-                                } else {
-                                    Image(systemName: "bolt.horizontal.circle")
-                                        .foregroundColor(.secondary)
-                                    Text("Test BYOM Connection")
-                                }
+                                Image(systemName: "archivebox")
+                                Text("Archived Goals")
+                                Spacer()
+                            }
+                            .padding()
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
+                            .cornerRadius(12)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical, 24)
+            }
+            .overlay {
+                if isMigrating {
+                    ZStack {
+                        Color.black.opacity(0.4).ignoresSafeArea()
+                        VStack(spacing: 16) {
+                            ProgressView()
+                            Text("Migrating to iCloud...")
+                                .font(.headline)
+                            if let progress = migrationProgress {
+                                Text("\(progress.current) / \(progress.total) items")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
                             }
                         }
-                        .disabled(isTestingBYOM || !canTestBYOM)
-                    }
-                }
-                
-                Section(header: Text("REMINDERS"), footer: Text(showNotificationDeniedMsg ? "Enable notifications in Settings to use reminders." : "")) {
-                    Toggle("Inactivity reminder", isOn: bindingForReminders)
-                    
-                    if showNotificationDeniedMsg {
-                        Button("Open Settings") {
-                            NotificationService.openSettings()
-                        }
-                        .font(.caption)
-                    }
-                }
-
-                Section(header: Text("STORAGE & SYNC")) {
-                    HStack {
-                        Text("Current Mode")
-                        Spacer()
-                        Text(UserPreferences.storageMode == .iCloud ? "iCloud Sync" : "This device only")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    if UserPreferences.storageMode == .local {
-                        Button(action: {
-                            showingMigrationAlert = true
-                        }) {
-                            HStack {
-                                Image(systemName: "icloud.and.arrow.up")
-                                Text("Upgrade to iCloud")
-                                Spacer()
-                             }
-                            .foregroundColor(.accentColor)
-                        }
-                    }
-                }
-                
-                Section(header: Text("DATA MANAGEMENT")) {
-                    NavigationLink {
-                        ArchivedGoalsView()
-                    } label: {
-                        HStack {
-                            Image(systemName: "archivebox")
-                            Text("Archived Goals")
-                        }
+                        .padding(30)
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(16)
+                        .shadow(radius: 10)
                     }
                 }
             }
+        }
             .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -199,27 +301,13 @@ struct SettingsView: View {
             } message: {
                 Text("This will move all your data to iCloud, allowing you to sync across all your devices.")
             }
-            .overlay {
-                if isMigrating {
-                    ZStack {
-                        Color.black.opacity(0.4).ignoresSafeArea()
-                        VStack(spacing: 16) {
-                            ProgressView()
-                            Text("Migrating to iCloud...")
-                                .font(.headline)
-                            if let progress = migrationProgress {
-                                Text("\(progress.current) / \(progress.total) items")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                        .padding(30)
-                        .background(Color(UIColor.systemBackground))
-                        .cornerRadius(16)
-                        .shadow(radius: 10)
-                    }
-                }
-            }
+    }
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.caption.weight(.semibold))
+            .fontDesign(.rounded)
+            .foregroundColor(.secondary)
     }
     
     private func startMigration() {

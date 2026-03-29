@@ -329,6 +329,7 @@ struct SectionHeader: View {
                 .font(.subheadline)
             Text(title)
                 .font(.subheadline.weight(.semibold))
+                .fontDesign(.rounded)
         }
         .foregroundColor(.primary)
         .padding(.top, 8)
@@ -357,6 +358,7 @@ struct ConfirmationItemRow: View {
                 if let tagLabel = tagLabel {
                     Text(tagLabel)
                         .font(.caption2.weight(.semibold))
+                        .fontDesign(.rounded)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(tagColor)
@@ -386,33 +388,15 @@ struct ConfirmationItemRow: View {
                     }
                 } label: {
                     if let goalName = linkedGoalName {
-                        HStack(spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
-                                .frame(width: 6, height: 6)
-                            Text("\(goalName) ▾")
-                                .font(.caption2)
-                                .foregroundColor(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
-                        }
-                        .padding(.horizontal, 9)
-                        .padding(.vertical, 4)
-                        .background((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.3), lineWidth: 1)
+                        TaskPillView(
+                            title: "\(goalName) ▾",
+                            style: .linkedGoal(color: Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
                         )
                     } else {
-                        Text("+ Link to goal")
-                            .font(.caption2)
-                            .foregroundColor(Color(uiColor: .systemGray2))
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 4)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
-                                    .foregroundColor(Color(uiColor: .systemGray3))
-                            )
+                        TaskPillView(
+                            title: "+ Link to goal",
+                            style: .unlinkedGoal
+                        )
                     }
                 }
             }

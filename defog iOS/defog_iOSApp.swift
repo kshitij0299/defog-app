@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 @main
 struct defog_iOSApp: App {
@@ -9,6 +10,20 @@ struct defog_iOSApp: App {
     
     @State private var container: ModelContainer? = nil
     @State private var transcriptionService = TranscriptionService()
+
+    init() {
+        let navBarAppearance = UINavigationBar.appearance()
+        let inlineBase = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        if let descriptor = inlineBase.fontDescriptor.withDesign(.rounded) {
+            let inlineRounded = UIFont(descriptor: descriptor, size: inlineBase.pointSize)
+            navBarAppearance.titleTextAttributes = [.font: inlineRounded]
+        }
+        let largeBase = UIFont.systemFont(ofSize: 34, weight: .bold)
+        if let descriptor = largeBase.fontDescriptor.withDesign(.rounded) {
+            let largeRounded = UIFont(descriptor: descriptor, size: largeBase.pointSize)
+            navBarAppearance.largeTitleTextAttributes = [.font: largeRounded]
+        }
+    }
     
     var body: some Scene {
         WindowGroup {

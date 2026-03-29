@@ -50,10 +50,12 @@ struct TasksView: View {
                             HStack {
                                 Text("Completed")
                                     .font(.title3.weight(.bold))
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Text("\(completedTasks.count)")
                                     .font(.subheadline)
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.secondary)
                             }
                             // Removing default padding from default DisclosureGroup
@@ -87,9 +89,11 @@ struct TasksView: View {
             HStack {
                 Text(title)
                     .font(.title3.weight(.bold))
+                    .fontDesign(.rounded)
                 Spacer()
                 Text("\(tasks.count)")
                     .font(.subheadline)
+                    .fontDesign(.rounded)
                     .foregroundColor(.secondary)
             }
             .padding(.horizontal)
