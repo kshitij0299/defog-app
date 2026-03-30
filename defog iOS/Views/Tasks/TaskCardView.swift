@@ -16,8 +16,7 @@ struct TaskCardView: View {
     @State private var showDeleteConfirmation = false
     
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            // Checkbox
+        TaskCardChrome(goalAccentColor: task.linkedGoal.map { Color(hex: $0.color) ?? .blue }) {
             Button(action: toggleCompletion) {
                 Image(systemName: task.completed ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 22))
@@ -34,7 +33,7 @@ struct TaskCardView: View {
             .accessibilityLabel(task.completed ? "Mark task incomplete" : "Mark task complete")
             .accessibilityValue(task.completed ? "Completed" : "Not completed")
             .accessibilityHint("Double-tap to toggle completion")
-            
+        } mainContent: {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: 8) {
                     TextField("Task description", text: $task.text)
@@ -64,7 +63,6 @@ struct TaskCardView: View {
                             dismissInlineEditing()
                         }
 
-                    // Menu
                     Menu {
                         Button(role: .destructive, action: {
                             dismissInlineEditing()
@@ -89,31 +87,13 @@ struct TaskCardView: View {
                     .accessibilityLabel("More actions")
                     .accessibilityHint("Contains task actions")
                 }
-                
-                // Schedule and goal pills
+
                 if !task.completed {
                     taskPills
                         .padding(.top, 6)
                 }
             }
         }
-        .padding(.leading, 0)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 12)
-        .background(Color(UIColor.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .overlay(alignment: .leading) {
-            if let goal = task.linkedGoal {
-                Rectangle()
-                    .fill(Color(hex: goal.color) ?? .blue)
-                    .frame(width: 4)
-                    .clipShape(Capsule())
-                    .padding(.vertical, 6)
-                    .padding(.leading, 4)
-            }
-        }
-        // Light shadow for depth
-        .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 1)
         .alert("Delete Task?", isPresented: $showDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
@@ -137,7 +117,8 @@ struct TaskCardView: View {
     
     @ViewBuilder
     private var scheduleBadge: some View {
-        let (title, color) = badgeDetails
+        let title = task.schedule.taskCardScheduleLabel
+        let color = task.schedule.taskCardSchedulePillColor
 
         Menu {
             Button("Today") {
@@ -190,17 +171,6 @@ struct TaskCardView: View {
         .accessibilityLabel("Linked goal")
         .accessibilityValue(task.linkedGoal?.name ?? "No goal")
         .accessibilityHint("Double-tap to choose a goal")
-    }
-    
-    private var badgeDetails: (String, Color) {
-        switch task.schedule {
-        case .today:
-            return ("Today", .orange)
-        case .thisWeek:
-            return ("This Week", .blue)
-        case .someday:
-            return ("Someday", .purple)
-        }
     }
     
     private func toggleCompletion() {
@@ -286,14 +256,7 @@ struct TaskCardView: View {
     }
 
     private func badgeTitle(for schedule: TaskSchedule) -> String {
-        switch schedule {
-        case .today:
-            return "Today"
-        case .thisWeek:
-            return "This Week"
-        case .someday:
-            return "Someday"
-        }
+        schedule.taskCardScheduleLabel
     }
     
     private func deleteTask() {

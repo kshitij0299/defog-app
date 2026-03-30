@@ -9,7 +9,36 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         self.session = session
     }
 
-    func categorize(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary]) async -> CategorizationResult {
+    private static func livePreviewPromptBlock(_ ctx: LivePreviewContext) -> String {
+        let goalsLine: String
+        if ctx.pendingNewGoalNames.isEmpty {
+            goalsLine = "(none)"
+        } else {
+            goalsLine = ctx.pendingNewGoalNames.joined(separator: ", ")
+        }
+        let tasksBlock: String
+        if ctx.liveTasks.isEmpty {
+            tasksBlock = "(none)"
+        } else {
+            tasksBlock = ctx.liveTasks.map { line in
+                let link = line.linkedGoalName.map { " linked:\($0)" } ?? ""
+                return "- \"\(line.text)\" [\(line.schedule.rawValue)]\(link)"
+            }.joined(separator: "\n")
+        }
+        return """
+        Current live preview (pending until user taps Process — use commands when user edits this list):
+        Pending new goals: \(goalsLine)
+        Live tasks:
+        \(tasksBlock)
+        """
+    }
+
+    func categorize(
+        text: String,
+        existingGoals: [Goal],
+        openTasks: [ExistingOpenTaskSummary],
+        livePreview: LivePreviewContext
+    ) async -> CategorizationResult {
         let apiKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !apiKey.isEmpty else {
             var fallback = await legacyFallback.categorize(text: text, existingGoals: existingGoals, openTasks: openTasks)
@@ -18,7 +47,13 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         }
 
         do {
-            let llmOutput = try await requestCategorization(text: text, existingGoals: existingGoals, openTasks: openTasks, apiKey: apiKey)
+            let llmOutput = try await requestCategorization(
+                text: text,
+                existingGoals: existingGoals,
+                openTasks: openTasks,
+                livePreview: livePreview,
+                apiKey: apiKey
+            )
             return mapOutput(llmOutput, existingGoals: existingGoals, openTasks: openTasks, source: .byom(model: UserPreferences.aiModel))
         } catch {
             print("OpenRouter categorization failed, using legacy fallback: \(error)")
@@ -28,7 +63,46 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         }
     }
 
-    private func requestCategorization(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary], apiKey: String) async throws -> OpenRouterCategorizationOutput {
+    func categorizeLive(
+        text: String,
+        existingGoals: [Goal],
+        openTasks: [ExistingOpenTaskSummary],
+        livePreview: LivePreviewContext = .empty
+    ) async -> LiveExtractionResponse {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            return LiveExtractionResponse.empty(source: .legacyLocal(reason: "empty"))
+        }
+
+        let apiKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !apiKey.isEmpty else {
+            let r = await legacyFallback.categorize(text: text, existingGoals: existingGoals, openTasks: openTasks)
+            return LiveExtractionResponse.from(result: r, commands: [])
+        }
+
+        do {
+            let llmOutput = try await requestLiveCategorization(
+                text: text,
+                existingGoals: existingGoals,
+                openTasks: openTasks,
+                livePreview: livePreview,
+                apiKey: apiKey
+            )
+            return mapLiveOutput(llmOutput, existingGoals: existingGoals, openTasks: openTasks, source: .byom(model: UserPreferences.aiModel))
+        } catch {
+            print("OpenRouter live categorization failed, using legacy fallback: \(error)")
+            let r = await legacyFallback.categorize(text: text, existingGoals: existingGoals, openTasks: openTasks)
+            return LiveExtractionResponse.from(result: r, commands: [])
+        }
+    }
+
+    private func requestCategorization(
+        text: String,
+        existingGoals: [Goal],
+        openTasks: [ExistingOpenTaskSummary],
+        livePreview: LivePreviewContext,
+        apiKey: String
+    ) async throws -> OpenRouterCategorizationOutput {
         let endpoint = UserPreferences.aiEndpoint.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let url = URL(string: endpoint) else {
             throw OpenRouterError.invalidURL
@@ -39,8 +113,10 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
             guard !openTasks.isEmpty else { return "(none)" }
             return openTasks.map { "\($0.id.uuidString): \($0.text)" }.joined(separator: "\n")
         }()
+        let livePreviewBlock = Self.livePreviewPromptBlock(livePreview)
         let systemPrompt = """
         You classify a brain dump into tasks, new goals, goal updates, and completions of existing open tasks.
+        This is the FINAL pass: the user tapped Process. Reconcile the "Current live preview" below with the full User input. Prefer consistency with that preview (tasks, new goals, schedules, links) unless the full text clearly changes intent.
         Return JSON only. No markdown.
         Rules:
         - Tasks are one-off actionable items.
@@ -56,6 +132,7 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         - Otherwise schedule = someday.
         - Only set matchedGoalName if it clearly maps to one of the provided existing goals.
         - For tasks, if it clearly relates to an existing goal, set linkedGoalName to that goal's name.
+        - If the user creates a new goal and also has tasks that belong under it, include the goal in newGoals and set each such task's linkedGoalName to exactly the same string as that new goal's name in newGoals.
         - Goals must be broad, ongoing pursuits that a person works toward over weeks or months — e.g., 'Learn Music', 'Motion Design', 'Fitness', 'Read More'. Specific one-time activities like 'learn a new chord progression', 'do 10 pushups', or 'read one chapter' are tasks, not goals — even if they sound aspirational. When in doubt, classify as a task.
         - If a specific activity clearly belongs under a broader existing goal (e.g., "learn a new chord progression" -> existing "Guitar" goal), classify it as a task linked to that goal, not a new goal.
         """
@@ -64,6 +141,7 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         Existing goals: \(goalNames)
         Open tasks (one per line, id: text):
         \(openTasksDescription)
+        \(livePreviewBlock)
         User input: \(text)
 
         Return this JSON shape exactly:
@@ -103,6 +181,157 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
             )
             return try decodeCategorizationOutput(from: rawContent)
         }
+    }
+
+    private func requestLiveCategorization(
+        text: String,
+        existingGoals: [Goal],
+        openTasks: [ExistingOpenTaskSummary],
+        livePreview: LivePreviewContext,
+        apiKey: String
+    ) async throws -> OpenRouterCategorizationOutput {
+        let endpoint = UserPreferences.aiEndpoint.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let url = URL(string: endpoint) else {
+            throw OpenRouterError.invalidURL
+        }
+
+        let goalNames = existingGoals.map(\.name)
+        let openTasksDescription: String = {
+            guard !openTasks.isEmpty else { return "(none)" }
+            return openTasks.map { "\($0.id.uuidString): \($0.text)" }.joined(separator: "\n")
+        }()
+
+        let livePreviewBlock = Self.livePreviewPromptBlock(livePreview)
+
+        let systemPrompt = """
+        You classify an IN-PROGRESS brain dump (may be partial). Return JSON only. No markdown.
+        Extract tasks, new goals, goal updates, and completions of existing open tasks seen SO FAR.
+        Also return "commands" when the user clearly asks to edit the list (spoken or typed), e.g. delete, rename, move between task and goal, change schedule, link to goal.
+        Rules (same as full pass):
+        - Tasks: one-off actionable items. New goals: longer-term pursuits. Goal updates: progress on an existing goal name.
+        - taskCompletions: only when user finished an OPEN TASK (by id). Not future intent.
+        - Schedules: today, thisWeek, someday (today/tonight/now => today; tomorrow/this week/soon => thisWeek).
+        - linkedGoalName on a task: set when the task belongs to an EXISTING goal OR to a NEW goal listed in newGoals (same pass). Use the exact goal name string from the existing goals list or from newGoals[].name.
+        - matchedGoalName on goalUpdates: only for EXISTING goals in the provided list.
+        - Goals vs tasks: when in doubt, task. Specific activities are tasks even if aspirational.
+        - When the user asks to DELETE or RENAME a goal in "Current live preview", emit delete_goal or rename_goal and omit that goal from newGoals[] when deleting. Do not keep re-listing a removed goal in newGoals[] in the same response.
+        - Paraphrases that mean REMOVE A GOAL (not the tasks): "don't want the X goal", "remove the goal X", "delete the X goal", "I don't want X", "drop X goal", "without the X goal" — emit delete_goal with goalName X. Tasks must STAY in tasks[] with linkedGoalName set to null for that task (do not delete tasks unless user explicitly deletes the task).
+        - Never return empty tasks[] and empty newGoals[] just to express removing a goal; keep prior tasks and emit delete_goal so the client can unlink.
+        Commands ops (lowercase snake):
+        - delete_task: taskText
+        - rename_task: fromText, toText
+        - delete_goal: goalName (or fromText or taskText if the goal name was put in the wrong field)
+        - rename_goal: fromText, toText (goal names)
+        - move_task_to_goal: taskText, goalName — keep the task as a task; ensure newGoals includes goalName; the task stays in tasks[] with linkedGoalName set to that goal (user is organizing under a new goal, not deleting the task).
+        - move_goal_to_task: goalName (remove new goal; add as task text)
+        - set_schedule: taskText, schedule (today|thisWeek|someday)
+        - link_goal: taskText, goalName — link task to goal; if goalName is new, include that goal in newGoals[] as well.
+        For phrases like "create goal X and put task Y under X": output newGoals entry for X, tasks entry for Y with linkedGoalName X, and/or commands link_goal / move_task_to_goal with goalName X and taskText Y.
+        Use commands only when the user is editing; otherwise commands can be [].
+        """
+
+        let userPrompt = """
+        Existing goals: \(goalNames)
+        Open tasks (one per line, id: text):
+        \(openTasksDescription)
+        \(livePreviewBlock)
+        User input (may be partial): \(text)
+
+        Return this JSON shape exactly:
+        {
+          "tasks": [{"text":"string","schedule":"today|thisWeek|someday","linkedGoalName":"string|null","confidence":0.0}],
+          "newGoals": [{"name":"string","confidence":0.0}],
+          "goalUpdates": [{"text":"string","matchedGoalName":"string","confidence":0.0}],
+          "taskCompletions": [{"matchedTaskId":"uuid-string","confidence":0.0}],
+          "commands": [
+            {"op":"delete_task","taskText":"buy milk","goalName":null,"fromText":null,"toText":null,"schedule":null},
+            {"op":"delete_goal","taskText":null,"goalName":"Music","fromText":null,"toText":null,"schedule":null},
+            {"op":"rename_goal","taskText":null,"goalName":null,"fromText":"Music","toText":"Fitness","schedule":null}
+          ]
+        }
+        """
+
+        do {
+            let rawContent = try await performRequest(
+                url: url,
+                apiKey: apiKey,
+                systemPrompt: systemPrompt,
+                userPrompt: userPrompt,
+                includeResponseFormat: true
+            )
+            return try decodeCategorizationOutput(from: rawContent)
+        } catch let OpenRouterError.httpFailure(statusCode, _) where statusCode == 400 || statusCode == 422 {
+            let rawContent = try await performRequest(
+                url: url,
+                apiKey: apiKey,
+                systemPrompt: systemPrompt,
+                userPrompt: userPrompt,
+                includeResponseFormat: false
+            )
+            return try decodeCategorizationOutput(from: rawContent)
+        } catch {
+            let rawContent = try await performRequest(
+                url: url,
+                apiKey: apiKey,
+                systemPrompt: systemPrompt,
+                userPrompt: userPrompt,
+                includeResponseFormat: false
+            )
+            return try decodeCategorizationOutput(from: rawContent)
+        }
+    }
+
+    private func mapLiveOutput(_ output: OpenRouterCategorizationOutput, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary], source: CategorizationSource) -> LiveExtractionResponse {
+        let validTaskIds = Set(openTasks.map(\.id))
+
+        let newGoals: [CategorizedNewGoal] = output.newGoals.compactMap { item in
+            let name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !name.isEmpty else { return nil }
+            let display = GoalDisplayNameFormatting.formatGoalDisplayName(name)
+            return CategorizedNewGoal(name: display, confidence: item.confidence ?? 0.85)
+        }
+
+        let tasks: [CategorizedTask] = output.tasks.compactMap { item in
+            let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !text.isEmpty else { return nil }
+            let linkedName = (item.linkedGoalName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            let resolvedLink: String? = {
+                guard !linkedName.isEmpty else { return nil }
+                if let g = matchExistingGoalName(linkedName, existingGoals: existingGoals) { return g.name }
+                if let ng = matchNewGoalName(linkedName, newGoals: newGoals) { return ng.name }
+                return GoalDisplayNameFormatting.formatGoalDisplayName(linkedName)
+            }()
+            return CategorizedTask(
+                text: text,
+                schedule: TaskSchedule(rawValue: item.schedule) ?? .someday,
+                confidence: item.confidence ?? 0.9,
+                linkedGoalName: resolvedLink
+            )
+        }
+
+        let goalUpdates: [LivePreviewGoalUpdate] = output.goalUpdates.compactMap { item in
+            let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            let matchedName = (item.matchedGoalName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !text.isEmpty, !matchedName.isEmpty else { return nil }
+            return LivePreviewGoalUpdate(id: UUID(), text: text, matchedGoalName: matchedName, confidence: item.confidence ?? 0.85)
+        }
+
+        var seenCompletionIds = Set<UUID>()
+        let taskCompletions: [CategorizedTaskCompletion] = output.taskCompletions.compactMap { item in
+            let raw = item.matchedTaskId.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let uuid = UUID(uuidString: raw), validTaskIds.contains(uuid), !seenCompletionIds.contains(uuid) else { return nil }
+            seenCompletionIds.insert(uuid)
+            return CategorizedTaskCompletion(matchedTaskId: uuid, confidence: item.confidence ?? 0.9)
+        }
+
+        return LiveExtractionResponse(
+            tasks: tasks,
+            newGoals: newGoals,
+            goalUpdates: goalUpdates,
+            taskCompletions: taskCompletions,
+            commands: output.commands,
+            source: source
+        )
     }
 
     private func performRequest(
@@ -227,23 +456,29 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
     private func mapOutput(_ output: OpenRouterCategorizationOutput, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary], source: CategorizationSource) -> CategorizationResult {
         let validTaskIds = Set(openTasks.map(\.id))
 
+        let newGoals: [CategorizedNewGoal] = output.newGoals.compactMap { item in
+            let name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !name.isEmpty else { return nil }
+            let display = GoalDisplayNameFormatting.formatGoalDisplayName(name)
+            return CategorizedNewGoal(name: display, confidence: item.confidence ?? 0.85)
+        }
+
         let tasks: [CategorizedTask] = output.tasks.compactMap { item in
             let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !text.isEmpty else { return nil }
             let linkedName = (item.linkedGoalName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-            let matchedLinkedGoalName = linkedName.isEmpty ? nil : matchExistingGoalName(linkedName, existingGoals: existingGoals)?.name
+            let resolvedLink: String? = {
+                guard !linkedName.isEmpty else { return nil }
+                if let g = matchExistingGoalName(linkedName, existingGoals: existingGoals) { return g.name }
+                if let ng = matchNewGoalName(linkedName, newGoals: newGoals) { return ng.name }
+                return nil
+            }()
             return CategorizedTask(
                 text: text,
                 schedule: TaskSchedule(rawValue: item.schedule) ?? .someday,
                 confidence: item.confidence ?? 0.9,
-                linkedGoalName: matchedLinkedGoalName
+                linkedGoalName: resolvedLink
             )
-        }
-
-        let newGoals: [CategorizedNewGoal] = output.newGoals.compactMap { item in
-            let name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !name.isEmpty else { return nil }
-            return CategorizedNewGoal(name: name, confidence: item.confidence ?? 0.85)
         }
 
         let goalUpdates: [CategorizedGoalUpdate] = output.goalUpdates.compactMap { item in
@@ -277,6 +512,24 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         }
 
         return existingGoals
+            .map { (goal: $0, score: similarity(normalize($0.name), normalizedTarget)) }
+            .filter { $0.score >= 0.78 }
+            .max(by: { $0.score < $1.score })?
+            .goal
+    }
+
+    private func matchNewGoalName(_ targetName: String, newGoals: [CategorizedNewGoal]) -> CategorizedNewGoal? {
+        let normalizedTarget = normalize(targetName)
+        guard !normalizedTarget.isEmpty else { return nil }
+
+        if let exact = newGoals.first(where: { normalize($0.name) == normalizedTarget }) {
+            return exact
+        }
+        if let contained = newGoals.first(where: { normalize($0.name).contains(normalizedTarget) || normalizedTarget.contains(normalize($0.name)) }) {
+            return contained
+        }
+
+        return newGoals
             .map { (goal: $0, score: similarity(normalize($0.name), normalizedTarget)) }
             .filter { $0.score >= 0.78 }
             .max(by: { $0.score < $1.score })?
@@ -511,6 +764,7 @@ private struct OpenRouterCategorizationOutput: Decodable {
     let newGoals: [NewGoalItem]
     let goalUpdates: [GoalUpdateItem]
     let taskCompletions: [TaskCompletionItem]
+    let commands: [LiveVoiceCommand]
 
     private enum CodingKeys: String, CodingKey {
         case tasks
@@ -520,6 +774,7 @@ private struct OpenRouterCategorizationOutput: Decodable {
         case goal_updates
         case taskCompletions
         case task_completions
+        case commands
     }
 
     init(from decoder: Decoder) throws {
@@ -536,6 +791,8 @@ private struct OpenRouterCategorizationOutput: Decodable {
         let camelCompletions = try container.decodeIfPresent([TaskCompletionItem].self, forKey: .taskCompletions)
         let snakeCompletions = try container.decodeIfPresent([TaskCompletionItem].self, forKey: .task_completions)
         taskCompletions = camelCompletions ?? snakeCompletions ?? []
+
+        commands = try container.decodeIfPresent([LiveVoiceCommand].self, forKey: .commands) ?? []
     }
 }
 
@@ -563,7 +820,13 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
     private let todayKeywords: Set<String> = ["today", "tonight", "now"]
     private let thisWeekKeywords: Set<String> = ["week", "tomorrow", "soon"]
     
-    func categorize(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary]) async -> CategorizationResult {
+    func categorize(
+        text: String,
+        existingGoals: [Goal],
+        openTasks: [ExistingOpenTaskSummary],
+        livePreview: LivePreviewContext
+    ) async -> CategorizationResult {
+        _ = livePreview
         var resultTasks: [CategorizedTask] = []
         var resultNewGoals: [CategorizedNewGoal] = []
         var resultGoalUpdates: [CategorizedGoalUpdate] = []
@@ -676,7 +939,8 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
             if let matchedGoal = matchExistingGoal(extractedTarget, existingGoals: existingGoals) {
                 resultGoalUpdates.append(CategorizedGoalUpdate(text: normalizedSentence, matchedGoal: matchedGoal, confidence: 0.9))
             } else {
-                resultNewGoals.append(CategorizedNewGoal(name: extractedTarget, confidence: 0.8))
+                let display = GoalDisplayNameFormatting.formatGoalDisplayName(extractedTarget)
+                resultNewGoals.append(CategorizedNewGoal(name: display, confidence: 0.8))
             }
         } else if isTask {
             var matchedLinkedGoalName: String? = nil

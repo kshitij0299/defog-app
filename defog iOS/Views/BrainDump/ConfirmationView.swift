@@ -89,8 +89,8 @@ struct ConfirmationView: View {
                                     ForEach(Array(viewModel.result.tasks.enumerated()), id: \.element.id) { index, task in
                                         let linkedGoal = activeGoals.first(where: { $0.name == task.linkedGoalName })
                                         let row = ConfirmationItemRow(text: task.text,
-                                                            tagLabel: scheduleString(task.schedule),
-                                                            tagColor: scheduleColor(task.schedule),
+                                                            tagLabel: task.schedule.scheduleTagLabel(includeMenuChevron: true),
+                                                            tagColor: task.schedule.scheduleTagBackground,
                                                             linkedGoalName: task.linkedGoalName,
                                                             goalColorHex: linkedGoal?.color,
                                                             onRemove: { viewModel.removeTask(at: index) },
@@ -268,21 +268,6 @@ struct ConfirmationView: View {
         return handled
     }
     
-    private func scheduleString(_ schedule: TaskSchedule) -> String {
-        switch schedule {
-        case .today: return "Today ▾"
-        case .thisWeek: return "This Week ▾"
-        case .someday: return "Someday ▾"
-        }
-    }
-    
-    private func scheduleColor(_ schedule: TaskSchedule) -> Color {
-        switch schedule {
-        case .today: return Color.orange.opacity(0.2)
-        case .thisWeek: return Color.indigo.opacity(0.2)
-        case .someday: return Color.gray.opacity(0.2)
-        }
-    }
 }
 
 struct TaskCompletionRow: View {
