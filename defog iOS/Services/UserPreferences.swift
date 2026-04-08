@@ -32,16 +32,6 @@ struct UserPreferences {
         set { UserDefaults.standard.set(newValue, forKey: "remindersEnabled") }
     }
     
-    static var whisperKitEnabled: Bool {
-        get { UserDefaults.standard.bool(forKey: "whisperKitEnabled") }
-        set { UserDefaults.standard.set(newValue, forKey: "whisperKitEnabled") }
-    }
-    
-    static var whisperKitDownloaded: Bool {
-        get { UserDefaults.standard.bool(forKey: "whisperKitDownloaded") }
-        set { UserDefaults.standard.set(newValue, forKey: "whisperKitDownloaded") }
-    }
-
     static var aiAPIKey: String {
         get {
             if let value = UserDefaults.standard.string(forKey: "aiAPIKey"), !value.isEmpty {

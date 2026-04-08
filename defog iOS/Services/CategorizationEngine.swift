@@ -9,39 +9,45 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         self.session = session
     }
 
-    func categorize(text: String, existingGoals: [Goal]) async -> CategorizationResult {
+    func categorize(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary]) async -> CategorizationResult {
         let apiKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !apiKey.isEmpty else {
-            var fallback = await legacyFallback.categorize(text: text, existingGoals: existingGoals)
+            var fallback = await legacyFallback.categorize(text: text, existingGoals: existingGoals, openTasks: openTasks)
             fallback.source = .legacyLocal(reason: "no API key")
             return fallback
         }
 
         do {
-            let llmOutput = try await requestCategorization(text: text, existingGoals: existingGoals, apiKey: apiKey)
-            return mapOutput(llmOutput, existingGoals: existingGoals, source: .byom(model: UserPreferences.aiModel))
+            let llmOutput = try await requestCategorization(text: text, existingGoals: existingGoals, openTasks: openTasks, apiKey: apiKey)
+            return mapOutput(llmOutput, existingGoals: existingGoals, openTasks: openTasks, source: .byom(model: UserPreferences.aiModel))
         } catch {
             print("OpenRouter categorization failed, using legacy fallback: \(error)")
-            var fallback = await legacyFallback.categorize(text: text, existingGoals: existingGoals)
+            var fallback = await legacyFallback.categorize(text: text, existingGoals: existingGoals, openTasks: openTasks)
             fallback.source = .legacyLocal(reason: "connection failed")
             return fallback
         }
     }
 
-    private func requestCategorization(text: String, existingGoals: [Goal], apiKey: String) async throws -> OpenRouterCategorizationOutput {
+    private func requestCategorization(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary], apiKey: String) async throws -> OpenRouterCategorizationOutput {
         let endpoint = UserPreferences.aiEndpoint.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let url = URL(string: endpoint) else {
             throw OpenRouterError.invalidURL
         }
 
         let goalNames = existingGoals.map(\.name)
+        let openTasksDescription: String = {
+            guard !openTasks.isEmpty else { return "(none)" }
+            return openTasks.map { "\($0.id.uuidString): \($0.text)" }.joined(separator: "\n")
+        }()
         let systemPrompt = """
-        You classify a brain dump into tasks, new goals, and goal updates.
+        You classify a brain dump into tasks, new goals, goal updates, and completions of existing open tasks.
         Return JSON only. No markdown.
         Rules:
         - Tasks are one-off actionable items.
         - New goals are longer-term pursuits.
         - Goal updates are progress notes for an existing goal.
+        - taskCompletions: when the user reports they already finished, checked off, or completed something that matches one of the provided OPEN TASKS (by id), list that task's id here. Do NOT also add the same item as a new task.
+        - If the user is only stating future intent ("need to", "should", "remind me to"), that is not a completion.
         - Split multi-action prompts into separate items.
         - Keep task/goal text concise and natural.
         - Schedules: today, thisWeek, someday.
@@ -56,13 +62,16 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
 
         let userPrompt = """
         Existing goals: \(goalNames)
+        Open tasks (one per line, id: text):
+        \(openTasksDescription)
         User input: \(text)
 
         Return this JSON shape exactly:
         {
           "tasks": [{"text":"string","schedule":"today|thisWeek|someday","linkedGoalName":"string|null","confidence":0.0}],
           "newGoals": [{"name":"string","confidence":0.0}],
-          "goalUpdates": [{"text":"string","matchedGoalName":"string","confidence":0.0}]
+          "goalUpdates": [{"text":"string","matchedGoalName":"string","confidence":0.0}],
+          "taskCompletions": [{"matchedTaskId":"uuid-string","confidence":0.0}]
         }
         """
 
@@ -215,7 +224,9 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
         return candidate
     }
 
-    private func mapOutput(_ output: OpenRouterCategorizationOutput, existingGoals: [Goal], source: CategorizationSource) -> CategorizationResult {
+    private func mapOutput(_ output: OpenRouterCategorizationOutput, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary], source: CategorizationSource) -> CategorizationResult {
+        let validTaskIds = Set(openTasks.map(\.id))
+
         let tasks: [CategorizedTask] = output.tasks.compactMap { item in
             let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !text.isEmpty else { return nil }
@@ -243,7 +254,15 @@ final class OpenRouterCategorizationEngine: CategorizationEngine {
             return CategorizedGoalUpdate(text: text, matchedGoal: goal, confidence: item.confidence ?? 0.85)
         }
 
-        return CategorizationResult(tasks: tasks, newGoals: newGoals, goalUpdates: goalUpdates, source: source)
+        var seenCompletionIds = Set<UUID>()
+        let taskCompletions: [CategorizedTaskCompletion] = output.taskCompletions.compactMap { item in
+            let raw = item.matchedTaskId.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let uuid = UUID(uuidString: raw), validTaskIds.contains(uuid), !seenCompletionIds.contains(uuid) else { return nil }
+            seenCompletionIds.insert(uuid)
+            return CategorizedTaskCompletion(matchedTaskId: uuid, confidence: item.confidence ?? 0.9)
+        }
+
+        return CategorizationResult(tasks: tasks, newGoals: newGoals, goalUpdates: goalUpdates, taskCompletions: taskCompletions, source: source)
     }
 
     private func matchExistingGoalName(_ targetName: String, existingGoals: [Goal]) -> Goal? {
@@ -469,9 +488,29 @@ private struct OpenRouterCategorizationOutput: Decodable {
         }
     }
 
+    struct TaskCompletionItem: Decodable {
+        let matchedTaskId: String
+        let confidence: Double?
+
+        private enum CodingKeys: String, CodingKey {
+            case matchedTaskId
+            case matched_task_id
+            case confidence
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let camel = try container.decodeIfPresent(String.self, forKey: .matchedTaskId)
+            let snake = try container.decodeIfPresent(String.self, forKey: .matched_task_id)
+            matchedTaskId = (camel ?? snake ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            confidence = try container.decodeIfPresent(Double.self, forKey: .confidence)
+        }
+    }
+
     let tasks: [TaskItem]
     let newGoals: [NewGoalItem]
     let goalUpdates: [GoalUpdateItem]
+    let taskCompletions: [TaskCompletionItem]
 
     private enum CodingKeys: String, CodingKey {
         case tasks
@@ -479,6 +518,8 @@ private struct OpenRouterCategorizationOutput: Decodable {
         case new_goals
         case goalUpdates
         case goal_updates
+        case taskCompletions
+        case task_completions
     }
 
     init(from decoder: Decoder) throws {
@@ -491,6 +532,10 @@ private struct OpenRouterCategorizationOutput: Decodable {
         let camelGoalUpdates = try container.decodeIfPresent([GoalUpdateItem].self, forKey: .goalUpdates)
         let snakeGoalUpdates = try container.decodeIfPresent([GoalUpdateItem].self, forKey: .goal_updates)
         goalUpdates = camelGoalUpdates ?? snakeGoalUpdates ?? []
+
+        let camelCompletions = try container.decodeIfPresent([TaskCompletionItem].self, forKey: .taskCompletions)
+        let snakeCompletions = try container.decodeIfPresent([TaskCompletionItem].self, forKey: .task_completions)
+        taskCompletions = camelCompletions ?? snakeCompletions ?? []
     }
 }
 
@@ -518,7 +563,7 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
     private let todayKeywords: Set<String> = ["today", "tonight", "now"]
     private let thisWeekKeywords: Set<String> = ["week", "tomorrow", "soon"]
     
-    func categorize(text: String, existingGoals: [Goal]) async -> CategorizationResult {
+    func categorize(text: String, existingGoals: [Goal], openTasks: [ExistingOpenTaskSummary]) async -> CategorizationResult {
         var resultTasks: [CategorizedTask] = []
         var resultNewGoals: [CategorizedNewGoal] = []
         var resultGoalUpdates: [CategorizedGoalUpdate] = []
@@ -541,6 +586,7 @@ final class LegacyRuleBasedCategorizationEngine: CategorizationEngine {
             tasks: resultTasks,
             newGoals: resultNewGoals,
             goalUpdates: resultGoalUpdates,
+            taskCompletions: [],
             source: .legacyLocal(reason: "default path")
         )
     }

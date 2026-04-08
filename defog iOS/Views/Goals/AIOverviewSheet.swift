@@ -98,6 +98,7 @@ struct AIOverviewSheet: View {
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                     .textCase(.uppercase)
+                                    .fontDesign(.rounded)
                                 if let weekday = mostActiveWeekday {
                                     Text("Most active on \(weekday)")
                                         .font(.body)
@@ -110,6 +111,7 @@ struct AIOverviewSheet: View {
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                     .textCase(.uppercase)
+                                    .fontDesign(.rounded)
                                 Text("\(last30DaysEntries.count) in last 30 days")
                                     .font(.body)
                                     .fontWeight(.medium)
@@ -125,6 +127,7 @@ struct AIOverviewSheet: View {
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                     .textCase(.uppercase)
+                                    .fontDesign(.rounded)
                                 
                                 ForEach(recentHighlights) { entry in
                                     VStack(alignment: .leading, spacing: 4) {

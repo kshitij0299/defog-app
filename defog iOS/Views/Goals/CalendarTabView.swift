@@ -30,6 +30,7 @@ struct CalendarTabView: View {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Last 35 Days")
                     .font(.headline)
+                    .fontDesign(.rounded)
                     .padding(.horizontal)
                 
                 LazyVGrid(columns: columns, spacing: 8) {

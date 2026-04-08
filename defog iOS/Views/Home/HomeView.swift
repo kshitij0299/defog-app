@@ -22,6 +22,8 @@ struct HomeView: View {
     @State private var toastMessage = ""
     @State private var showSummary = false
 
+    @Environment(\.openSettings) private var openSettings
+
     private var todayTasks: [Task] {
         incompleteTasks.filter { $0.schedule == .today }
     }
@@ -34,6 +36,7 @@ struct HomeView: View {
                     HStack {
                         Text("Active Goals")
                             .font(.title2.weight(.bold))
+                            .fontDesign(.rounded)
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -64,6 +67,7 @@ struct HomeView: View {
                     HStack {
                         Text("Today's Tasks")
                             .font(.title2.weight(.bold))
+                            .fontDesign(.rounded)
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -92,6 +96,7 @@ struct HomeView: View {
                                     Image(systemName: "arrow.right")
                                 }
                                 .font(.subheadline.weight(.medium))
+                                .fontDesign(.rounded)
                                 .foregroundColor(.blue)
                                 .padding(.horizontal)
                                 .padding(.top, 4)
@@ -105,14 +110,24 @@ struct HomeView: View {
                 Spacer()
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Home")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showSummary = true
-                } label: {
-                    Image(systemName: "sun.max")
-                        .foregroundColor(.primary)
+                HStack(spacing: 16) {
+                    Button {
+                        showSummary = true
+                    } label: {
+                        Image(systemName: "sun.max")
+                            .foregroundColor(.primary)
+                    }
+
+                    Button {
+                        openSettings()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.primary)
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ import SwiftData
 
 struct DailySummaryView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.setTabBarHidden) private var setTabBarHidden
     
     // We fetch all tasks and goals, then filter them by date in memory
     // because dynamic date predicates in @Query can be tricky.
@@ -71,6 +72,7 @@ struct DailySummaryView: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Tasks completed today")
                                     .font(.headline)
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.secondary)
                                     .padding(.horizontal)
                                 
@@ -102,6 +104,7 @@ struct DailySummaryView: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Goal progress today")
                                     .font(.headline)
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.secondary)
                                     .padding(.horizontal)
                                 
@@ -115,11 +118,13 @@ struct DailySummaryView: View {
                                                 
                                                 Text(item.goal.name)
                                                     .font(.subheadline.weight(.semibold))
+                                                    .fontDesign(.rounded)
                                                 
                                                 Spacer()
                                                 
                                                 Text("\(item.todayEntries.count) entr\(item.todayEntries.count == 1 ? "y" : "ies")")
                                                     .font(.caption)
+                                                    .fontDesign(.rounded)
                                                     .foregroundColor(.secondary)
                                                     .padding(.horizontal, 8)
                                                     .padding(.vertical, 4)
@@ -172,7 +177,12 @@ struct DailySummaryView: View {
                 }
             }
         }
-        .toolbar(.hidden, for: .tabBar) // Try to hide standard tab bar if applicable
+        .onAppear {
+            setTabBarHidden(true)
+        }
+        .onDisappear {
+            setTabBarHidden(false)
+        }
         .navigationBarBackButtonHidden(true)
     }
 }

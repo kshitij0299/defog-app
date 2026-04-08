@@ -3,6 +3,7 @@ import SwiftData
 
 struct TasksView: View {
     @Query(sort: \Task.createdAt, order: .reverse) private var tasks: [Task]
+    @Environment(\.openSettings) private var openSettings
     
     @State private var showCompleted = false
     @State private var showToast = false
@@ -49,10 +50,12 @@ struct TasksView: View {
                             HStack {
                                 Text("Completed")
                                     .font(.title3.weight(.bold))
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Text("\(completedTasks.count)")
                                     .font(.subheadline)
+                                    .fontDesign(.rounded)
                                     .foregroundColor(.secondary)
                             }
                             // Removing default padding from default DisclosureGroup
@@ -64,7 +67,18 @@ struct TasksView: View {
             }
             .padding(.vertical)
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Tasks")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    openSettings()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
+        }
         .background(Color(UIColor.systemGroupedBackground))
         .toast(isShowing: $showToast, message: toastMessage)
     }
@@ -75,9 +89,11 @@ struct TasksView: View {
             HStack {
                 Text(title)
                     .font(.title3.weight(.bold))
+                    .fontDesign(.rounded)
                 Spacer()
                 Text("\(tasks.count)")
                     .font(.subheadline)
+                    .fontDesign(.rounded)
                     .foregroundColor(.secondary)
             }
             .padding(.horizontal)

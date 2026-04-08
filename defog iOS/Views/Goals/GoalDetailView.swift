@@ -163,7 +163,9 @@ struct GoalDetailView: View {
                         Circle()
                             .fill(Color(hex: goal.color) ?? .blue)
                             .frame(width: 8, height: 8)
-                        Text(goal.name).font(.headline)
+                        Text(goal.name)
+                            .font(.headline)
+                            .fontDesign(.rounded)
                     }
                     if currentStreak >= 2 {
                         Text("\(currentStreak) days in a row")

@@ -1,16 +1,69 @@
 import Foundation
 import SwiftData
 
+@MainActor
 @Observable
 class BrainDumpViewModel {
     var text: String = ""
     var isMicrophoneEnabled: Bool = false
     var showPermissionAlert: Bool = false
     
+    var engine: CategorizationEngine
+    var isProcessing: Bool = false
+    var categorizationResult: CategorizationResult? = nil
+    var processingPathLabel: String = ""
+    var processingTask: _Concurrency.Task<Void, Never>? = nil
+    
+    init(engine: CategorizationEngine = OpenRouterCategorizationEngine()) {
+        self.engine = engine
+    }
+    
     // Optional integration for T4 future
     func checkMicrophonePermission() {
         // Mock permission check
         // showPermissionAlert = true / false 
+    }
+    
+    func startProcessing(modelContext: ModelContext) {
+        cancelProcessing()
+        isProcessing = true
+        processingPathLabel = initialProcessingPathLabel()
+        
+        let existingGoals = (try? modelContext.fetch(
+            FetchDescriptor<Goal>(predicate: #Predicate { $0.archivedAt == nil })
+        )) ?? []
+        
+        let openTasksRaw = (try? modelContext.fetch(
+            FetchDescriptor<Task>(predicate: #Predicate { $0.completed == false }, sortBy: [SortDescriptor(\.createdAt)])
+        )) ?? []
+        let openTaskSummaries = openTasksRaw.map { ExistingOpenTaskSummary(id: $0.id, text: $0.text) }
+        
+        processingTask = _Concurrency.Task {
+            let result = await engine.categorize(text: text, existingGoals: existingGoals, openTasks: openTaskSummaries)
+            guard !_Concurrency.Task.isCancelled else { return }
+            
+            try? await _Concurrency.Task.sleep(for: .seconds(1))
+            guard !_Concurrency.Task.isCancelled else { return }
+            
+            guard self.isProcessing else { return }
+            self.processingPathLabel = result.source.processingLabel
+            self.categorizationResult = result
+        }
+    }
+    
+    func cancelProcessing() {
+        processingTask?.cancel()
+        processingTask = nil
+        isProcessing = false
+        categorizationResult = nil
+    }
+    
+    func initialProcessingPathLabel() -> String {
+        let trimmedAPIKey = UserPreferences.aiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedAPIKey.isEmpty else {
+            return CategorizationSource.legacyLocal(reason: "no API key").processingLabel
+        }
+        return CategorizationSource.byom(model: UserPreferences.aiModel).processingLabel
     }
 }
 
@@ -37,6 +90,11 @@ class ConfirmationViewModel {
     func removeGoalUpdate(at index: Int) {
         guard result.goalUpdates.indices.contains(index) else { return }
         result.goalUpdates.remove(at: index)
+    }
+    
+    func removeTaskCompletion(at index: Int) {
+        guard result.taskCompletions.indices.contains(index) else { return }
+        result.taskCompletions.remove(at: index)
     }
     
     func updateTaskSchedule(at index: Int, schedule: TaskSchedule) {
@@ -83,7 +141,7 @@ class ConfirmationViewModel {
     }
     
     var isEmpty: Bool {
-        return result.tasks.isEmpty && result.newGoals.isEmpty && result.goalUpdates.isEmpty
+        return result.tasks.isEmpty && result.newGoals.isEmpty && result.goalUpdates.isEmpty && result.taskCompletions.isEmpty
     }
     
     // MARK: - Save
@@ -123,6 +181,18 @@ class ConfirmationViewModel {
         let existingGoals = (try? modelContext.fetch(FetchDescriptor<Goal>())) ?? []
         var activeGoalsTracker = existingGoals
 
+        let persistedTasks = (try? modelContext.fetch(FetchDescriptor<Task>())) ?? []
+        
+        for completion in result.taskCompletions {
+            guard let match = persistedTasks.first(where: { $0.id == completion.matchedTaskId && !$0.completed }) else { continue }
+            match.completed = true
+            match.completedAt = Date()
+            if let goal = match.linkedGoal {
+                let entry = GoalEntry(text: match.text, type: .detailed, goal: goal)
+                modelContext.insert(entry)
+            }
+        }
+        
         // Save Tasks
         for catTask in result.tasks {
             let task = Task(text: catTask.text, schedule: catTask.schedule, source: .typed)

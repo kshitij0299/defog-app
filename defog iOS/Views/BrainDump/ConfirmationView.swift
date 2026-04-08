@@ -6,6 +6,9 @@ struct ConfirmationView: View {
     @Query(filter: #Predicate<Goal> { $0.archivedAt == nil }, sort: \Goal.createdAt)
     private var activeGoals: [Goal]
     
+    @Query(sort: \Task.createdAt, order: .reverse)
+    private var storedTasks: [Task]
+    
     @Binding var rootIsActive: Bool
     let onConfirmed: () -> Void
     
@@ -25,7 +28,7 @@ struct ConfirmationView: View {
                     Text("Review & Confirm")
                         .font(.title2.weight(.bold))
                     
-                    Text("Tap × to remove · tap tag to reschedule · tap goal chip to reassign")
+                    Text("Tap × to remove · tap tag to reschedule · tap goal chip to reassign · completions mark existing tasks done")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -47,6 +50,23 @@ struct ConfirmationView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding(.top, 40)
                         } else {
+                            
+                            if !viewModel.result.taskCompletions.isEmpty {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    SectionHeader(icon: "checkmark.circle.fill", title: "Marking complete")
+                                    
+                                    ForEach(Array(viewModel.result.taskCompletions.enumerated()), id: \.element.id) { index, completion in
+                                        let title = storedTasks.first(where: { $0.id == completion.matchedTaskId })?.text
+                                            ?? "Open task"
+                                        TaskCompletionRow(
+                                            taskTitle: title,
+                                            onRemove: { viewModel.removeTaskCompletion(at: index) }
+                                        )
+                                    }
+                                }
+                                .padding(12)
+                                .padding(.horizontal, -12)
+                            }
                             
                             // Tasks Section
                             VStack(alignment: .leading, spacing: 16) {
@@ -265,6 +285,40 @@ struct ConfirmationView: View {
     }
 }
 
+struct TaskCompletionRow: View {
+    let taskTitle: String
+    let onRemove: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.body)
+                .foregroundStyle(.green)
+            Text(taskTitle)
+                .font(.subheadline)
+                .strikethrough(true)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Button {
+                onRemove()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 4)
+            }
+        }
+        .padding()
+        .background(Color(uiColor: .systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.green.opacity(0.35), lineWidth: 1)
+        )
+    }
+}
+
 struct SectionHeader: View {
     let icon: String
     let title: String
@@ -275,6 +329,7 @@ struct SectionHeader: View {
                 .font(.subheadline)
             Text(title)
                 .font(.subheadline.weight(.semibold))
+                .fontDesign(.rounded)
         }
         .foregroundColor(.primary)
         .padding(.top, 8)
@@ -303,6 +358,7 @@ struct ConfirmationItemRow: View {
                 if let tagLabel = tagLabel {
                     Text(tagLabel)
                         .font(.caption2.weight(.semibold))
+                        .fontDesign(.rounded)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(tagColor)
@@ -332,33 +388,15 @@ struct ConfirmationItemRow: View {
                     }
                 } label: {
                     if let goalName = linkedGoalName {
-                        HStack(spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
-                                .frame(width: 6, height: 6)
-                            Text("\(goalName) ▾")
-                                .font(.caption2)
-                                .foregroundColor(Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
-                        }
-                        .padding(.horizontal, 9)
-                        .padding(.vertical, 4)
-                        .background((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke((Color(hex: goalColorHex ?? "#A78BFA") ?? .blue).opacity(0.3), lineWidth: 1)
+                        TaskPillView(
+                            title: "\(goalName) ▾",
+                            style: .linkedGoal(color: Color(hex: goalColorHex ?? "#A78BFA") ?? .blue)
                         )
                     } else {
-                        Text("+ Link to goal")
-                            .font(.caption2)
-                            .foregroundColor(Color(uiColor: .systemGray2))
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 4)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [3]))
-                                    .foregroundColor(Color(uiColor: .systemGray3))
-                            )
+                        TaskPillView(
+                            title: "+ Link to goal",
+                            style: .unlinkedGoal
+                        )
                     }
                 }
             }
