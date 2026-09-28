@@ -1,0 +1,442 @@
+{
+  "components": 55,
+  "families": 30,
+  "sets": 14,
+  "blankAreas": 60,
+  "textStyles": [
+    {
+      "name": "Defog / Title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 22
+    },
+    {
+      "name": "Defog / Large title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 34
+    },
+    {
+      "name": "Defog / Headline",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17
+    },
+    {
+      "name": "Defog / Button",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17
+    },
+    {
+      "name": "Defog / Body",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 17
+    },
+    {
+      "name": "Defog / Callout",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 15
+    },
+    {
+      "name": "Defog / Caption",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Regular"
+      },
+      "size": 12
+    }
+  ],
+  "screens": [
+    {
+      "id": "1060:748",
+      "name": "Context / Home",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 14,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1060:903",
+      "name": "Context / Tasks",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 16,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1060:1074",
+      "name": "Context / Goal detail",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 11,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1060:1238",
+      "name": "Context / Brain Dump",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 14,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1060:1371",
+      "name": "Context / Settings",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 10,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1060:1552",
+      "name": "Context / Onboarding",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 5,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1063:1097",
+      "name": "Context / Calendar",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 45,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1063:1278",
+      "name": "Context / Goals empty",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 6,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1063:1375",
+      "name": "Context / Delete task",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 17,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1063:1412",
+      "name": "Context / Processing",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 4,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "id": "1063:1491",
+      "name": "Context / Daily prompt",
+      "w": 402,
+      "h": 874,
+      "localInstanceCount": 18,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ]
+    }
+  ],
+  "missingDescriptions": [],
+  "masterNames": [
+    {
+      "id": "1055:368",
+      "name": "Defog / Status bar"
+    },
+    {
+      "id": "1055:392",
+      "name": "Defog / Home indicator"
+    },
+    {
+      "id": "1055:535",
+      "name": "Defog / Tab bar"
+    },
+    {
+      "id": "1055:576",
+      "name": "Defog / Navigation action"
+    },
+    {
+      "id": "1058:712",
+      "name": "Defog / Section heading"
+    },
+    {
+      "id": "1060:674",
+      "name": "Defog / Large title"
+    },
+    {
+      "id": "1060:690",
+      "name": "Defog / Inline navigation"
+    },
+    {
+      "id": "1060:724",
+      "name": "Defog / Home toolbar"
+    },
+    {
+      "id": "1055:908",
+      "name": "Defog / Menu trigger"
+    },
+    {
+      "id": "1058:638",
+      "name": "Defog / Schedule control"
+    },
+    {
+      "id": "1058:654",
+      "name": "Defog / Goal link pill"
+    },
+    {
+      "id": "1058:705",
+      "name": "Defog / Task card"
+    },
+    {
+      "id": "1055:656",
+      "name": "Defog / Segmented control"
+    },
+    {
+      "id": "1058:738",
+      "name": "Defog / Goal card"
+    },
+    {
+      "id": "1058:762",
+      "name": "Defog / Timeline entry"
+    },
+    {
+      "id": "1058:778",
+      "name": "Defog / Calendar day"
+    },
+    {
+      "id": "1058:785",
+      "name": "Defog / Progress actions"
+    },
+    {
+      "id": "1055:601",
+      "name": "Defog / Action button"
+    },
+    {
+      "id": "1058:809",
+      "name": "Defog / Goal preview row"
+    },
+    {
+      "id": "1058:868",
+      "name": "Defog / Capture composer"
+    },
+    {
+      "id": "1055:683",
+      "name": "Defog / Text field"
+    },
+    {
+      "id": "1055:708",
+      "name": "Defog / Switch"
+    },
+    {
+      "id": "1055:778",
+      "name": "Defog / List row"
+    },
+    {
+      "id": "1058:875",
+      "name": "Defog / Labeled field"
+    },
+    {
+      "id": "1055:862",
+      "name": "Defog / Page control"
+    },
+    {
+      "id": "1055:985",
+      "name": "Defog / Alert"
+    },
+    {
+      "id": "1055:1078",
+      "name": "Defog / Loading indicator"
+    },
+    {
+      "id": "1058:892",
+      "name": "Defog / Toast"
+    },
+    {
+      "id": "1058:903",
+      "name": "Defog / Empty state"
+    },
+    {
+      "id": "1058:916",
+      "name": "Defog / Daily prompt"
+    }
+  ],
+  "note": "Seven pre-existing legacy variables are preserved; this work creates no new variable collections."
+}

@@ -1,0 +1,33 @@
+{
+  "mutatedNodeIds": [
+    "1060:673",
+    "1058:671",
+    "I1055:584;5:108581"
+  ],
+  "restored": true,
+  "titles": [
+    {
+      "id": "1060:863",
+      "fontSize": 35,
+      "expected": 35
+    },
+    {
+      "id": "1060:1028",
+      "fontSize": 35,
+      "expected": 35
+    }
+  ],
+  "taskCheck": {
+    "radius": 13,
+    "expected": 13
+  },
+  "buttonCheck": {
+    "font": {
+      "family": "SF Pro Rounded",
+      "style": "Bold"
+    },
+    "expected": "Bold"
+  },
+  "testMethod": "Temporary changes verify propagation; values under titles/taskCheck/buttonCheck are DURING the test, not final design values.",
+  "finalReadback": "review-resolution.json"
+}

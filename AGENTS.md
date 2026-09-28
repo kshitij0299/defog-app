@@ -12,6 +12,11 @@
 
 The user approved documentation, simulator inspection, UX auditing, Figma reconstruction, and a redesigned prototype. Application implementation changes wait until the user approves the prototype. Building and running the existing app is authorized.
 
+**Latest sequence (2026-09-29): redesign is paused.** Review the audit, agree on the `Components` page, then design/approve screens, and only then implement. The eight earlier redesign drafts are parked. Work on Components examples is authorized; do not expand the redesigned flow.
+
+- Components page: `1053:375`. Local masters, two blank owner alternatives per family, and linked current-app context screens. Preserve the owner's edits.
+- Strong SF Pro Rounded identity for app titles, headings and button labels. Native device typography remains native SF Pro. Full tokenization is explicitly deferred until the system is agreed.
+
 - Figma file: `v6VyKHrnxzBtkDuCl8nneS`.
 - User-supplied starting node/page: `967:1893`; inspect its type before writing.
 - Device target: retain iPhone 17 Pro at 402×874 points per the user’s latest clarification. Working frames are rectangular; include native status bar (62pt region), home indicator (34pt region), and respect safe areas. Do not redo existing captures solely to change the device model. Place full component bounds in separate layout slots: tab bar height95 ends at y840; home indicator height34 starts at y840. Do not overlay these component frames or align only their visible shapes.

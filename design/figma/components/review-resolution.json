@@ -1,0 +1,371 @@
+{
+  "restored": [
+    {
+      "id": "1060:863",
+      "text": "Home",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 34
+    },
+    {
+      "id": "1060:1028",
+      "text": "Tasks",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 34
+    },
+    {
+      "id": "1060:1226",
+      "text": "Did something today",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17
+    }
+  ],
+  "switchContextRow": {
+    "id": "1060:1386",
+    "height": 57
+  },
+  "textStyles": [
+    {
+      "name": "Defog / Title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 22,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 28
+      }
+    },
+    {
+      "name": "Defog / Large title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 34,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 41
+      }
+    },
+    {
+      "name": "Defog / Headline",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 22
+      }
+    },
+    {
+      "name": "Defog / Button",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 22
+      }
+    },
+    {
+      "name": "Defog / Body",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 17,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 22
+      }
+    },
+    {
+      "name": "Defog / Callout",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 15,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      }
+    },
+    {
+      "name": "Defog / Caption",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Regular"
+      },
+      "size": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      }
+    }
+  ],
+  "familyMap": [
+    {
+      "name": "Status bar",
+      "mainId": "1055:368",
+      "workspaces": [
+        "1055:388",
+        "1055:391"
+      ]
+    },
+    {
+      "name": "Home indicator",
+      "mainId": "1055:392",
+      "workspaces": [
+        "1055:400",
+        "1055:403"
+      ]
+    },
+    {
+      "name": "Tab bar",
+      "mainId": "1055:535",
+      "workspaces": [
+        "1055:538",
+        "1055:541"
+      ]
+    },
+    {
+      "name": "Navigation action",
+      "mainId": "1055:576",
+      "workspaces": [
+        "1055:579",
+        "1055:582"
+      ]
+    },
+    {
+      "name": "Section heading",
+      "mainId": "1058:712",
+      "workspaces": [
+        "1058:719",
+        "1058:722"
+      ]
+    },
+    {
+      "name": "Large title",
+      "mainId": "1060:674",
+      "workspaces": [
+        "1060:680",
+        "1060:683"
+      ]
+    },
+    {
+      "name": "Inline navigation",
+      "mainId": "1060:690",
+      "workspaces": [
+        "1060:720",
+        "1060:723"
+      ]
+    },
+    {
+      "name": "Home toolbar",
+      "mainId": "1060:724",
+      "workspaces": [
+        "1060:744",
+        "1060:747"
+      ]
+    },
+    {
+      "name": "Menu trigger",
+      "mainId": "1055:908",
+      "workspaces": [
+        "1055:917",
+        "1055:920"
+      ]
+    },
+    {
+      "name": "Schedule control",
+      "mainId": "1058:638",
+      "workspaces": [
+        "1058:641",
+        "1058:644"
+      ]
+    },
+    {
+      "name": "Goal link pill",
+      "mainId": "1058:654",
+      "workspaces": [
+        "1058:657",
+        "1058:660"
+      ]
+    },
+    {
+      "name": "Task card",
+      "mainId": "1058:705",
+      "workspaces": [
+        "1058:708",
+        "1058:711"
+      ]
+    },
+    {
+      "name": "Segmented control",
+      "mainId": "1055:656",
+      "workspaces": [
+        "1055:659",
+        "1055:662"
+      ]
+    },
+    {
+      "name": "Goal card",
+      "mainId": "1058:738",
+      "workspaces": [
+        "1058:741",
+        "1058:744"
+      ]
+    },
+    {
+      "name": "Timeline entry",
+      "mainId": "1058:762",
+      "workspaces": [
+        "1058:765",
+        "1058:768"
+      ]
+    },
+    {
+      "name": "Calendar day",
+      "mainId": "1058:778",
+      "workspaces": [
+        "1058:781",
+        "1058:784"
+      ]
+    },
+    {
+      "name": "Progress actions",
+      "mainId": "1058:785",
+      "workspaces": [
+        "1058:801",
+        "1058:804"
+      ]
+    },
+    {
+      "name": "Action button",
+      "mainId": "1055:601",
+      "workspaces": [
+        "1055:604",
+        "1055:607"
+      ]
+    },
+    {
+      "name": "Goal preview row",
+      "mainId": "1058:809",
+      "workspaces": [
+        "1058:815",
+        "1058:818"
+      ]
+    },
+    {
+      "name": "Capture composer",
+      "mainId": "1058:868",
+      "workspaces": [
+        "1058:871",
+        "1058:874"
+      ]
+    },
+    {
+      "name": "Text field",
+      "mainId": "1055:683",
+      "workspaces": [
+        "1055:686",
+        "1055:689"
+      ]
+    },
+    {
+      "name": "Switch",
+      "mainId": "1055:708",
+      "workspaces": [
+        "1055:711",
+        "1055:714"
+      ]
+    },
+    {
+      "name": "List row",
+      "mainId": "1055:778",
+      "workspaces": [
+        "1055:781",
+        "1055:784"
+      ]
+    },
+    {
+      "name": "Labeled field",
+      "mainId": "1058:875",
+      "workspaces": [
+        "1058:888",
+        "1058:891"
+      ]
+    },
+    {
+      "name": "Page control",
+      "mainId": "1055:862",
+      "workspaces": [
+        "1055:897",
+        "1055:900"
+      ]
+    },
+    {
+      "name": "Alert",
+      "mainId": "1055:985",
+      "workspaces": [
+        "1055:1040",
+        "1055:1043"
+      ]
+    },
+    {
+      "name": "Loading indicator",
+      "mainId": "1055:1078",
+      "workspaces": [
+        "1055:1095",
+        "1055:1098"
+      ]
+    },
+    {
+      "name": "Toast",
+      "mainId": "1058:892",
+      "workspaces": [
+        "1058:899",
+        "1058:902"
+      ]
+    },
+    {
+      "name": "Empty state",
+      "mainId": "1058:903",
+      "workspaces": [
+        "1058:912",
+        "1058:915"
+      ]
+    },
+    {
+      "name": "Daily prompt",
+      "mainId": "1058:916",
+      "workspaces": [
+        "1058:933",
+        "1058:936"
+      ]
+    }
+  ]
+}

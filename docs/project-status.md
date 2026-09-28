@@ -1,6 +1,8 @@
 # Defog redesign: working status
 
-Updated: 2026-09-28. Source baseline: `11ba317` on `live-view`.
+Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
+
+**Current phase: Components review. Redesign is paused at the owner's request.** The eight earlier screen drafts remain parked; application implementation is unchanged.
 
 ## Approved sequence
 
@@ -9,9 +11,10 @@ Updated: 2026-09-28. Source baseline: `11ba317` on `live-view`.
 3. Walk through the running iOS app and capture baseline evidence.
 4. Reconstruct the current app as editable Figma screens on the user-supplied new page.
 5. Document UX issues, evidence, impact, severity, and recommendations.
-6. Create redesigned screens and a clickable prototype on separate pages in the same file.
-7. Obtain the user's design approval before changing application implementation.
-8. Implement approved changes, validate behavior, and finish the case study.
+6. Review the audit with the owner, then agree on the Components page and design system. Use linked app examples and leave space for owner alternatives.
+7. After that agreement, create/revise screens and a clickable prototype on separate pages.
+8. Obtain the user's screen/prototype approval before changing application implementation.
+9. Implement approved changes, validate behavior, and finish the case study.
 
 Case-study evidence and decisions are recorded alongside the design work. Historical research and simulated results need provenance checks.
 
@@ -50,16 +53,20 @@ Product, architecture, development, screen-inventory, design-history, and case-s
 
 - [Editable baseline](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=967-1893): 12 reconstructed frames. This is still a fidelity-review draft, not complete state coverage.
 - [Audit and evidence](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=987-241): eleven findings (expert observations, one design hypothesis, four source risks) and one withdrawn claim.
-- Seventeen simulator captures are preserved in `docs/evidence/2026-09-28/`. They use synthetic content and local processing with no API key.
+- Nineteen simulator captures are preserved in `docs/evidence/2026-09-28/`. They use synthetic content and local processing with no API key.
 - **Evidence correction:** after a clean relaunch, capture 17 shows the goal picker and progress actions clear of navigation. The earlier UX-01 claim is withdrawn. Captures 10/11 show a different state whose cause is unknown. The Figma translation had additional errors; the corrected goal frame is `984:436`. Do not turn those errors into app findings.
 - Apple component instances now cover status, tabs, home indicator, navigation buttons, goal segmented control, Settings fields/rows/switch and onboarding page control. Preserve actual Defog-specific custom UI where it is present in source. Check layout after editing instance variants/properties.
 - Keep 402×874 rectangular frames. The agreed Figma bottom slots are tab95 at y745–840 and home34 at y840–874. This convention differs from runtime screenshots and is documented, not claimed as pixel-identical capture.
 - The free Muse documentation reviewer completed the evidence-correction review with zero reported model cost. Primary owns UI reconstruction corrections and verification.
+- [Components workbench](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375): 30 component families (55 main components, including variants), 60 blank owner work areas, seven text styles, eleven linked screen examples and three context details. See [component guide](components-review.md).
+- SF Pro Rounded leads titles, headings and button labels. Full custom variable/token architecture is deferred by owner request. Existing Apple semantic bindings remain in native instances; seven pre-existing legacy variables were preserved.
+- Eight earlier drafts on page `1024:2614` are paused, unapproved and unwired. They are not the current review deliverable.
 
 ## Remaining work
 
 - Finish baseline fidelity and state coverage. Goal detail, Review and Settings received targeted visual checks after correction. Live preview received a native keyboard accessory and spacing correction; the updated render was checked against capture 07. Source-only reconstructed states need settled simulator evidence.
-- Create the separate redesigned page and clickable high-fidelity prototype. Neither is complete or approved.
+- Owner reviews the [audit](ux-audit.md) and Components workbench, including edits in the two alternative columns. Do not resume redesigned screens until this system is agreed.
+- After system agreement, revise the paused screen drafts and build the clickable prototype. Neither the earlier draft screens nor Components examples establish usability improvement.
 - Verify historical research provenance with the owner before writing outcomes into the portfolio narrative.
 - After prototype approval only: implement, run app-level checks, validate with users, and record genuine results.
 

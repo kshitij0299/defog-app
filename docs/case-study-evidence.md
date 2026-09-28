@@ -38,6 +38,7 @@
 | `AUDIT-001` | [Eleven findings](ux-audit.md): expert observations, UX-05 as hypothesis, UX-09–12 as source risks. UX-01 retained only as a correction record. | Formative; no measured outcomes |
 | `FIGMA-SLOTS` | Owner requires full tab95 and home34 component slots, y745–840 and y840–874. | Canvas convention; differs from runtime capture |
 | `APP-UNCHANGED` | Application source remains unchanged through the documentation/Figma phase. | No implemented improvement yet |
+| `SYSTEM-REVIEW` | Owner paused redesigned screens and requested local component masters with linked app examples, two alternative areas per family, and strong SF Pro Rounded typography. Full tokenization deferred. [Components guide](components-review.md). | Owner direction, 2026-09-29; design review, not outcome validation |
 
 ## Historical claims requiring corroboration
 
@@ -51,7 +52,7 @@
 ## Future evidence placeholders (all Pending)
 
 - `PENDING-PROTO`: prototype approval decision + date.
-- Additional before-state coverage remains pending; 17 existing captures are indexed in [the capture notes](evidence/2026-09-28/README.md).
+- Additional before-state coverage remains pending; 19 existing captures are indexed in [the capture notes](evidence/2026-09-28/README.md).
 - `PENDING-AFTER`: after screenshots post-approved Figma changes.
 - `PENDING-VALID`: user validation quotes/observations per issue ID.
 - `PENDING-METRICS`: only metrics observed after approval; none claimed now.

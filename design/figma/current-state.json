@@ -1,7 +1,7 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "fileKey": "v6VyKHrnxzBtkDuCl8nneS",
-  "phase": "Baseline fidelity review; redesign not started",
+  "phase": "Components review; redesign paused pending system agreement",
   "baselinePageId": "967:1893",
   "auditPageId": "987:241",
   "frames": [
@@ -91,11 +91,11 @@
   ],
   "knownGaps": [
     "Not complete baseline state coverage",
-    "Source-only reconstructed Goals and Daily Summary need settled simulator captures",
     "Settings lower sections incomplete",
     "Baseline custom card component reuse still needs consolidation",
     "Remaining screens need final fidelity review; no claim of pixel identity",
-    "No redesigned page or clickable prototype yet"
+    "Goals baseline needs settled runtime capture; Daily Summary capture 19 now exists",
+    "Earlier eight redesign drafts are paused, unapproved and unwired"
   ],
   "nativeInstances": {
     "goalPicker": "990:366",
@@ -115,5 +115,9 @@
     "Figma bottom slots follow the user convention, not exact runtime geometry",
     "Historical construction scripts are not a regeneration pipeline",
     "Figma rendering truncation of endpoint is represented by an explicit shortened display value; source URL unchanged"
-  ]
+  ],
+  "componentsPageId": "1053:375",
+  "pausedRedesignPageId": "1024:2614",
+  "pausedDraftScreens": 8,
+  "prototypeWired": false
 }

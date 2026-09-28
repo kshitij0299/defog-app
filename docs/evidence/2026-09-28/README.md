@@ -4,6 +4,8 @@ Baseline `11ba317`, iPhone17Pro, iOS26.2, 402×874 points (1206×2622 pixels). S
 
 Captures 01–09 cover first-launch permissions, onboarding, storage selection, empty Home, typed Brain Dump preview, Review & Confirm and saved Home. Captures 12–16 cover local progress overview, Settings, archive, Tasks and its schedule menu. Keyboard/accessory state may differ across captures; preserve that distinction.
 
+Capture 18 shows Home after the synthetic quick-progress entry. Capture 19 shows Daily Summary for that entry. These extend the unchanged-app walkthrough; they are not after-redesign screenshots.
+
 ## Correction: goal captures 10/11 superseded
 
 `10-goal-detail-obscured.png` and `11-goal-progress-obscured.png` show overlapping controls. The cause and conditions have not been established; neither supports a confirmed persistent app defect.
