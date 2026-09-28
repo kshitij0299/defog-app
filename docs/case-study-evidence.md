@@ -27,6 +27,18 @@
 | `BEHAV-001` | Brain dump → categorize (BYOM or legacy fallback) → Review & Confirm → Tasks/Goals | `defog iOS/Services/`, `defog iOS/Views/`, `defog iOS/ViewModels/` | Fact (code-read) |
 | `BEHAV-002` | Tasks finite (`today/thisWeek/someday`) + optional `linkedGoal`; goal completion logs `GoalEntry`; onboarding copy as in code | `defog iOS/Models/`, `defog iOS/Views/` | Fact (code-read) |
 
+## Current walkthrough and correction record
+
+| ID | Evidence | Status |
+|---|---|---|
+| `WALK-001` | Local typed capture → preview → review → save worked with synthetic content; no API key. | Expert walkthrough, not usability validation |
+| `CORR-UX01` | [Settled goal capture 17](evidence/2026-09-28/17-goal-detail-reverified.png) shows the picker below navigation and the action above tabs after reopening. Captures 10/11 are superseded for layout; their cause is unknown. | Original defect claim withdrawn |
+| `FIGMA-CORR` | The owner caught baseline translation errors. Goal structure, native picker, navigation symbols, timeline marker, typography and action positions were corrected. Settings rows/fields and Review card metadata also needed translation corrections. | Design-production corrections, not app improvements |
+| `FIGMA-BASE` | Twelve editable baseline frames on page `967:1893`; incomplete coverage and fidelity review. Apple instances used for matching native controls. | Draft |
+| `AUDIT-001` | [Eleven findings](ux-audit.md): expert observations, UX-05 as hypothesis, UX-09–12 as source risks. UX-01 retained only as a correction record. | Formative; no measured outcomes |
+| `FIGMA-SLOTS` | Owner requires full tab95 and home34 component slots, y745–840 and y840–874. | Canvas convention; differs from runtime capture |
+| `APP-UNCHANGED` | Application source remains unchanged through the documentation/Figma phase. | No implemented improvement yet |
+
 ## Historical claims requiring corroboration
 
 | Claim | Old source | Needed |
@@ -39,7 +51,7 @@
 ## Future evidence placeholders (all Pending)
 
 - `PENDING-PROTO`: prototype approval decision + date.
-- `PENDING-BEFORE`: before screenshots on fresh Simulator 26.2 with synthetic data.
+- Additional before-state coverage remains pending; 17 existing captures are indexed in [the capture notes](evidence/2026-09-28/README.md).
 - `PENDING-AFTER`: after screenshots post-approved Figma changes.
 - `PENDING-VALID`: user validation quotes/observations per issue ID.
 - `PENDING-METRICS`: only metrics observed after approval; none claimed now.

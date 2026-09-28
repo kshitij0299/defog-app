@@ -14,7 +14,10 @@ The user approved documentation, simulator inspection, UX auditing, Figma recons
 
 - Figma file: `v6VyKHrnxzBtkDuCl8nneS`.
 - User-supplied starting node/page: `967:1893`; inspect its type before writing.
+- Device target: retain iPhone 17 Pro at 402×874 points per the user’s latest clarification. Working frames are rectangular; include native status bar (62pt region), home indicator (34pt region), and respect safe areas. Do not redo existing captures solely to change the device model. Place full component bounds in separate layout slots: tab bar height95 ends at y840; home indicator height34 starts at y840. Do not overlay these component frames or align only their visible shapes.
 - Use the running app as the baseline. Existing old Figma pages are historical reference only; preserve them.
+- Native-first Figma rule: whenever an appropriate Apple design-system component exists, import and use an instance, customizing its properties/variants. Do not hand-draw substitutes for segmented controls, switches, navigation controls, standard buttons, fields, or device chrome. Custom auto-layout construction is for Defog-specific UI without a matching native component. Audit and correct existing substitutes before expanding screens.
+- Evidence correction: settled capture `17-goal-detail-reverified.png` supersedes captures 10/11 for goal layout. UX-01 is withdrawn as a confirmed app defect. The baseline Figma translation had errors; do not reproduce or cite those as application bugs. Verify settled live UI and distinguish canvas conventions from runtime measurements.
 - Create separate pages for audit findings and redesigned screens/prototype as needed.
 - Maintain case-study evidence during the work; verify research provenance with the user before claiming outcomes.
 

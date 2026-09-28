@@ -11,6 +11,8 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 - [Screen inventory](docs/screen-inventory.md)
 - [Design history](docs/design-history.md) and [case-study evidence](docs/case-study-evidence.md)
 - [Current redesign status](docs/project-status.md)
+- [UX audit and evidence corrections](docs/ux-audit.md)
+- [Figma artifact ledger](design/figma/README.md)
 
 ## Repository structure
 
@@ -38,7 +40,7 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 1. Open `defog.xcodeproj` in Xcode 26.2 (verified)
 2. Select the shared `defog-cli` scheme and a simulator or device running iOS 26.1+
 3. Build and run (`⌘R`)
-4. (Optional) Add an OpenRouter API key in **Settings → AI Settings** to enable LLM-powered categorization
+4. (Optional) Add an OpenRouter API key in **Settings → BYOM** to enable LLM-powered categorization
 
 ## Key features
 
@@ -55,6 +57,6 @@ Defog is a calm, brain-dump-first iOS productivity app. Users dump thoughts (tex
 
 ## Configuration
 
-- **AI:** Settings → AI Settings → paste any OpenRouter-compatible API key + choose model. Falls back to on-device rule-based categorization if no key is set.
-- **Voice:** Settings → Voice. Transcription uses Apple's SFSpeech framework; server recognition is permitted, so it is not guaranteed to stay on-device.
+- **AI:** Settings → BYOM → paste any OpenRouter-compatible API key + choose model. Falls back to on-device rule-based categorization if no key is set.
+- **Voice:** The microphone action in Brain Dump uses Apple's SFSpeech framework; server recognition is permitted, so it is not guaranteed to stay on-device.
 - **Sync:** Chosen at first launch. Local → iCloud upgrade is available in Settings, but the current migration omits task-to-goal links. iCloud → local is not supported. See the development notes before testing migration with meaningful data.

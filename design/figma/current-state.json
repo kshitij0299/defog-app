@@ -1,0 +1,119 @@
+{
+  "updated": "2026-09-28",
+  "fileKey": "v6VyKHrnxzBtkDuCl8nneS",
+  "phase": "Baseline fidelity review; redesign not started",
+  "baselinePageId": "967:1893",
+  "auditPageId": "987:241",
+  "frames": [
+    {
+      "id": "974:237",
+      "name": "Baseline / Home / Empty",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:87",
+      "name": "Baseline / Home / Populated",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:163",
+      "name": "Baseline / Tasks / Populated",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:242",
+      "name": "Baseline / Goals / Populated",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:296",
+      "name": "Baseline / Brain Dump / Empty",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:330",
+      "name": "Baseline / Brain Dump / Live preview",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:383",
+      "name": "Baseline / Review & Confirm / Three items",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:436",
+      "name": "Baseline / Goal detail / Reverified",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:492",
+      "name": "Baseline / Daily Summary / One entry",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:521",
+      "name": "Baseline / Settings / Local mode",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:570",
+      "name": "Baseline / Archived Goals / Empty",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "id": "984:591",
+      "name": "Baseline / Onboarding / Welcome",
+      "width": 402,
+      "height": 874
+    }
+  ],
+  "sourceBaseline": "11ba317",
+  "appImplementationChanged": false,
+  "withdrawnClaim": "UX-01",
+  "verifiedGoalCapture": "docs/evidence/2026-09-28/17-goal-detail-reverified.png",
+  "verifiedCorrections": [
+    "Native segmented control and clear navigation/action layout on Goal detail",
+    "Goal/title markers, SF navigation symbols and italic timeline entry",
+    "Review schedule tags restored to the task title row",
+    "Settings native rows, disabled test action, native fields and single-line endpoint representation",
+    "Live-preview native Done accessory; preview spacing corrected to preserve visible goal content"
+  ],
+  "knownGaps": [
+    "Not complete baseline state coverage",
+    "Source-only reconstructed Goals and Daily Summary need settled simulator captures",
+    "Settings lower sections incomplete",
+    "Baseline custom card component reuse still needs consolidation",
+    "Remaining screens need final fidelity review; no claim of pixel identity",
+    "No redesigned page or clickable prototype yet"
+  ],
+  "nativeInstances": {
+    "goalPicker": "990:366",
+    "settingsFields": [
+      "995:352",
+      "995:356",
+      "995:360"
+    ],
+    "settingsRows": [
+      "1004:470",
+      "1004:473",
+      "1004:501"
+    ],
+    "keyboardDone": "1007:386"
+  },
+  "notes": [
+    "Figma bottom slots follow the user convention, not exact runtime geometry",
+    "Historical construction scripts are not a regeneration pipeline",
+    "Figma rendering truncation of endpoint is represented by an explicit shortened display value; source URL unchanged"
+  ]
+}

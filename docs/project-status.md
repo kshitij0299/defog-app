@@ -46,10 +46,21 @@ Product, architecture, development, screen-inventory, design-history, and case-s
 - Historical context was supplied in `Defog-Case-Study-Kit` within the user's external case-study folder.
 - Traycer tickets are open in Cursor and may explain older decisions. They have not been inspected; treat them as historical until verified.
 
-## Not yet established
+## Current design work
 
-- Completion of the full simulator walkthrough. Initial screenshots now cover first-launch permissions, onboarding, storage, Home, Brain Dump, confirmation, and goal detail/overview. A goal-detail safe-area overlap is observed; audit in progress.
-- First composed Figma screen visual validation; the supplied page is confirmed empty and Apple iOS26/27 libraries are available.
-- Whether old research participant counts and outcomes are supported by original evidence.
+- [Editable baseline](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=967-1893): 12 reconstructed frames. This is still a fidelity-review draft, not complete state coverage.
+- [Audit and evidence](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=987-241): eleven findings (expert observations, one design hypothesis, four source risks) and one withdrawn claim.
+- Seventeen simulator captures are preserved in `docs/evidence/2026-09-28/`. They use synthetic content and local processing with no API key.
+- **Evidence correction:** after a clean relaunch, capture 17 shows the goal picker and progress actions clear of navigation. The earlier UX-01 claim is withdrawn. Captures 10/11 show a different state whose cause is unknown. The Figma translation had additional errors; the corrected goal frame is `984:436`. Do not turn those errors into app findings.
+- Apple component instances now cover status, tabs, home indicator, navigation buttons, goal segmented control, Settings fields/rows/switch and onboarding page control. Preserve actual Defog-specific custom UI where it is present in source. Check layout after editing instance variants/properties.
+- Keep 402×874 rectangular frames. The agreed Figma bottom slots are tab95 at y745–840 and home34 at y840–874. This convention differs from runtime screenshots and is documented, not claimed as pixel-identical capture.
+- The free Muse documentation reviewer completed the evidence-correction review with zero reported model cost. Primary owns UI reconstruction corrections and verification.
 
-Do not interpret this setup record as a completed UX audit or validated redesign.
+## Remaining work
+
+- Finish baseline fidelity and state coverage. Goal detail, Review and Settings received targeted visual checks after correction. Live preview received a native keyboard accessory and spacing correction; the updated render was checked against capture 07. Source-only reconstructed states need settled simulator evidence.
+- Create the separate redesigned page and clickable high-fidelity prototype. Neither is complete or approved.
+- Verify historical research provenance with the owner before writing outcomes into the portfolio narrative.
+- After prototype approval only: implement, run app-level checks, validate with users, and record genuine results.
+
+No app implementation was changed. Do not interpret the Figma draft as a validated redesign or the walkthrough as a user study.
