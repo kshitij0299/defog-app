@@ -1,0 +1,116 @@
+{
+  "fileKey": "v6VyKHrnxzBtkDuCl8nneS",
+  "baselinePage": {
+    "id": "967:1893",
+    "name": "new work 1"
+  },
+  "viewport": {
+    "width": 402,
+    "height": 874,
+    "device": "iPhone 17 Pro",
+    "runtime": "iOS 26.2",
+    "cornerRadius": 0,
+    "safeAreas": {
+      "top": 62,
+      "bottom": 34
+    },
+    "tabBarBounds": {
+      "y": 745,
+      "height": 95,
+      "bottom": 840
+    },
+    "homeIndicatorBounds": {
+      "y": 840,
+      "height": 34,
+      "bottom": 874
+    }
+  },
+  "fonts": [
+    "SF Pro",
+    "SF Pro Rounded"
+  ],
+  "libraries": {
+    "iOS26": "lk-a5b98decf0fb24381005421a2986b813149fcf20f37a1169316d44e2802c483494c6fc98ab8e083540a73bd5e45cf892a38123ee61981aee097d5f4eb8487a17",
+    "iOS27": "lk-3167e7e1386e96621fc3b20782e2ec1b199754eeceff2ef04bf90d28a124be6414b67982dc8fb71ea1896b0310c316f54d7b9f0ac598cb3111748728c039a567"
+  },
+  "baselineComponents": {
+    "statusBar": {
+      "key": "51ddb19de206b67eae2d554b1d20c018feb754f4",
+      "type": "COMPONENT",
+      "width": 402,
+      "height": 62,
+      "timeProperty": "Time#5466:4"
+    },
+    "tabBar": {
+      "key": "1a05576da751e45de479836ff1f59971cedc2606",
+      "type": "COMPONENT_SET",
+      "variant": "Separate Search=True, Minimized=False, Tabs=4",
+      "width": 402,
+      "height": 95,
+      "labelProperty": "Label#5735:10",
+      "symbolProperty": "Symbol#5735:9",
+      "separateSymbolProperty": "Symbol#5735:8"
+    },
+    "homeIndicator": {
+      "key": "57e63be8a13766c2cd47d069a1ef133b4b9df69c",
+      "width": 402,
+      "height": 34,
+      "y": 840
+    },
+    "segmentedControl": {
+      "key": "8922aa130fa8f99812b6f4d9791d90558295b52a",
+      "variant": "Segments=2, Selected=1",
+      "instanceId": "990:366"
+    },
+    "symbolButton": {
+      "key": "bae56ff9b36723a4780ab9bc01ec7dcac3a67b38",
+      "variant": "Tinted=False"
+    },
+    "textButton": {
+      "key": "9f6ac5f06e70da8bc816bac2c6f0b011461eb244",
+      "variant": "Tinted=False"
+    },
+    "textField": {
+      "key": "7aba90bfa152536a5dd439235a094feff7d782f5",
+      "instances": [
+        "995:352",
+        "995:356",
+        "995:360"
+      ]
+    },
+    "toggle": {
+      "key": "6870a24f707c4efce351e7394fc136a76a11d472",
+      "variant": "State=Off"
+    },
+    "pageControl": {
+      "key": "c167c398ef9e3bb606f529ee01fbbadfceb83b23",
+      "variant": "Dots=3, Selection=1"
+    },
+    "tableRow": {
+      "key": "5587f1ebded12290ac2731cef9d68f98a4a0ac61",
+      "variant": "Height=Regular"
+    },
+    "rowButton": {
+      "key": "7b9ac5d38db7ef9ca9b7c0bbba9d0e46187d1fa6",
+      "variants": [
+        "Value=Default",
+        "Value=Disabled"
+      ]
+    }
+  },
+  "baselineVariables": {
+    "background": "fc58d0b92f4465e62a155957411893a6c6ca3cc5",
+    "label": "be4259bb75a4279fc39e5100262719271f57a243"
+  },
+  "notes": [
+    "Import assets by key in each construction call. Imported remote IDs without persisted instances did not resolve in a later call.",
+    "Tab count includes the separate search action: three navigation tabs plus Add require Tabs=4.",
+    "The current app uses the separate search-role tab as Add. Preserve this in baseline; evaluate its semantics in redesign.",
+    "No Code Connect mappings found in native Swift source. Supplied baseline page was empty; old pages excluded at user request.",
+    "Search server currently clamps batches to one query; verify which requested assets were actually returned.",
+    "User supplied standard iPhone17 reference975:1939,402x874 radius44 status62 home34. Reference inspected and removed by explicit request; future screens include native status and home indicator. Original simulator captures used17Pro at same402x874 viewport.",
+    "Latest user clarification: retain existing17Pro setup, rectangular working frames acceptable. Native status/home and safe areas remain required.",
+    "User explicitly requests non-overlapping full component frames including their built-in padding. TabBar bottom840 equals HomeIndicator top840; tabbar movedup34pt.",
+    "Capture 17 supersedes 10/11 for goal layout. UX-01 withdrawn. Native control use does not itself guarantee faithful layout; visually compare against settled simulator state."
+  ]
+}

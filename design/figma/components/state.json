@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-29",
+  "phase": "review-ready",
+  "fileKey": "v6VyKHrnxzBtkDuCl8nneS",
+  "pageName": "Components",
+  "status": "System review only; redesign paused",
+  "scope": [
+    "Foundations: seven text styles; SF Pro Rounded titles/headings/buttons, native SF Pro device chrome; full tokenization deferred",
+    "Native: status/home regions, tab bar, navigation buttons, action buttons, fields, switch, segmented control, list rows, page control, menu, alert, spinner",
+    "Defog: task card active/completed/preview, schedule and goal pills, compact/full goal card, timeline quick/note, calendar cells, composer and capture states, empty state, progress actions, toast, daily prompt",
+    "Context: copied current-app Home, Tasks, Goal detail, Brain Dump, Settings, Onboarding; rebuilt with local master instances where applicable",
+    "Two blank owner workspace areas for each family"
+  ],
+  "decisions": [
+    "Keep existing baseline and paused redesign pages unchanged.",
+    "Examples are current-app structure with candidate library components, not approved redesigned screens or pixel-identical runtime captures.",
+    "Use local wrapper masters with exposed nested native instances. Do not detach Apple components.",
+    "One Components page overrides skill default separate pages.",
+    "No new Code Connect publication during review; source paths documented and no app changes.",
+    "No new custom variables or collections. Existing Apple semantic bindings preserved.",
+    "Owner requests design-system agreement before redesign resumes.",
+    "Master propagation checked for titles, cards and nested buttons; original appearance restored."
+  ],
+  "pageId": "1053:375",
+  "counts": {
+    "families": 30,
+    "mainComponentsIncludingVariants": 55,
+    "variantSets": 14,
+    "blankOwnerAreas": 60,
+    "textStyles": 7,
+    "fullContextScreens": 11,
+    "contextDetails": 3
+  },
+  "validation": "validation.json",
+  "propagationTest": "propagation-test.json",
+  "reviewResolution": "review-resolution.json",
+  "workerReview": {
+    "model": "opencode/muse-spark-1.3-contributor-free",
+    "variant": "xhigh",
+    "reportedCost": 0,
+    "status": "Coordinator resolved documentation questions; historical script reuse limitations documented."
+  }
+}

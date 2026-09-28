@@ -1,0 +1,33 @@
+// Append after common.js. Additional component context, not redesigned flows.
+const states=[];
+async function instance(id,parent,name){const c=await figma.getNodeByIdAsync(id);await fonts(c);const i=track(c.createInstance());parent.appendChild(i);if(name)i.name=name;return i;}
+function property(i,label,value){const key=Object.keys(i.componentProperties).find(k=>k===label||k.startsWith(label+'#'));if(key)i.setProperties({[key]:value});}
+function clear(n){for(const c of [...n.children]){removed.push(c.id);c.remove();}}
+async function cloneScreen(source,board,name,note){if(cols[board][3].children.some(n=>n.name===name))throw Error('Context exists: '+name);text(cols[board][3],name.replace('Context / ',''),402,'Headline');const src=await figma.getNodeByIdAsync(source);await fonts(src);const c=track(src.clone());cols[board][3].appendChild(c);c.name=name;text(cols[board][3],note,402,'Caption','secondary');states.push({id:c.id,name,sourceId:source,board});return c;}
+function plain(i,label){const n=i.findAllWithCriteria({types:['INSTANCE']}).find(n=>'Label#488:0'in n.componentProperties);n.setProperties({'Label#488:0':label});mutated.push(n.id);}
+function section(parent,name){const f=stack(parent,name,402,16);f.paddingLeft=16;f.paddingRight=16;f.paddingTop=20;f.paddingBottom=20;f.fills=[paint('bg')];return f;}
+// Goal progress calendar is the app's rolling 35-day grid, not a date picker.
+const calendar=await cloneScreen('1060:1074',2,'Context / Calendar','Current rolling 35-day structure · synthetic dates. Every day is an instance; calendar state is linked to the native segmented-control master.');
+const cc=calendar.children.find(n=>n.name==='Content');const picker=cc.children[0];picker.swapComponent(await figma.getNodeByIdAsync('1055:632'));mutated.push(picker.id);const entry=cc.children[1];const grid=stack(cc,'Last 35 Days',370,12);cc.insertChild(1,grid);entry.remove();removed.push(entry.id);text(grid,'Last 35 Days',370,'Headline');
+for(let r=0;r<5;r++){const row=track(figma.createAutoLayout('HORIZONTAL'));grid.appendChild(row);row.name='Week '+(r+1);row.fills=[];row.resize(370,44);row.itemSpacing=10;for(let c=0;c<7;c++){const index=r*7+c;const day=await instance(index===34?'1058:773':index===33?'1058:771':'1058:769',row);property(day,'Day',String(index<6?26+index:index-5));}}
+// Goals list crop and a real empty-goals screen provide context for both families.
+text(cols[2][3],'Goals list · component detail',402,'Headline');const goalCrop=section(cols[2][3],'Context crop / Goals list');await instance('1058:729',goalCrop);states.push({id:goalCrop.id,name:goalCrop.name,board:2});
+const empty=await cloneScreen('1060:903',5,'Context / Goals empty','Current Goals empty-state structure with candidate typography. Source: GoalsView.swift.');
+property(empty.children.find(n=>n.name==='Large title'),'Title','Goals');empty.children.find(n=>n.name==='Tab Bar - iPhone').swapComponent(await figma.getNodeByIdAsync('1055:492'));
+const ec=empty.children.find(n=>n.name==='Content');clear(ec);ec.paddingTop=60;ec.paddingLeft=16;ec.paddingRight=16;const ei=await instance('1058:903',ec);property(ei,'Title','No goals yet.');property(ei,'Message','Add one via brain dump.');
+// A current task deletion dialog over the Tasks screen.
+const deletion=await cloneScreen('1060:903',1,'Context / Delete task','Current destructive decision · native alert instance. This illustrates appearance, not a wired interaction.');
+async function overlay(screen,master,label){const veil=track(figma.createFrame());screen.appendChild(veil);veil.name=label+' overlay';veil.layoutPositioning='ABSOLUTE';veil.resize(402,874);veil.x=0;veil.y=0;veil.fills=[{type:'SOLID',color:{r:0,g:0,b:0},opacity:.25}];veil.layoutMode='VERTICAL';veil.primaryAxisAlignItems='CENTER';veil.counterAxisAlignItems='CENTER';await instance(master,veil);return veil;}
+await overlay(deletion,'1055:985','Delete confirmation');
+// Processing screen uses the existing ProcessingView content and native activity indicator.
+const processing=await cloneScreen('1060:1238',3,'Context / Processing','Current ProcessingView content · local rules path shown. The activity indicator and Cancel button are component instances.');
+const pc=processing.children.find(n=>n.name==='Content');clear(pc);pc.primaryAxisAlignItems='CENTER';pc.counterAxisAlignItems='CENTER';pc.itemSpacing=16;await instance('1055:1078',pc);const making=text(pc,'Making sense...',370,'Headline','secondary');making.textAlignHorizontal='CENTER';const path=text(pc,'Local rules',370,'Caption','secondary');path.textAlignHorizontal='CENTER';const pb=processing.children.find(n=>n.name==='Bottom actions');clear(pb);pb.resize(402,1);pb.layoutSizingVertical='FIXED';
+const pn=processing.children.find(n=>n.name==='Navigation');clear(pn);pn.paddingLeft=16;pn.paddingRight=16;pn.primaryAxisAlignItems='MIN';pn.itemSpacing=8;const cancel=await instance('1055:595',pn);cancel.resize(76,44);plain(cancel,'Cancel');const title=text(pn,'Processing',200,'Headline');title.textAlignHorizontal='CENTER';
+// Source's custom daily decision, composed with shared native button instances.
+const daily=await cloneScreen('1060:748',5,'Context / Daily prompt','Current decision and copy. All three actions use the shared button masters; source-only state, not new runtime evidence.');await overlay(daily,'1058:916','Daily prompt');
+// Small context crops keep supporting states near their families without another full flow.
+text(cols[4][3],'Field composition · exploration',402,'Headline');const form=section(cols[4][3],'Context crop / Labeled BYOM field');await instance('1058:875',form);text(cols[4][3],'Candidate persistent label for UX-08. This is a component exploration, not an approved Settings redesign.',402,'Caption','secondary');states.push({id:form.id,name:form.name,board:4});
+text(cols[5][3],'Task feedback · context detail',402,'Headline');const feedback=section(cols[5][3],'Context crop / Task feedback');feedback.counterAxisAlignItems='CENTER';await instance('1058:671',feedback);await instance('1058:892',feedback);text(cols[5][3],'Task and toast share local masters. Toast lifetime and actual overlay placement belong to runtime validation.',402,'Caption','secondary');states.push({id:feedback.id,name:feedback.name,board:5});
+// Board positions derive from final content height, avoiding overlap as examples grow.
+let y=660;for(const id of ['1053:403','1053:414','1053:425','1053:436','1053:447','1053:458']){const b=await figma.getNodeByIdAsync(id);b.y=y;y+=b.height+100;mutated.push(b.id);}
+return {...summary(),states,boards:page.children.map(n=>({id:n.id,name:n.name,x:n.x,y:n.y,w:n.width,h:n.height}))};

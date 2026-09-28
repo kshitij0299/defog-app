@@ -1,0 +1,515 @@
+{
+  "screens": [
+    {
+      "id": "home-populated",
+      "title": "Home populated",
+      "sourceFiles": [
+        "defog iOS/Views/Home/HomeView.swift",
+        "defog iOS/Views/Tasks/TaskCardView.swift",
+        "defog iOS/Views/Home/DailySummaryView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Active Goals",
+          "headerFont": ".title2.weight(.bold).fontDesign(.rounded)",
+          "layout": "VStack leading spacing12 paddingTop; header HStack paddingHorizontal; horizontal ScrollView showsIndicators false HStack spacing12 paddingHorizontal",
+          "copy_empty": "No active goals. Add some via brain dump. (.subheadline secondary paddingHorizontal)",
+          "copy_populated": "Carousel CompactGoalCard NavigationLink(value:Goal) plain; synthetic: Guitar purple #A78BFA + Updated today + 1 entry"
+        },
+        {
+          "header": "Today's Tasks",
+          "headerFont": ".title2.weight(.bold).fontDesign(.rounded)",
+          "layout": "VStack leading spacing12 paddingTop; LazyVStack spacing12 paddingHorizontal prefix 3 TaskCardView",
+          "copy_empty": "Nothing for today. Add something? (.subheadline secondary)",
+          "copy_populated": "Buy groceries TaskCard Today unlinked; if count>3 link +N more tasks + arrow.right .subheadline.medium rounded blue paddingHorizontal top4 -> TasksView"
+        },
+        {
+          "background": "systemGroupedBackground",
+          "scroll": "ScrollView VStack leading spacing20 scrollDismissesKeyboard interactively navigationTitle Home"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "topBarTrailing",
+          "items": "HStack spacing16: sun.max primary -> fullScreenCover DailySummaryView in NavigationStack; gearshape primary -> openSettings()"
+        }
+      ],
+      "bottomControls": [],
+      "importantStates": [
+        "Today filter incomplete schedule==today; ActiveGoals filter archivedAt==nil sort createdAt forward",
+        "Push GoalDetailView for Goal, TasksView for MoreTasks",
+        "Toast on task actions",
+        "Synthetic Guitar quick entry counts for Updated today"
+      ]
+    },
+    {
+      "id": "tasks-populated",
+      "title": "Tasks populated",
+      "sourceFiles": [
+        "defog iOS/Views/Tasks/TasksView.swift",
+        "defog iOS/Views/Tasks/TaskCardView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Today",
+          "headerFont": ".title3.bold rounded + count .subheadline rounded secondary",
+          "layout": "ScrollView LazyVStack spacing24 paddingVertical; taskSection VStack leading spacing12 header paddingHorizontal + LazyVStack spacing12 paddingHorizontal",
+          "copy_empty": "No tasks for today. Feeling organized!",
+          "copy_populated": "Buy groceries TaskCard Today unlinked"
+        },
+        {
+          "header": "This Week",
+          "copy_empty": "Nothing planned for this week.",
+          "copy_populated": "Call the dentist TaskCard This Week unlinked"
+        },
+        {
+          "header": "Someday",
+          "copy_empty": "No tasks waiting for someday.",
+          "copy_populated": "none in synthetic"
+        },
+        {
+          "header": "Completed",
+          "layout": "DisclosureGroup collapsed showCompleted false accent primary chevron paddingHorizontal label Completed title3 bold + count",
+          "copy": "hidden when empty"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "topBarTrailing",
+          "items": "gearshape primary -> openSettings()"
+        }
+      ],
+      "bottomControls": [],
+      "importantStates": [
+        "Filters: !completed + schedule today/thisWeek/someday; completed separate",
+        "Inline edit, schedule/goal menus, delete confirm, toasts per TaskCard",
+        "scrollDismissesKeyboard interactively background systemGroupedBackground navigationTitle Tasks"
+      ]
+    },
+    {
+      "id": "goals-populated",
+      "title": "Goals populated",
+      "sourceFiles": [
+        "defog iOS/Views/Goals/GoalsView.swift",
+        "defog iOS/Views/Goals/GoalCardView.swift"
+      ],
+      "sections": [
+        {
+          "header": "none - list",
+          "layout": "ScrollView LazyVStack spacing12 padding NavigationLink(value:Goal) plain GoalCardView",
+          "copy_empty": "target 48 secondary 0.5 + No goals yet. headline + Add one via brain dump. subheadline secondary VStack spacing16 top60 padding maxWidth infinity",
+          "copy_populated": "Guitar purple GoalCard 1 entry no flame (streak<2)"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "topBarTrailing",
+          "items": "gearshape primary -> openSettings()"
+        }
+      ],
+      "bottomControls": [],
+      "importantStates": [
+        "Filter archivedAt==nil sort createdAt forward",
+        "Push GoalDetailView background systemGroupedBackground navigationTitle Goals"
+      ]
+    },
+    {
+      "id": "braindump-empty",
+      "title": "Brain Dump empty",
+      "sourceFiles": [
+        "defog iOS/Views/BrainDump/BrainDumpView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Brain Dump",
+          "headerFont": ".title2.bold rounded paddingHorizontal top8",
+          "subheader": "Tell me everything on your mind (.subheadline secondary paddingHorizontal bottom8)"
+        },
+        {
+          "header": "livePreview",
+          "layout": "ScrollView VStack leading spacing16 bottom12 maxHeight infinity scrollDismissesKeyboard interactively spring 0.42/0.86",
+          "copy_empty": "when text empty no hint; when text non-empty no live not loading: Keep going \u2014 recognized tasks and goals show up here. (.subheadline tertiary center vertical24 horizontal)"
+        },
+        {
+          "header": "composer",
+          "layout": "see componentSpecifications composer"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarLeading",
+          "items": "arrow.left secondary dismiss"
+        },
+        {
+          "placement": "keyboard",
+          "items": "Spacer + Done semibold resign focus"
+        }
+      ],
+      "bottomControls": [
+        {
+          "control": "mic 56x56 RoundedRectangle16 mic.fill primary gray6; recording square.fill white red scale1.05",
+          "control2": "Process headline white maxWidth maxHeight56 RoundedRectangle16 primary if canProcess else gray disabled when trimmed empty"
+        }
+      ],
+      "importantStates": [
+        "placeholder Buy groceries, call dentist, learn motion design\u2026 body tertiary top18 leading16",
+        "Understanding loader ProgressView + Understanding\u2026 caption secondary",
+        "permission banner exclamationmark.triangle.fill orange Voice input needs microphone access. + Enable in Settings caption semibold; Finalizing transcription\u2026 branch",
+        "navigationDestination isProcessing -> ProcessingView Making sense... + path label caption + Cancel clears result"
+      ]
+    },
+    {
+      "id": "braindump-live",
+      "title": "Brain Dump live",
+      "sourceFiles": [
+        "defog iOS/Views/BrainDump/BrainDumpView.swift",
+        "defog iOS/Views/Components/TaskCardChrome.swift",
+        "defog iOS/Views/Components/TaskPillView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Marking complete",
+          "icon": "checkmark.circle.fill",
+          "row": "BrainDumpLiveCompletionRow checkmark.circle.fill green + title subheadline strikethrough secondary lineLimit2 padding background systemBackground RoundedRectangle12 stroke green 0.35"
+        },
+        {
+          "header": "Tasks",
+          "icon": "checkmark.square",
+          "row": "BrainDumpLiveTaskRow TaskCardChromeContentOnly + Text body primary lineLimit2 + HStack spacing8 pills top6 + leading16 if accent; synthetic Buy groceries Today orange + Call the dentist This Week blue unlinked"
+        },
+        {
+          "header": "Goals",
+          "icon": "target",
+          "row": "BrainDumpLiveGoalRow chrome + HStack center spacing8 Circle 8 + name body primary; pending hex hash palette [#A78BFA first] e.g. Guitar #A78BFA"
+        },
+        {
+          "header": "Goal updates",
+          "icon": "pencil.line",
+          "row": "text subheadline + goalName caption2 semibold secondary padding background systemBackground RoundedRectangle12 stroke blue 0.25"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarLeading",
+          "items": "arrow.left secondary"
+        },
+        {
+          "placement": "keyboard",
+          "items": "Spacer + Done semibold"
+        }
+      ],
+      "bottomControls": [
+        {
+          "control": "Process enabled gray->primary",
+          "mic": "mic.fill / square.fill as empty state"
+        }
+      ],
+      "importantStates": [
+        "insertion move leading/trailing + opacity",
+        "linkedExisting case-insensitive match else pending hex",
+        "onChange aggregatedText + text -> onTextChangedForLiveExtraction"
+      ]
+    },
+    {
+      "id": "confirmation",
+      "title": "Confirmation",
+      "sourceFiles": [
+        "defog iOS/Views/BrainDump/ConfirmationView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Review & Confirm",
+          "headerFont": ".title2.bold",
+          "subheader": "Tap \u00d7 to remove \u00b7 tap tag to reschedule \u00b7 tap goal chip to reassign \u00b7 completions mark existing tasks done (.caption secondary) paddingHorizontal top"
+        },
+        {
+          "header": "Marking complete",
+          "icon": "checkmark.circle.fill",
+          "row": "TaskCompletionRow green strikethrough + xmark bold secondary padding systemBackground RoundedRectangle12 stroke green 0.35"
+        },
+        {
+          "header": "These look like tasks",
+          "icon": "checkmark.square",
+          "row": "ConfirmationItemRow text subheadline lineLimit2 + tag caption2 semibold rounded h8 v4 + xmark + goal Menu TaskPill; padding systemBackground RoundedRectangle12 stroke systemGray5 1 leading 3pt accent if linked; drop placeholder Drop items here to create tasks dashed systemGray4 dash[4]"
+        },
+        {
+          "header": "New goals",
+          "icon": "target",
+          "row": "same row no tag; placeholder Drop items here to create new goals"
+        },
+        {
+          "header": "Goal updates",
+          "icon": "pencil.line",
+          "row": "tag {goalName \u25be} blue 0.1 no drop target"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarLeading",
+          "items": "arrow.left primary rootIsActive=false backHidden"
+        }
+      ],
+      "bottomControls": [
+        {
+          "control": "Looks Good! headline white maxWidth minHeight56 blue cornerRadius16 paddingHorizontal bottom8; hidden if isEmpty; save + recordActivity + dismiss"
+        }
+      ],
+      "importantStates": [
+        "Empty: Hmm, I couldn't find any tasks or goals. headline + Try rephrasing? subheadline secondary center top40",
+        "Draggable task:/newGoal:/goalUpdate: width-64 scale1.03 opacity0.85; drop blue 0.05 bg + 0.3 stroke",
+        "Schedule Menu via scheduleTagLabel chevron + scheduleTagBackground orange0.2/indigo0.2/gray0.2"
+      ]
+    },
+    {
+      "id": "goal-detail-timeline",
+      "title": "Goal Detail timeline",
+      "sourceFiles": [
+        "defog iOS/Views/Goals/GoalDetailView.swift",
+        "defog iOS/Views/Goals/TimelineTabView.swift"
+      ],
+      "sections": [
+        {
+          "header": "View Selection",
+          "layout": "Picker segmented padding Timeline tag0 Calendar tag1"
+        },
+        {
+          "header": "Timeline rows",
+          "layout": "ScrollView VStack leading spacing0 paddingTop ForEach enumerated HStack top spacing16 paddingHorizontal",
+          "row": "VStack Circle 12 goal color top4 + Rectangle width2 secondary0.2 if not last; VStack leading spacing4 date caption2 secondary month day hour minute + quick \u2713 Did something italic secondary else detailed text padding12 secondarySystemGroupedBackground cornerRadius8 else Logged progress secondary bottom24"
+        },
+        {
+          "header": "synthetic",
+          "copy": "Guitar purple 1 quick entry -> \u2713 Did something row"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarTrailing",
+          "items": "Menu ellipsis.circle: Rename Goal pencil / Archive Goal archivebox / Delete Goal trash destructive"
+        },
+        {
+          "placement": "principal",
+          "items": "HStack spacing6 Circle8 hex + name headline rounded; if streak>=2 N days in a row caption2 orange"
+        }
+      ],
+      "bottomControls": [
+        {
+          "control": "Divider + if detailed input VStack TextField What did you do today? roundedBorder + Cancel secondary + Save Entry borderedProminent disabled empty padding secondarySystemGroupedBackground"
+        },
+        {
+          "control2": "HStack checkmark Did something today maxWidth vertical12 green white cornerRadius12 + square.and.pencil title3 48x48 secondarySystemGroupedBackground cornerRadius12 padding systemGroupedBackground"
+        }
+      ],
+      "importantStates": [
+        "navigationTitle goal.name inline; FAB \u2726 title white 50x50 black0.8 circle trailing20 bottom16 if entries non-empty -> AIOverviewSheet",
+        "Alerts: Rename Goal / Archive Goal? You can unarchive it from Settings. unlink tasks dismiss / Delete Goal? This action is permanent... dismiss",
+        "Empty timeline: clock largeTitle secondary0.5 + No entries yet. secondary spacing12 top40"
+      ]
+    },
+    {
+      "id": "goal-detail-calendar",
+      "title": "Goal Detail calendar",
+      "sourceFiles": [
+        "defog iOS/Views/Goals/GoalDetailView.swift",
+        "defog iOS/Views/Goals/CalendarTabView.swift"
+      ],
+      "sections": [
+        {
+          "header": "View Selection",
+          "layout": "same Picker Calendar tag1"
+        },
+        {
+          "header": "Last 35 Days",
+          "headerFont": ".headline rounded paddingHorizontal",
+          "layout": "ScrollView VStack leading spacing20 top LazyVGrid 7 flexible spacing8 spacing8 paddingHorizontal",
+          "row": "DayCell RoundedRectangle6 fill goal color if hasEntries else secondarySystemGroupedBackground aspectRatio1 + today stroke primary2 + day system10 white if filled else primary; 35-day rolling today last"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarTrailing",
+          "items": "same ellipsis.circle menu"
+        },
+        {
+          "placement": "principal",
+          "items": "same dot+name+streak"
+        }
+      ],
+      "bottomControls": [
+        {
+          "control": "same quick Did something today + square.and.pencil bar"
+        },
+        {
+          "control2": "same FAB + detailed input"
+        }
+      ],
+      "importantStates": [
+        "Synthetic: today filled purple + outline; others empty",
+        "Same alerts/FAB/sheet as timeline"
+      ]
+    },
+    {
+      "id": "daily-summary",
+      "title": "Daily Summary",
+      "sourceFiles": [
+        "defog iOS/Views/Home/DailySummaryView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Tasks completed today",
+          "headerFont": ".headline rounded secondary paddingHorizontal",
+          "layout": "ScrollView VStack leading spacing32 top24 bottom40; VStack leading spacing16 cards VStack spacing1 cornerRadius12 paddingHorizontal",
+          "row": "HStack top spacing12 checkmark.circle.fill green body semibold top2 + text body primary Spacer padding secondarySystemGroupedBackground"
+        },
+        {
+          "header": "Goal progress today",
+          "headerFont": "same",
+          "row": "VStack leading spacing8 HStack Circle12 hex + name subheadline semibold rounded Spacer + N entry/entries caption rounded secondary h8 v4 tertiarySystemFill cornerRadius8 + recentText body secondary lineLimit2 padding secondarySystemGroupedBackground cornerRadius12; synthetic Guitar 1 entry Did something"
+        },
+        {
+          "header": "footer",
+          "copy": "Divider vertical24 + Nothing logged yet today \u2014 that's okay. The day's still yours. (0) / A little goes a long way. (1-2) / You showed up today. (3+) body italic secondary center"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarLeading",
+          "items": "arrow.left primary dismiss backHidden navigationTitle Daily Summary inline"
+        }
+      ],
+      "bottomControls": [],
+      "importantStates": [
+        "Empty: sun.haze 64 light secondary + Nothing logged yet today \u2014 that's okay... body secondary center horizontal40 VStack spacing24 Spacer",
+        "Derived completedAt today + entries createdAt today; total tasks+updatedGoals; setTabBarHidden true/false"
+      ]
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "sourceFiles": [
+        "defog iOS/Views/SettingsView.swift",
+        "defog iOS/Views/Settings/ArchivedGoalsView.swift"
+      ],
+      "sections": [
+        {
+          "header": "APP TOUR",
+          "headerFont": ".caption semibold rounded secondary",
+          "rows": "questionmark.circle What's the difference? primary padding secondarySystemGroupedBackground -> sheet Onboarding readOnly; Version + version secondary"
+        },
+        {
+          "header": "APPEARANCE",
+          "rows": "Toggle Dark Mode padding secondarySystemGroupedBackground cornerRadius12"
+        },
+        {
+          "header": "BYOM",
+          "rows": "collapsed checkmark.seal.fill green BYOM is connected and responding. + pencil else Endpoint URL/API Key/Model ID + Test BYOM Connection bolt.horizontal.circle / Testing... / pass-fail; footnote Bring your own model via an OpenAI-compatible endpoint. Defaults are set for OpenRouter. If API key is empty, app falls back to legacy local rules. footnote secondary"
+        },
+        {
+          "header": "REMINDERS",
+          "rows": "Toggle Inactivity reminder + Open Settings caption if denied + footnote Enable notifications in Settings to use reminders."
+        },
+        {
+          "header": "STORAGE & SYNC",
+          "rows": "Current Mode iCloud Sync/This device only + Upgrade to iCloud icloud.and.arrow.up accent if local -> alert Upgrade to iCloud / This will move all your data to iCloud..."
+        },
+        {
+          "header": "DATA MANAGEMENT",
+          "rows": "NavigationLink ArchivedGoalsView archivebox Archived Goals padding secondarySystemGroupedBackground cornerRadius12; Archived empty No archived goals. secondary else dot10 + name headline + Archived {date} caption secondary + Unarchive bordered blue swipe delete"
+        }
+      ],
+      "toolbar": [
+        {
+          "placement": "navigationBarLeading",
+          "items": "arrow.left primary dismiss backHidden navigationTitle Settings inline"
+        }
+      ],
+      "bottomControls": [],
+      "importantStates": [
+        "setTabBarHidden true/false interactiveDismissDisabled true; migration overlay black0.4 + Migrating to iCloud... headline + N / M items systemBackground cornerRadius16"
+      ]
+    },
+    {
+      "id": "onboarding",
+      "title": "Onboarding",
+      "sourceFiles": [
+        "defog iOS/Views/OnboardingView.swift",
+        "defog iOS/Views/RootView.swift",
+        "defog iOS/Views/StorageChoiceView.swift"
+      ],
+      "sections": [
+        {
+          "header": "Slide 0",
+          "icon": "brain.head.profile accent 80",
+          "title": "Clear your mind (.largeTitle bold rounded center)",
+          "copy": "Jot down everything bouncing around in your head. We'll help you sort it out. (body secondary center horizontal40)"
+        },
+        {
+          "header": "Slide 1",
+          "icon": "checkmark.circle.fill accent 80",
+          "title": "Tasks are finite",
+          "copy": "Things you need to complete once, big or small."
+        },
+        {
+          "header": "Slide 2",
+          "icon": "target orange 80",
+          "title": "Goals are journeys",
+          "copy": "Ongoing pursuits that take time. Track your progress gently over time."
+        }
+      ],
+      "toolbar": [],
+      "bottomControls": [
+        {
+          "control": "if !readOnly tab<2: Skip secondary Spacer Next bold else Get Started bold maxWidth padding accent white cornerRadius12 horizontal30 bottom40; TabView page always + index always easeInOut VStack spacing24 bottom60"
+        },
+        {
+          "control2": "if readOnly: Spacer + xmark.circle.fill title2 secondary padding dismiss; complete sets onboardingCompleted true"
+        }
+      ],
+      "importantStates": [
+        "Root gate onboarding->storage choice->tabs; Storage: icloud.and.arrow.up 80 accent + Where should we save your data? title2 bold + You can always upgrade... body secondary + Use iCloud (Recommended) icloud.fill accent white cornerRadius12 + This device only secondarySystemBackground cornerRadius12 horizontal30 top60; iCloud alert iCloud Unavailable / You must be signed... Try Again/device-only"
+      ]
+    }
+  ],
+  "componentSpecifications": [
+    {
+      "id": "TaskCard",
+      "sourceFiles": [
+        "defog iOS/Views/Tasks/TaskCardView.swift",
+        "defog iOS/Views/Components/TaskCardChrome.swift"
+      ],
+      "spec": "Chrome HStack top spacing12 padding leading0 vertical12 horizontal12 bg secondarySystemGroupedBackground RoundedRectangle12 leading accent w4 Capsule v6 leading4 if linked shadow black0.05 r3 x0 y1. Checkbox circle/checkmark.circle.fill 22 blue if done gray else 44x44 tap top2. Main VStack leading spacing4 HStack top spacing8 TextField Task description plain body strikethrough secondary if done lineLimit2 Done submit+focus-loss save revert if trimmed empty + ellipsis secondary padding4 44x44 Menu Delete trash -> Delete Task? / Are you sure... Pills HStack spacing8 top6 if !completed. A11y Mark task complete/incomplete, Task text, More actions."
+    },
+    {
+      "id": "GoalCard",
+      "sourceFiles": [
+        "defog iOS/Views/Goals/GoalCardView.swift",
+        "defog iOS/Views/Home/HomeView.swift"
+      ],
+      "spec": "GoalCard HStack Circle12 hex else blue + VStack leading spacing4 name headline rounded + HStack spacing12 N entry/entries caption secondary + if streak>=2 HStack spacing4 flame.fill orange + N days caption orange rounded + Spacer + chevron.right secondary padding bg secondarySystemGroupedBackground cornerRadius12. Compact VStack leading spacing8 HStack spacing8 Circle10 + name subheadline semibold lineLimit1 + Updated today/yesterday/short/No entries yet caption2 secondary padding12 width140 leading same bg cornerRadius12 shadow 0.05 r3. Streak>=2 only."
+    },
+    {
+      "id": "schedulePill",
+      "sourceFiles": [
+        "defog iOS/Views/Components/TaskPillView.swift",
+        "defog iOS/Views/Components/TaskSchedule+TaskCard.swift",
+        "defog iOS/Views/BrainDump/TaskScheduleBrainDumpUI.swift"
+      ],
+      "spec": "TaskPill h10 v7 minHeight44 caption2 medium rounded Capsule. Schedule bg color0.15 fg color; linked dot6 + text bg0.1 stroke0.3 w1; unlinked fg systemGray2 stroke systemGray3 dash[3] w1. TaskCard labels Today/This Week/Someday + \u25be colors orange/blue/purple. BrainDump live same no chevron. Confirmation tag scheduleTagLabel chevron + bg orange0.2/indigo0.2/gray0.2. Goal pill + Link to goal unlinked else {name} \u25be."
+    },
+    {
+      "id": "composer",
+      "sourceFiles": [
+        "defog iOS/Views/BrainDump/BrainDumpView.swift"
+      ],
+      "spec": "TextEditor body min88 max120 padding10 bg systemBackground RoundedRectangle16 stroke systemGray5 w1 placeholder Buy groceries, call dentist, learn motion design\u2026 body tertiary top18 leading16. HStack spacing12 mic 56x56 RoundedRectangle16 mic.fill primary gray6 / square.fill white red recording scale1.05 + Process headline white maxWidth maxHeight56 RoundedRectangle16 primary else gray disabled empty. Padding container padding bg systemGroupedBackground spacing12. Keyboard Done semibold."
+    }
+  ],
+  "sourceRisks": [
+    "Exact H/V padding defaults (.padding()/.padding(.horizontal)) not numeric in source - do not guess",
+    "System bg/secondary/tertiary fills adapt to light/dark - baseline light 402x874 only",
+    "Status/tab native Figma components owned by supplied script - not respecified here",
+    "Goal purple hex unresolved - use pending palette #A78BFA for synthetic Guitar per BrainDump palette",
+    "Toast/dark-mode/reminder/migration/BYOM runtime colors unverified from static source",
+    "Fonts SF Pro + SF Pro Rounded per native-assets.json; Dynamic Type sizes symbolic (.title2/.body etc) not pt except TaskCard 22, timeline DayCell 10, empty sun 64, onboarding 80"
+  ]
+}
