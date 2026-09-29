@@ -1,0 +1,751 @@
+{
+  "screens": [
+    {
+      "id": "1097:516",
+      "name": "Screen / onboarding",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:589",
+      "name": "Screen / home",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:685",
+      "name": "Screen / capture",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:745",
+      "name": "Screen / review",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:823",
+      "name": "Screen / tasks",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:919",
+      "name": "Screen / goals",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:991",
+      "name": "Screen / goal",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1097:1082",
+      "name": "Screen / settings",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6059",
+      "name": "Screen / onboarding-2",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6135",
+      "name": "Screen / storage",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6207",
+      "name": "Screen / capture-empty",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6408",
+      "name": "Screen / typing",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6581",
+      "name": "Screen / voice",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1118:6620",
+      "name": "Screen / transcript",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:2899",
+      "name": "Screen / ai",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:2962",
+      "name": "Screen / day",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:3013",
+      "name": "Screen / ai-connected",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:3096",
+      "name": "Screen / capture-ai",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:3221",
+      "name": "Screen / archive",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1119:3256",
+      "name": "Screen / voice-denied",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1122:2113",
+      "name": "Screen / goal-note",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1122:2152",
+      "name": "Screen / goal-recorded",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Tabs",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1122:2226",
+      "name": "Screen / ai-failed",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    },
+    {
+      "id": "1122:2270",
+      "name": "Screen / edit-task",
+      "w": 402,
+      "h": 874,
+      "slots": [
+        {
+          "name": "Status bar",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Home indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "unwired": []
+    }
+  ],
+  "copy": [
+    "Defog",
+    "“Buy groceries today.\nI’d like to learn guitar.”",
+    "Groceries → task\nGuitar → goal",
+    "Start with what’s\non your mind.",
+    "Type or record it. Defog turns your input into tasks and goals for you to review.",
+    "Continue",
+    "Skip introduction",
+    "Home",
+    "Today",
+    "Buy groceries",
+    "No goal",
+    "Practice chord changes",
+    "Guitar",
+    "Send the project update",
+    "Goals",
+    "No entries yet",
+    "Read more",
+    "Run regularly",
+    "Tap a task’s circle to mark it done.",
+    "Tasks",
+    "Brain Dump",
+    "Basic processing",
+    "Set up AI",
+    "Buy groceries today. Call the dentist this week. I’d like to learn guitar.",
+    "Done",
+    "Preview",
+    "Call the dentist",
+    "This Week",
+    "New goal",
+    "Review 3 items",
+    "Review",
+    "Tap an item to edit it. Use its menus to change the schedule or linked goal.",
+    "Save 3 items",
+    "Pick a book for October",
+    "Someday",
+    "Sort the balcony plants",
+    "Find a running route",
+    "Timeline",
+    "Calendar",
+    "No progress recorded",
+    "Record a step or add a note to start your timeline.",
+    "Did something today",
+    "Settings",
+    "Processing",
+    "Processing mode",
+    "Basic",
+    "Basic processing uses built-in rules. Add an AI model to interpret more varied input.",
+    "AI model",
+    "Not configured",
+    "Preferences",
+    "Dark appearance",
+    "Reminders",
+    "Reminders appear after 3 days of inactivity.",
+    "Data",
+    "Storage",
+    "This iPhone",
+    "Archived goals",
+    "About",
+    "App tour",
+    "Version",
+    "Two ways to keep track",
+    "Tasks are things to do.",
+    "Choose Today, This Week or Someday. Mark a task done when you finish it.",
+    "Goals are ongoing.",
+    "Keep notes and record progress. Link related tasks to a goal.",
+    "Where to keep your data",
+    "Choose a storage option. You can change it later in Settings.",
+    "On this iPhone",
+    "Keep tasks and goals on this device.",
+    "Use this iPhone",
+    "iCloud",
+    "Sync across devices signed in to your Apple Account.",
+    "Use iCloud",
+    "INPUT",
+    "Type what you need to do, or record it.",
+    "Type",
+    "Tasks and goals will appear here as you type.",
+    "“Design”",
+    "Designs",
+    "Designed",
+    "q",
+    "w",
+    "e",
+    "r",
+    "t",
+    "y",
+    "u",
+    "i",
+    "o",
+    "p",
+    "a",
+    "s",
+    "d",
+    "f",
+    "g",
+    "h",
+    "j",
+    "k",
+    "l",
+    "z",
+    "x",
+    "c",
+    "v",
+    "b",
+    "n",
+    "m",
+    "Recording",
+    "Buy groceries today.\nCall the dentist this week.\nI’d like to learn guitar.",
+    "Cancel",
+    "YOUR RECORDING",
+    "Buy groceries today. Call the dentist this week. I’d like to learn guitar…",
+    "Connect a model that supports the OpenAI API format.",
+    "Endpoint URL",
+    "https://api.example.com/v1/chat/completions",
+    "API key",
+    "Model ID",
+    "your-model-id",
+    "Your provider receives the text you submit for AI processing.",
+    "Use basic processing",
+    "Test connection",
+    "Your Day",
+    "Completed",
+    "Watered the plants\nPaid the electricity bill",
+    "Goal entries",
+    "No goal entries today.",
+    "View tasks",
+    "Connection successful",
+    "The model responded to the test request.",
+    "Model",
+    "Use this model",
+    "Connected",
+    "No archived goals",
+    "Archived goals remain here until you restore or delete them.",
+    "Microphone access",
+    "Allow microphone and speech recognition access in iPhone Settings to record a Brain Dump.",
+    "Type instead",
+    "Add a note",
+    "Practiced switching between G and C for ten minutes.",
+    "Save note",
+    "1 entry",
+    "Practiced guitar",
+    "Couldn’t connect",
+    "Check the endpoint, API key and model ID, then try again.",
+    "Edit connection details",
+    "Edit task",
+    "Task"
+  ],
+  "menus": [
+    {
+      "id": "1122:2312",
+      "name": "Overlay / menuSchedule",
+      "items": [
+        {
+          "id": "I1122:2315;1116:1495;5504:2999;1125:2710",
+          "label": "Today",
+          "actions": 1
+        },
+        {
+          "id": "I1122:2315;1116:1495;5504:2999;1125:2711",
+          "label": "This Week",
+          "actions": 1
+        },
+        {
+          "id": "I1122:2315;1116:1495;5504:2999;1125:2712",
+          "label": "Someday",
+          "actions": 1
+        }
+      ]
+    },
+    {
+      "id": "1122:2343",
+      "name": "Overlay / menuGoal",
+      "items": [
+        {
+          "id": "I1122:2346;1116:1743;5504:2999;1125:2718",
+          "label": "No goal",
+          "actions": 1
+        },
+        {
+          "id": "I1122:2346;1116:1743;5504:2999;1125:2719",
+          "label": "Guitar",
+          "actions": 1
+        },
+        {
+          "id": "I1122:2346;1116:1743;5504:2999;1125:2720",
+          "label": "Reading",
+          "actions": 1
+        },
+        {
+          "id": "I1122:2346;1116:1743;5504:2999;1125:2721",
+          "label": "Running",
+          "actions": 1
+        }
+      ]
+    },
+    {
+      "id": "1122:2381",
+      "name": "Overlay / menuMore",
+      "items": [
+        {
+          "id": "I1122:2384;1116:1919;5504:2999;1125:2728",
+          "label": "Delete",
+          "actions": 1
+        }
+      ]
+    },
+    {
+      "id": "1122:2398",
+      "name": "Overlay / menuReview",
+      "items": [
+        {
+          "id": "I1122:2401;1116:1919;5504:2999;1122:2432",
+          "label": "Remove from preview",
+          "actions": 0
+        }
+      ]
+    },
+    {
+      "id": "1122:2433",
+      "name": "Overlay / delete-confirm",
+      "items": []
+    }
+  ],
+  "collections": [
+    {
+      "id": "VariableCollectionId:131:474",
+      "name": "Variable collection",
+      "count": 7
+    },
+    {
+      "id": "VariableCollectionId:1114:1002",
+      "name": "Defog / Primitives",
+      "count": 9
+    },
+    {
+      "id": "VariableCollectionId:1114:1003",
+      "name": "Defog / Tokens",
+      "count": 21
+    },
+    {
+      "id": "VariableCollectionId:1125:2545",
+      "name": "Defog / Prototype state",
+      "count": 37
+    }
+  ]
+}

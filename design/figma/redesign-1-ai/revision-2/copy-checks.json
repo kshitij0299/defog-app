@@ -1,0 +1,185 @@
+{
+  "extract_constraints.py": {
+    "exit": 0,
+    "result": {
+      "input_length": 225,
+      "constraint_count": 0,
+      "constraints": []
+    },
+    "stderr": ""
+  },
+  "validate_preservation.py": {
+    "exit": 0,
+    "result": {
+      "passed": true,
+      "total_constraints": 0,
+      "preserved": 0,
+      "missing_count": 0,
+      "missing": [],
+      "warnings": [
+        "Scope/precision word 'all' not in output. Verify the claim's scope is unchanged."
+      ]
+    },
+    "stderr": ""
+  },
+  "banned_phrase_scan.py": {
+    "exit": 0,
+    "result": {
+      "total_violations": 0,
+      "by_severity": {
+        "hard": 0,
+        "soft": 0
+      },
+      "by_category": {},
+      "violations": []
+    },
+    "stderr": ""
+  },
+  "structure_scan.py": {
+    "exit": 1,
+    "result": {
+      "flags": [
+        {
+          "metric": "one_line_staccato",
+          "value": 0.932,
+          "threshold": "> 0.60 over at least 6 paragraphs",
+          "severity": "soft",
+          "detail": "Most paragraphs are short single-sentence beats.",
+          "suggestion": "Merge related beats and vary paragraph length; if this is social copy, rerun with --genre social."
+        }
+      ],
+      "flagged": {
+        "one_line_staccato": true
+      },
+      "metrics": {
+        "sentence_burstiness": 0.622,
+        "summary_sandwich": 0.0,
+        "paragraph_cv": 1.06,
+        "sentence_mean_len": 12.2,
+        "triad_density": 0.0,
+        "em_dash_per_1k": 0.0,
+        "bold_colon_listicle_count": 0,
+        "one_line_staccato_share": 0.932,
+        "connective_paragraph_openers": 0,
+        "every_template_openers": 0,
+        "signpost_density": 0.0,
+        "opener_unique_ratio": 0.667,
+        "top_opener_share": 0.095,
+        "max_consecutive_opener": 2,
+        "participial_closer_share": 0.0,
+        "conclusion_coda": false
+      },
+      "genre": "prose",
+      "prose_sentences": 42,
+      "prose_paragraphs": 147
+    },
+    "stderr": ""
+  },
+  "silhouette_scan.py": {
+    "exit": 0,
+    "result": {
+      "genre": "prose",
+      "prose_paragraphs": 147,
+      "flags": [],
+      "flagged": {},
+      "metrics": {
+        "scaffold_opener_share": 0.0,
+        "role_entropy_bits": -0.0,
+        "heading_preview": null,
+        "preview_fulfillment": 0.0,
+        "callback_content": 0.122
+      },
+      "contributions": {
+        "scaffold_opener_share": 0.0,
+        "role_entropy_bits": 0.0,
+        "heading_preview": null,
+        "preview_fulfillment": 0.0,
+        "callback_content": 0.61
+      },
+      "penalty": 0.61
+    },
+    "stderr": ""
+  },
+  "readability_metrics.py": {
+    "exit": 1,
+    "result": {
+      "flesch_kincaid_grade": 6.8,
+      "flesch_reading_ease": 67.8,
+      "sentence_count": 42,
+      "word_count": 511,
+      "avg_sentence_length": 12.2,
+      "sentence_length_variance": 56.9,
+      "min_sentence_length": 3,
+      "max_sentence_length": 34,
+      "consecutive_similar_length": 3,
+      "word_repetition_score": 47.1,
+      "top_repeated_words": [
+        [
+          "today",
+          9
+        ],
+        [
+          "goals",
+          9
+        ],
+        [
+          "goal",
+          8
+        ],
+        [
+          "your",
+          8
+        ],
+        [
+          "tasks",
+          8
+        ],
+        [
+          "model",
+          8
+        ],
+        [
+          "guitar",
+          7
+        ],
+        [
+          "groceries",
+          6
+        ],
+        [
+          "task",
+          6
+        ],
+        [
+          "record",
+          6
+        ]
+      ],
+      "paragraph_count": 147,
+      "avg_paragraph_length": 3.5,
+      "flags": [
+        "3+ consecutive similar-length sentences",
+        "High word repetition (47.1%)"
+      ]
+    },
+    "stderr": ""
+  },
+  "diff_check.py": {
+    "exit": 1,
+    "result": {
+      "original_word_count": 56,
+      "transformed_word_count": 26,
+      "similarity_ratio": 0.171,
+      "change_percentage": 87.5,
+      "words_added": 0,
+      "words_removed": 0,
+      "words_changed": 49,
+      "excessive_change": true,
+      "flags": [
+        "Excessive change (87.5% > 40% threshold)",
+        "Significant condensation (46% of original)"
+      ]
+    },
+    "stderr": ""
+  }
+}

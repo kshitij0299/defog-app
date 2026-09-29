@@ -2,7 +2,7 @@
 
 Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
 
-**Current phase: review of Redesign 1 by AI.** The owner authorized a fresh, mostly native and cute exploration based on a neutral handoff from the current-app baseline. Its compact design system and eight screens share one new page. The older drafts and Components workbench remain preserved; application implementation is unchanged.
+**Current phase: owner review of revision 2.** The owner requested a Brain Dump tab, separate onboarding, voice/transcript states, plain copy, consistent task/goal identity and more complete native controls. These are now reflected in the existing Redesign 1 by AI page with 27 screen/state frames and five overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-2/README.md). Application implementation is unchanged.
 
 ## Approved sequence
 
@@ -60,11 +60,11 @@ Product, architecture, development, screen-inventory, design-history, and case-s
 - Keep 402×874 rectangular frames. The agreed Figma bottom slots are tab95 at y745–840 and home34 at y840–874. This convention differs from runtime screenshots and is documented, not claimed as pixel-identical capture.
 - The free Muse documentation reviewer completed the evidence-correction review with zero reported model cost. Primary owns UI reconstruction corrections and verification.
 - [Components workbench](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375): 30 component families (55 main components, including variants), 60 blank owner work areas, seven text styles, eleven linked screen examples and three context details. See [component guide](components-review.md).
-- SF Pro Rounded leads titles, headings and button labels. Full custom variable/token architecture is deferred by owner request. Existing Apple semantic bindings remain in native instances; seven pre-existing legacy variables were preserved.
+- SF Pro Rounded leads titles, headings and button labels. The earlier token deferral was superseded for this light-mode proposal: revision 2 adds 30 palette, spacing and radius variables. Full dark-mode and implementation mapping remain deferred. Existing Apple semantic bindings remain in native instances; seven pre-existing legacy variables were preserved.
 - Eight earlier drafts on page `1024:2614` are paused, unapproved and unwired. They are not the current review deliverable.
-- [Redesign 1 by AI](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368): eight fresh screens, 15 component families (20 mains including variants), seven text styles and eight paint styles. Native Apple controls remain nested instances; Defog content uses new local masters. No old screen was cloned as the visual template.
+- Original first pass (superseded by revision 2): [Redesign 1 by AI](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368): eight fresh screens, 15 component families (20 mains including variants), seven text styles and eight paint styles. Native Apple controls remain nested instances; Defog content uses new local masters. No old screen was cloned as the visual template.
 - [Neutral context](design-briefs/current-app-context.md) maps all 12 baseline frames into three Mermaid diagrams and structural wireframes, labeling Figma, walkthrough and source evidence. [Agent brief](design-briefs/redesign-1-ai.md) is ready for another designer/agent to use independently.
-- The new prototype has 25 navigation/back links and two starting points. The core capture → review → save path and Settings scrolling were exercised in the Figma player. Every screen was rendered and checked; a goal-card master edit propagated to three instances and was restored. [Delivery and limits](../design/figma/redesign-1-ai/README.md).
+- The original first-pass prototype had 25 navigation/back links and two starting points. The core capture → review → save path and Settings scrolling were exercised in the Figma player. Every screen was rendered and checked; a goal-card master edit propagated to three instances and was restored. [Delivery and limits](../design/figma/redesign-1-ai/README.md).
 - Muse Spark 1.3 Free / xhigh reviewed this context brief with zero reported model cost. Its review-category, lifecycle-risk and Settings-scope feedback was incorporated. The coordinator did this pass's visual design and Figma construction; no separate agent/task was spawned.
 
 ## Remaining work

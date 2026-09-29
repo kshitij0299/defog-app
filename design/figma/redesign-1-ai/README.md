@@ -1,3 +1,5 @@
+> Superseded by [revision 2](revision-2/README.md), based on owner feedback. This file records the original eight-screen delivery.
+
 # Redesign 1 by AI
 
 [Open the Figma page](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368) · [Play the core flow](https://www.figma.com/proto/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1097-516&starting-point-node-id=1097%3A516)
