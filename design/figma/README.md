@@ -4,8 +4,9 @@
 - [Current baseline page](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=967-1893): twelve editable frames, still a fidelity-review draft.
 - [Audit and evidence page](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=987-241): eleven findings plus the withdrawn UX-01 record.
 - [Reverified goal](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=984-436): corrected against settled capture 17.
-- [Components workbench](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375): current review deliverable, with local masters, two owner alternatives per family and linked app examples. [Guide](../../docs/components-review.md).
-- Eight unapproved draft screens exist on page `1024:2614`; they are paused and unwired. Audit review and component-system agreement come first. No app implementation changes.
+- [Components workbench](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375): preserved local masters, two owner alternatives per family and linked app examples. [Guide](../../docs/components-review.md).
+- [Redesign 1 by AI](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368): latest owner-authorized exploration, with a new system and eight screens on one page. [Delivery guide](redesign-1-ai/README.md), [neutral baseline handoff](../../docs/design-briefs/current-app-context.md).
+- Eight earlier unapproved draft screens exist on page `1024:2614`; they remain paused and unwired. No app implementation changes.
 
 ## Which artifacts to trust
 
@@ -27,7 +28,7 @@ The original goal overlap claim was withdrawn after a clean launch. Capture 17 s
 
 ## Remaining review
 
-Recheck all twelve baseline frames against settled simulator states, including keyboard/accessory state, incomplete lower Settings content and source-only Goals. Daily Summary now has capture 19. Components examples are not new baseline evidence. Obtain audit/component-system agreement before resuming redesigned screens and prototype wiring.
+Recheck all twelve baseline frames against settled simulator states, including keyboard/accessory state, incomplete lower Settings content and source-only Goals. Daily Summary now has capture 19. Components examples are not new baseline evidence. The owner authorized the separate Redesign 1 exploration; review its direction before expanding states and before any implementation.
 
 ## Checkpoint validation
 

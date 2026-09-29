@@ -1,0 +1,639 @@
+{
+  "page": {
+    "id": "967:1893",
+    "name": "new work 1"
+  },
+  "screens": [
+    {
+      "id": "974:237",
+      "name": "Baseline / Home / Empty",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Toolbar",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "TitleWrap",
+          "y": 106,
+          "h": 63
+        },
+        {
+          "name": "ScrollContent",
+          "y": 169,
+          "h": 172
+        },
+        {
+          "name": "Spacer",
+          "y": 341,
+          "h": 404
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Home",
+        "Active Goals",
+        "No active goals. Add some via brain dump.",
+        "Today's Tasks",
+        "Nothing for today. Add something?",
+        "Home",
+        "Tasks",
+        "Goals"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:87",
+      "name": "Baseline / Home / Populated",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Large title",
+          "y": 106,
+          "h": 63
+        },
+        {
+          "name": "Content",
+          "y": 169,
+          "h": 575
+        },
+        {
+          "name": "Bottom actions",
+          "y": 744,
+          "h": 1
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Home",
+        "Active Goals",
+        "Guitar",
+        "Updated today",
+        "Today's Tasks",
+        "Buy groceries today",
+        "Today ▾",
+        "+ Link to goal",
+        "Home",
+        "Tasks",
+        "Goals"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:163",
+      "name": "Baseline / Tasks / Populated",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Large title",
+          "y": 106,
+          "h": 63
+        },
+        {
+          "name": "Content",
+          "y": 169,
+          "h": 575
+        },
+        {
+          "name": "Bottom actions",
+          "y": 744,
+          "h": 1
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Tasks",
+        "Today",
+        "Buy groceries today",
+        "Today ▾",
+        "+ Link to goal",
+        "This Week",
+        "Call the dentist this week",
+        "This Week ▾",
+        "+ Link to goal",
+        "Someday",
+        "No tasks waiting for someday.",
+        "Home",
+        "Tasks",
+        "Goals"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:242",
+      "name": "Baseline / Goals / Populated",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Large title",
+          "y": 106,
+          "h": 63
+        },
+        {
+          "name": "Content",
+          "y": 169,
+          "h": 575
+        },
+        {
+          "name": "Bottom actions",
+          "y": 744,
+          "h": 1
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Goals",
+        "Guitar",
+        "1 entry",
+        "Home",
+        "Tasks",
+        "Goals"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:296",
+      "name": "Baseline / Brain Dump / Empty",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Bottom actions",
+          "y": 106,
+          "h": 308
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Voice input needs microphone access.",
+        "Enable in Settings",
+        "Buy groceries, call dentist, learn motion design…",
+        "Process"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:310",
+      "name": "Content",
+      "w": 402,
+      "h": 460,
+      "regions": [
+        {
+          "name": "Capture title",
+          "y": 0,
+          "h": 80
+        },
+        {
+          "name": "Live preview scroll",
+          "y": 80,
+          "h": 380
+        }
+      ],
+      "text": [
+        "Brain Dump",
+        "Tell me everything on your mind"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:330",
+      "name": "Baseline / Brain Dump / Live preview",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 412
+        },
+        {
+          "name": "Bottom actions",
+          "y": 518,
+          "h": 356
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Brain Dump",
+        "Tell me everything on your mind",
+        "􀃲  Tasks",
+        "Buy groceries today",
+        "Today",
+        "Call the dentist this week",
+        "This Week",
+        "􀢊  Goals",
+        "Guitar",
+        "Voice input needs microphone access.",
+        "Enable in Settings",
+        "Buy groceries today\nCall the dentist this week\nLearn guitar",
+        "Process",
+        "Done"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:383",
+      "name": "Baseline / Review & Confirm / Three items",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 670
+        },
+        {
+          "name": "Bottom actions",
+          "y": 776,
+          "h": 98
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Review & Confirm",
+        "Tap × to remove · tap tag to reschedule · tap goal chip to reassign · completions mark existing tasks done",
+        "􀃲  These look like tasks",
+        "Buy groceries today",
+        "Today ▾",
+        "+ Link to goal",
+        "Call the dentist this week",
+        "This Week ▾",
+        "+ Link to goal",
+        "􀢊  New goals",
+        "Guitar",
+        "Looks Good!"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:436",
+      "name": "Baseline / Goal detail / Reverified",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 572
+        },
+        {
+          "name": "Progress actions",
+          "y": 678,
+          "h": 67
+        },
+        {
+          "name": "Tab Bar - iPhone",
+          "y": 745,
+          "h": 95
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Guitar",
+        "Timeline",
+        "Calendar",
+        "28 Sep at 9:04 PM",
+        "✓ Did something",
+        "✓ Did something today",
+        "Home",
+        "Tasks",
+        "Goals"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:492",
+      "name": "Baseline / Daily Summary / One entry",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 734
+        },
+        {
+          "name": "Bottom actions",
+          "y": 840,
+          "h": 34
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Daily Summary",
+        "Goal progress today",
+        "Guitar",
+        "1 entry",
+        "A little goes a long way."
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:521",
+      "name": "Baseline / Settings / Local mode",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 734
+        },
+        {
+          "name": "Bottom actions",
+          "y": 840,
+          "h": 34
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Settings",
+        "APP TOUR",
+        "􀁜  What's the difference?",
+        "Version",
+        "APPEARANCE",
+        "Dark Mode",
+        "BYOM",
+        "https://openrouter.ai/api/v1/chat/…",
+        "API Key",
+        "openai/gpt-4o-mini",
+        "􀒙  Test BYOM Connection",
+        "Bring your own model via an OpenAI-compatible endpoint. Defaults are set for OpenRouter. If API key is empty, app falls back to legacy local rules.",
+        "REMINDERS",
+        "Inactivity reminder"
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:570",
+      "name": "Baseline / Archived Goals / Empty",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Navigation",
+          "y": 62,
+          "h": 44
+        },
+        {
+          "name": "Content",
+          "y": 106,
+          "h": 734
+        },
+        {
+          "name": "Bottom actions",
+          "y": 840,
+          "h": 34
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Archived Goals",
+        "No archived goals."
+      ],
+      "reactions": []
+    },
+    {
+      "id": "984:591",
+      "name": "Baseline / Onboarding / Welcome",
+      "w": 402,
+      "h": 874,
+      "regions": [
+        {
+          "name": "Status bar - iPhone",
+          "y": 0,
+          "h": 62
+        },
+        {
+          "name": "Content",
+          "y": 62,
+          "h": 627
+        },
+        {
+          "name": "Bottom actions",
+          "y": 689,
+          "h": 185
+        },
+        {
+          "name": "Home Indicator",
+          "y": 840,
+          "h": 34
+        }
+      ],
+      "text": [
+        "Clear your mind",
+        "Jot down everything bouncing around in your head. We'll help you sort it out.",
+        "Skip",
+        "Next"
+      ],
+      "reactions": []
+    }
+  ],
+  "pages": [
+    {
+      "id": "967:1893",
+      "name": "new work 1"
+    },
+    {
+      "id": "0:1",
+      "name": "Page 1"
+    },
+    {
+      "id": "521:1763",
+      "name": "low fid"
+    },
+    {
+      "id": "314:617",
+      "name": "Page 3"
+    },
+    {
+      "id": "229:1029",
+      "name": "Page 2"
+    },
+    {
+      "id": "692:1763",
+      "name": "iOS"
+    },
+    {
+      "id": "987:241",
+      "name": "02 · UX audit & evidence"
+    },
+    {
+      "id": "1024:2614",
+      "name": "03 · iOS redesign — prototype"
+    },
+    {
+      "id": "1053:375",
+      "name": "Components"
+    }
+  ]
+}

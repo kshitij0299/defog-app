@@ -12,7 +12,10 @@
 
 The user approved documentation, simulator inspection, UX auditing, Figma reconstruction, and a redesigned prototype. Application implementation changes wait until the user approves the prototype. Building and running the existing app is authorized.
 
-**Latest sequence (2026-09-29): redesign is paused.** Review the audit, agree on the `Components` page, then design/approve screens, and only then implement. The eight earlier redesign drafts are parked. Work on Components examples is authorized; do not expand the redesigned flow.
+**Latest scope (2026-09-29): a fresh exploration is authorized.** The owner requested a neutral Markdown/Mermaid flow and wireframe handoff from the current-app baseline, then a new page named `Redesign 1 by AI` with a compact design system and representative screens. This supersedes the earlier pause for this exploration only. Preserve Components and the eight older parked drafts. Application implementation still requires owner approval of the prototype.
+
+- Fresh exploration page: `1095:368`. Start with `docs/design-briefs/current-app-context.md` and `docs/design-briefs/redesign-1-ai.md`; delivery details are in `design/figma/redesign-1-ai/README.md`. It is an unapproved proposal, not measured UX improvement.
+- For this pass, Muse checks the text brief; the coordinator owns visual direction and Figma execution. The owner withdrew the suggestion to spin up a separate agent/task.
 
 - Components page: `1053:375`. Local masters, two blank owner alternatives per family, and linked current-app context screens. Preserve the owner's edits.
 - Strong SF Pro Rounded identity for app titles, headings and button labels. Native device typography remains native SF Pro. Full tokenization is explicitly deferred until the system is agreed.

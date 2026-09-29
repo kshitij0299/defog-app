@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-29",
   "fileKey": "v6VyKHrnxzBtkDuCl8nneS",
-  "phase": "Components review; redesign paused pending system agreement",
+  "phase": "Redesign 1 by AI review; fresh exploration authorized, implementation pending approval",
   "baselinePageId": "967:1893",
   "auditPageId": "987:241",
   "frames": [
@@ -119,5 +119,15 @@
   "componentsPageId": "1053:375",
   "pausedRedesignPageId": "1024:2614",
   "pausedDraftScreens": 8,
-  "prototypeWired": false
+  "prototypeWired": true,
+  "redesign1PageId": "1095:368",
+  "redesign1": {
+    "screens": 8,
+    "componentFamilies": 15,
+    "mainComponents": 20,
+    "prototypeLinks": 25,
+    "prototypeScope": "Fixed-content core flow; not complete interaction/state coverage",
+    "deliveryGuide": "design/figma/redesign-1-ai/README.md",
+    "context": "docs/design-briefs/current-app-context.md"
+  }
 }
