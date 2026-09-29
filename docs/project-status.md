@@ -2,7 +2,7 @@
 
 Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
 
-**Current phase: owner review of revision 2.** The owner requested a Brain Dump tab, separate onboarding, voice/transcript states, plain copy, consistent task/goal identity and more complete native controls. These are now reflected in the existing Redesign 1 by AI page with 27 screen/state frames and five overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-2/README.md). Application implementation is unchanged.
+**Current phase: owner review of revision 3.** The latest pass reduces glass in content, groups Home toolbar actions, separates the Brain Dump shortcut, restores aligned task metadata pills, simplifies goal headers, and adds input → Process → Preview → Review states. The page now has 32 screen/state frames and five overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md). Application implementation is unchanged.
 
 ## Approved sequence
 
@@ -66,6 +66,10 @@ Product, architecture, development, screen-inventory, design-history, and case-s
 - [Neutral context](design-briefs/current-app-context.md) maps all 12 baseline frames into three Mermaid diagrams and structural wireframes, labeling Figma, walkthrough and source evidence. [Agent brief](design-briefs/redesign-1-ai.md) is ready for another designer/agent to use independently.
 - The original first-pass prototype had 25 navigation/back links and two starting points. The core capture → review → save path and Settings scrolling were exercised in the Figma player. Every screen was rendered and checked; a goal-card master edit propagated to three instances and was restored. [Delivery and limits](../design/figma/redesign-1-ai/README.md).
 - Muse Spark 1.3 Free / xhigh reviewed this context brief with zero reported model cost. Its review-category, lifecycle-risk and Settings-scope feedback was incorporated. The coordinator did this pass's visual design and Figma construction; no separate agent/task was spawned.
+
+## Revision 3 update
+
+Owner feedback from the Apple Reminders reference now supersedes revision 2's four-tab grouping and voice-gradient treatment. A separate capture bubble, grouped Home toolbar, plain task overflow, aligned metadata variants, compact counts and short goal names are in Figma. The input/processing sequence has two new states; three collapsed-title specimens use an explicit design-review shortcut. Two free Muse/xhigh runs reported zero model cost. See the revision-3 delivery and verification record for limitations and QA corrections.
 
 ## Remaining work
 

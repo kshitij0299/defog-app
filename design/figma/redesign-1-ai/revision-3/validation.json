@@ -1,0 +1,164 @@
+{
+  "frames": 32,
+  "links": 360,
+  "destinations": 33,
+  "taskInstances": 50,
+  "errors": [],
+  "screenIds": [
+    {
+      "id": "1097:516",
+      "name": "Screen / onboarding"
+    },
+    {
+      "id": "1097:589",
+      "name": "Screen / home"
+    },
+    {
+      "id": "1097:685",
+      "name": "Screen / capture"
+    },
+    {
+      "id": "1097:745",
+      "name": "Screen / review"
+    },
+    {
+      "id": "1097:823",
+      "name": "Screen / tasks"
+    },
+    {
+      "id": "1097:919",
+      "name": "Screen / goals"
+    },
+    {
+      "id": "1097:991",
+      "name": "Screen / goal"
+    },
+    {
+      "id": "1097:1082",
+      "name": "Screen / settings"
+    },
+    {
+      "id": "1118:6059",
+      "name": "Screen / onboarding-2"
+    },
+    {
+      "id": "1118:6135",
+      "name": "Screen / storage"
+    },
+    {
+      "id": "1118:6207",
+      "name": "Screen / capture-empty"
+    },
+    {
+      "id": "1118:6408",
+      "name": "Screen / typing"
+    },
+    {
+      "id": "1118:6581",
+      "name": "Screen / voice"
+    },
+    {
+      "id": "1118:6620",
+      "name": "Screen / transcript"
+    },
+    {
+      "id": "1119:2899",
+      "name": "Screen / ai"
+    },
+    {
+      "id": "1119:2962",
+      "name": "Screen / day"
+    },
+    {
+      "id": "1119:3013",
+      "name": "Screen / ai-connected"
+    },
+    {
+      "id": "1119:3096",
+      "name": "Screen / capture-ai"
+    },
+    {
+      "id": "1119:3221",
+      "name": "Screen / archive"
+    },
+    {
+      "id": "1119:3256",
+      "name": "Screen / voice-denied"
+    },
+    {
+      "id": "1122:2113",
+      "name": "Screen / goal-note"
+    },
+    {
+      "id": "1122:2152",
+      "name": "Screen / goal-recorded"
+    },
+    {
+      "id": "1122:2226",
+      "name": "Screen / ai-failed"
+    },
+    {
+      "id": "1122:2270",
+      "name": "Screen / edit-task"
+    },
+    {
+      "id": "1129:2367",
+      "name": "Screen / goal-reading"
+    },
+    {
+      "id": "1129:2432",
+      "name": "Screen / goal-running"
+    },
+    {
+      "id": "1133:2485",
+      "name": "Screen / goal-quick-recorded"
+    },
+    {
+      "id": "1165:2970",
+      "name": "Screen / capture-ready"
+    },
+    {
+      "id": "1165:3038",
+      "name": "Screen / processing"
+    },
+    {
+      "id": "1166:2991",
+      "name": "Screen / home-collapsed"
+    },
+    {
+      "id": "1166:3076",
+      "name": "Screen / tasks-collapsed"
+    },
+    {
+      "id": "1166:3193",
+      "name": "Screen / brain-dump-collapsed"
+    }
+  ],
+  "task": {
+    "titleX": 68,
+    "metadataX": 68
+  },
+  "settings": [
+    {
+      "name": "Processing",
+      "w": 354,
+      "h": 25
+    },
+    {
+      "name": "Processing mode",
+      "w": 354,
+      "h": 52
+    },
+    {
+      "name": "Basic processing uses built-in rules. Add an AI ",
+      "w": 354,
+      "h": 40
+    },
+    {
+      "name": "AI model",
+      "w": 354,
+      "h": 52
+    }
+  ],
+  "oldNames": []
+}
