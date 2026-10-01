@@ -1,0 +1,116 @@
+{
+  "createdNodeIds": [],
+  "mutatedNodeIds": [
+    "1239:6430",
+    "1239:7085",
+    "1239:6521",
+    "I1239:6528;1239:5988;1235:14542;550:50638;212:117599",
+    "I1239:6528;1239:6009;1235:14542;550:50638;212:117599"
+  ],
+  "removedNodeIds": [],
+  "bound": [
+    {
+      "id": "I1239:6528;1239:5988;1235:14542;550:50638;212:117599",
+      "variable": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1239:5897"
+      }
+    },
+    {
+      "id": "I1239:6528;1239:6009;1235:14542;550:50638;212:117599",
+      "variable": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1239:5896"
+      }
+    }
+  ],
+  "entry": [
+    {
+      "action": {
+        "type": "SET_VARIABLE",
+        "variableId": "VariableID:1239:5897",
+        "variableValue": {
+          "value": "Today",
+          "type": "STRING",
+          "resolvedType": "STRING"
+        }
+      },
+      "actions": [
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1239:5897",
+          "variableValue": {
+            "value": "Today",
+            "type": "STRING",
+            "resolvedType": "STRING"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1239:5898",
+          "variableValue": {
+            "value": "None",
+            "type": "STRING",
+            "resolvedType": "STRING"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1239:5902",
+          "variableValue": {
+            "value": false,
+            "type": "BOOLEAN",
+            "resolvedType": "BOOLEAN"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1239:5901",
+          "variableValue": {
+            "value": false,
+            "type": "BOOLEAN",
+            "resolvedType": "BOOLEAN"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1242:6692",
+          "variableValue": {
+            "value": "Today",
+            "type": "STRING",
+            "resolvedType": "STRING"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1239:5896",
+          "variableValue": {
+            "value": "No goal",
+            "type": "STRING",
+            "resolvedType": "STRING"
+          }
+        },
+        {
+          "type": "SET_VARIABLE",
+          "variableId": "VariableID:1242:6691",
+          "variableValue": {
+            "value": "home",
+            "type": "STRING",
+            "resolvedType": "STRING"
+          }
+        },
+        {
+          "type": "NODE",
+          "destinationId": "1239:6412",
+          "navigation": "NAVIGATE",
+          "transition": null,
+          "resetVideoPosition": false,
+          "resetScrollPosition": true
+        }
+      ],
+      "trigger": {
+        "type": "ON_CLICK"
+      }
+    }
+  ]
+}

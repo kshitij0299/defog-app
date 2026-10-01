@@ -12,7 +12,9 @@
 
 The user approved documentation, simulator inspection, UX auditing, Figma reconstruction, and a redesigned prototype. Application implementation changes wait until the user approves the prototype. Building and running the existing app is authorized.
 
-**Latest scope (2026-09-29): a fresh exploration is authorized.** The owner requested a neutral Markdown/Mermaid flow and wireframe handoff from the current-app baseline, then a new page named `Redesign 1 by AI` with a compact design system and representative screens. This supersedes the earlier pause for this exploration only. Preserve Components and the eight older parked drafts. Application implementation still requires owner approval of the prototype.
+**Latest scope (2026-10-01): Redesign Two is authorized.** Preserve Redesign 1. Page `1226:4050`, named `Redesign Two by AI`, has a full preserved copy on the left and an independent working duplicate 8000pt to its right. There are exactly two entities: tasks/reminders and goals. The owner corrected “notes” to reminders. Prioritize direct creation and optional goal linking; Brain Dump is optional. Keep Today / This Week / Someday prominent and disclose specific date/time controls on demand. Start with `docs/design-briefs/redesign-two-ai.md` and `design/figma/redesign-two-ai/README.md`. Application implementation still requires prototype approval.
+
+The earlier exploration (2026-09-29) produced the neutral Markdown/Mermaid handoff and `Redesign 1 by AI`. Preserve that page, Components, the parked drafts and the left-hand snapshot on Redesign Two. Working local masters and prototype state are independent; shared palette/text styles remain read-only so edits cannot change the preserved designs.
 
 - Fresh exploration page: `1095:368`. Start with `docs/design-briefs/current-app-context.md` and `docs/design-briefs/redesign-1-ai.md`; delivery details are in `design/figma/redesign-1-ai/README.md`. It is an unapproved proposal, not measured UX improvement.
 - For this pass, Muse checks the text brief; the coordinator owns visual direction and Figma execution. The owner withdrew the suggestion to spin up a separate agent/task.
