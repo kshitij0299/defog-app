@@ -1,0 +1,37 @@
+New task
+New goal
+What do you need to do?
+Schedule
+Today
+This Week
+Someday
+Date & time
+Choose a specific date or time when you need one.
+A date is enough. Add a time if you want an alert.
+Use date & time
+Use date only
+Remove date
+Link a goal
+No goal
+Goal name
+For example, Draw
+You can link tasks and record progress after creating the goal.
+Keep editing?
+Your changes haven’t been saved.
+Keep editing, or discard this draft.
+Keep editing
+Discard changes
+Couldn’t connect
+Your text is still here. Try again, or process it without AI.
+No tasks or goals found
+Edit your text, or add a task yourself.
+Recording stopped
+Your transcript is still here. Continue recording or edit it before processing.
+Try again
+Use basic processing
+Edit text
+Continue
+Remove goal
+No items selected
+Restore the preview or edit your original text.
+Restore preview

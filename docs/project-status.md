@@ -2,7 +2,9 @@
 
 Updated: 2026-10-01. Source baseline: `11ba317` on `live-view`.
 
-**Current phase: owner review of revision 3 and the Settings correction.** The latest pass reduces glass in content, groups Home toolbar actions, separates the Brain Dump shortcut, restores aligned task metadata pills, simplifies goal headers, and adds input → Process → Preview → Review states. The page now has 32 screen/state frames and six overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md). Application implementation is unchanged.
+**Current phase: Redesign Two prototype exploration.** The owner requested a preserved full copy and a separate working copy, with manual task/reminder and goal creation first. There is no new notes entity. Specific dates/times appear inside scheduling details. Brain Dump remains optional and now has representative recovery states. [Delivery and limitations](../design/figma/redesign-two-ai/README.md), [owner brief](design-briefs/redesign-two-ai.md). Application implementation is unchanged.
+
+Redesign 1 remains preserved with its 32 screen/state frames and six overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md).
 
 Settings was compared with the reopened native app on 1 October. The prototype now restores inline model setup, consistent text insets and grouped preferences, with behavior notes beside linked component examples. [Settings correction and limits](../design/figma/redesign-1-ai/settings-fix/README.md).
 
@@ -14,7 +16,7 @@ Settings was compared with the reopened native app on 1 October. The prototype n
 4. Reconstruct the current app as editable Figma screens on the user-supplied new page.
 5. Document UX issues, evidence, impact, severity, and recommendations.
 6. Review the audit and Components workbench, preserving linked app examples and owner alternatives.
-7. Latest request: extract current-app flows and structural wireframes into Markdown/Mermaid, then explore a fresh design system and representative screens together on `Redesign 1 by AI`. Review this direction before expanding it.
+7. Preserve Redesign 1 and explore direct task/goal creation plus Brain Dump recovery on `Redesign Two by AI`. Review this direction before implementation.
 8. Obtain the user's screen/prototype approval before changing application implementation.
 9. Implement approved changes, validate behavior, and finish the case study.
 
@@ -24,6 +26,7 @@ Case-study evidence and decisions are recorded alongside the design work. Histor
 
 - Foundation branch: `codex/project-foundation`.
 - Fresh exploration branch: `codex/redesign-1-ai`, based on the foundation branch so this milestone remains independently reviewable.
+- Current design branch: `codex/redesign-two-ai`, based on Redesign 1 commit `94c4691`.
 - Product remote: `origin` (`kshitij0299/defog-app`).
 - Existing `.derivedData/` is untracked and predates this work; leave it untouched.
 - No application source changes have been made.
