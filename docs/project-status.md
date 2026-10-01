@@ -1,8 +1,10 @@
 # Defog redesign: working status
 
-Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
+Updated: 2026-10-01. Source baseline: `11ba317` on `live-view`.
 
-**Current phase: owner review of revision 3.** The latest pass reduces glass in content, groups Home toolbar actions, separates the Brain Dump shortcut, restores aligned task metadata pills, simplifies goal headers, and adds input → Process → Preview → Review states. The page now has 32 screen/state frames and five overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md). Application implementation is unchanged.
+**Current phase: owner review of revision 3 and the Settings correction.** The latest pass reduces glass in content, groups Home toolbar actions, separates the Brain Dump shortcut, restores aligned task metadata pills, simplifies goal headers, and adds input → Process → Preview → Review states. The page now has 32 screen/state frames and six overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md). Application implementation is unchanged.
+
+Settings was compared with the reopened native app on 1 October. The prototype now restores inline model setup, consistent text insets and grouped preferences, with behavior notes beside linked component examples. [Settings correction and limits](../design/figma/redesign-1-ai/settings-fix/README.md).
 
 ## Approved sequence
 
