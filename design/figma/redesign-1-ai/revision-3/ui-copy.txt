@@ -1,0 +1,154 @@
+Defog
+“Buy groceries today.
+I’d like to learn guitar.”
+Groceries → task
+Guitar → goal
+Start with what’s
+on your mind.
+Type or record it. Defog turns your input into tasks and goals for you to review.
+Continue
+Skip introduction
+Home
+Today
+Buy groceries
++ Link to goal
+Practice chord changes
+Guitar
+Send the project update
+Goals
+No entries yet
+Read
+Run
+Tap a task’s circle to mark it done.
+Tasks
+Brain Dump
+Basic processing
+Set up AI
+Buy groceries today. Call the dentist this week. I’d like to learn guitar…
+Preview
+Call the dentist
+This Week
+New goal
+Review 3 items
+Review
+Tap task text to edit. Use menus to change the schedule or linked goal.
+Save 3 items
+Pick a book for October
+Someday
+Sort the balcony plants
+Find a running route
+Record a step or add a note to a goal.
+Timeline
+Calendar
+No progress recorded
+Record a step or add a note to start your timeline.
+Did something today
+Settings
+Processing
+Processing mode
+Basic
+Basic processing uses built-in rules. Add an AI model to interpret more varied input.
+AI model
+Not configured
+Preferences
+Dark appearance
+Reminders
+Reminders appear after 3 days of inactivity.
+Data
+Storage
+On this iPhone
+Archived goals
+About
+App tour
+Version
+Two ways to keep track
+Tasks are things to do.
+Choose Today, This Week or Someday. Mark a task done when you finish it.
+Goals are ongoing.
+Keep notes and record progress. Link related tasks to a goal.
+Where to keep your data
+Choose where to store your tasks and goals.
+Keep tasks and goals on this device.
+Use this iPhone
+iCloud
+Sync across devices signed in to your Apple Account.
+Use iCloud
+Type or record what you need to do.
+You can review it before saving.
+Buy groceries today, call the dentist…
+Buy groceries today. Call the dentist this week. I’d like to learn guitar.
+Process
+“Design”
+Designs
+Designed
+q
+w
+e
+r
+t
+y
+u
+i
+o
+p
+a
+s
+d
+f
+g
+h
+j
+k
+l
+z
+x
+c
+v
+b
+n
+m
+Buy groceries today.
+Call the dentist this week.
+I’d like to learn guitar.
+Cancel
+Connect a model that supports the OpenAI API format.
+Endpoint URL
+https://api.example.com/v1/chat/completions
+API key
+Model ID
+your-model-id
+Your provider receives the text you submit for AI processing.
+Use basic processing
+Test connection
+Your Day
+Completed
+Watered the plants
+Paid the electricity bill
+Goal entries
+No goal entries today.
+View tasks
+Connection successful
+The model responded to the test request.
+Model
+Use this model
+Connected
+No archived goals
+Archived goals remain here until you restore or delete them.
+Microphone access
+Allow microphone and speech recognition access in iPhone Settings to record a Brain Dump.
+Type instead
+Add a note
+Practiced switching between G and C for ten minutes.
+Save note
+1 entry
+Practiced guitar
+Couldn’t connect
+Check the endpoint, API key and model ID, then try again.
+Edit connection details
+Task
+Edit task
+Done
+Progress recorded
+Add a date or link a task to a goal during review.
+Your input
+Finding tasks and goals…

@@ -1,0 +1,37 @@
+{
+  "createdNodeIds": [
+    "1095:368"
+  ],
+  "pageId": "1095:368",
+  "name": "Redesign 1 by AI",
+  "styles": {
+    "Large title": "S:67b9d7d4d9389fc254baa6e5f63188c89bf81d4d,",
+    "Title": "S:96d67978614786c6379bb55ab2a8780ce39066ee,",
+    "Heading": "S:b716b456b0b691ed43bb4bce1fffecfc63ff34da,",
+    "Button": "S:30d851e7de9251234817be73cb64034666356825,",
+    "Body": "S:c56879e5ac3258e9eb690bfbe84c941e9b134cd9,",
+    "Small": "S:375102d7bf90d44f4a66e4aee7de39f2e6d8b86a,",
+    "Caption": "S:a336beaf4d71ef507761c04fb48786827e86dd91,"
+  },
+  "paints": {
+    "Canvas": "S:ec1093602e04358529e20369e2784c331d412b10,",
+    "Surface": "S:d09489fd18ac1020a65d7a81263e6c84d6ec25de,",
+    "Ink": "S:7760aedc9a3f00d3640d777a02b4241c2bb6ad18,",
+    "Secondary": "S:a8c895839c915e2d2bc3ea8e798a32337c4cdb2f,",
+    "Plum": "S:01431700a754fe675fc8ffb78fae9861095b5786,",
+    "Lilac": "S:a88e0ed77447aa359456d0dac4a3d0204c811915,",
+    "Peach": "S:c03053ac84f32d022c5f4b5111e82c1ba18c1c6d,",
+    "Sage": "S:b8b85ec53e9ab38eaa02b05d70514bb532f9525a,"
+  },
+  "palette": {
+    "Canvas": "#F8F6F2",
+    "Surface": "#FFFFFF",
+    "Ink": "#292332",
+    "Secondary": "#6B6373",
+    "Plum": "#7653A6",
+    "Lilac": "#EEE7F7",
+    "Peach": "#F9E2D5",
+    "Sage": "#E5EFE6"
+  },
+  "noCustomVariablesCreated": true
+}

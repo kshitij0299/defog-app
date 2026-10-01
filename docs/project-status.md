@@ -1,8 +1,10 @@
 # Defog redesign: working status
 
-Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
+Updated: 2026-10-01. Source baseline: `11ba317` on `live-view`.
 
-**Current phase: Components review. Redesign is paused at the owner's request.** The eight earlier screen drafts remain parked; application implementation is unchanged.
+**Current phase: owner review of revision 3 and the Settings correction.** The latest pass reduces glass in content, groups Home toolbar actions, separates the Brain Dump shortcut, restores aligned task metadata pills, simplifies goal headers, and adds input → Process → Preview → Review states. The page now has 32 screen/state frames and six overlays. See [revision delivery](../design/figma/redesign-1-ai/revision-3/README.md) and [owner requirements](design-briefs/revision-3.md). Application implementation is unchanged.
+
+Settings was compared with the reopened native app on 1 October. The prototype now restores inline model setup, consistent text insets and grouped preferences, with behavior notes beside linked component examples. [Settings correction and limits](../design/figma/redesign-1-ai/settings-fix/README.md).
 
 ## Approved sequence
 
@@ -11,8 +13,8 @@ Updated: 2026-09-29. Source baseline: `11ba317` on `live-view`.
 3. Walk through the running iOS app and capture baseline evidence.
 4. Reconstruct the current app as editable Figma screens on the user-supplied new page.
 5. Document UX issues, evidence, impact, severity, and recommendations.
-6. Review the audit with the owner, then agree on the Components page and design system. Use linked app examples and leave space for owner alternatives.
-7. After that agreement, create/revise screens and a clickable prototype on separate pages.
+6. Review the audit and Components workbench, preserving linked app examples and owner alternatives.
+7. Latest request: extract current-app flows and structural wireframes into Markdown/Mermaid, then explore a fresh design system and representative screens together on `Redesign 1 by AI`. Review this direction before expanding it.
 8. Obtain the user's screen/prototype approval before changing application implementation.
 9. Implement approved changes, validate behavior, and finish the case study.
 
@@ -21,6 +23,7 @@ Case-study evidence and decisions are recorded alongside the design work. Histor
 ## Git
 
 - Foundation branch: `codex/project-foundation`.
+- Fresh exploration branch: `codex/redesign-1-ai`, based on the foundation branch so this milestone remains independently reviewable.
 - Product remote: `origin` (`kshitij0299/defog-app`).
 - Existing `.derivedData/` is untracked and predates this work; leave it untouched.
 - No application source changes have been made.
@@ -59,14 +62,22 @@ Product, architecture, development, screen-inventory, design-history, and case-s
 - Keep 402×874 rectangular frames. The agreed Figma bottom slots are tab95 at y745–840 and home34 at y840–874. This convention differs from runtime screenshots and is documented, not claimed as pixel-identical capture.
 - The free Muse documentation reviewer completed the evidence-correction review with zero reported model cost. Primary owns UI reconstruction corrections and verification.
 - [Components workbench](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375): 30 component families (55 main components, including variants), 60 blank owner work areas, seven text styles, eleven linked screen examples and three context details. See [component guide](components-review.md).
-- SF Pro Rounded leads titles, headings and button labels. Full custom variable/token architecture is deferred by owner request. Existing Apple semantic bindings remain in native instances; seven pre-existing legacy variables were preserved.
+- SF Pro Rounded leads titles, headings and button labels. The earlier token deferral was superseded for this light-mode proposal: revision 2 adds 30 palette, spacing and radius variables. Full dark-mode and implementation mapping remain deferred. Existing Apple semantic bindings remain in native instances; seven pre-existing legacy variables were preserved.
 - Eight earlier drafts on page `1024:2614` are paused, unapproved and unwired. They are not the current review deliverable.
+- Original first pass (superseded by revision 2): [Redesign 1 by AI](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368): eight fresh screens, 15 component families (20 mains including variants), seven text styles and eight paint styles. Native Apple controls remain nested instances; Defog content uses new local masters. No old screen was cloned as the visual template.
+- [Neutral context](design-briefs/current-app-context.md) maps all 12 baseline frames into three Mermaid diagrams and structural wireframes, labeling Figma, walkthrough and source evidence. [Agent brief](design-briefs/redesign-1-ai.md) is ready for another designer/agent to use independently.
+- The original first-pass prototype had 25 navigation/back links and two starting points. The core capture → review → save path and Settings scrolling were exercised in the Figma player. Every screen was rendered and checked; a goal-card master edit propagated to three instances and was restored. [Delivery and limits](../design/figma/redesign-1-ai/README.md).
+- Muse Spark 1.3 Free / xhigh reviewed this context brief with zero reported model cost. Its review-category, lifecycle-risk and Settings-scope feedback was incorporated. The coordinator did this pass's visual design and Figma construction; no separate agent/task was spawned.
+
+## Revision 3 update
+
+Owner feedback from the Apple Reminders reference now supersedes revision 2's four-tab grouping and voice-gradient treatment. A separate capture bubble, grouped Home toolbar, plain task overflow, aligned metadata variants, compact counts and short goal names are in Figma. The input/processing sequence has two new states; three collapsed-title specimens use an explicit design-review shortcut. Two free Muse/xhigh runs reported zero model cost. See the revision-3 delivery and verification record for limitations and QA corrections.
 
 ## Remaining work
 
 - Finish baseline fidelity and state coverage. Goal detail, Review and Settings received targeted visual checks after correction. Live preview received a native keyboard accessory and spacing correction; the updated render was checked against capture 07. Source-only reconstructed states need settled simulator evidence.
-- Owner reviews the [audit](ux-audit.md) and Components workbench, including edits in the two alternative columns. Do not resume redesigned screens until this system is agreed.
-- After system agreement, revise the paused screen drafts and build the clickable prototype. Neither the earlier draft screens nor Components examples establish usability improvement.
+- Owner reviews [Redesign 1 by AI](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1095-368), including its system and linked screens. The [audit](ux-audit.md) and Components workbench remain available for reference and owner alternatives.
+- After direction agreement, cover missing states, interactions, accessibility and full tokenization. No Figma exploration establishes usability improvement; the current prototype contains fixed sample content and only a subset of interactions.
 - Verify historical research provenance with the owner before writing outcomes into the portfolio narrative.
 - After prototype approval only: implement, run app-level checks, validate with users, and record genuine results.
 

@@ -1,0 +1,30 @@
+flowchart TD
+  Launch[Launch] --> Gate{First run?}
+  Gate -->|Yes| Onboard[Three-slide onboarding]
+  Onboard --> Storage[iCloud or device-only storage]
+  Storage --> Home[Home]
+  Gate -->|No| Home
+  Home <--> Tasks[Tasks]
+  Tasks <--> Goals[Goals]
+  Goals <--> Home
+  Home --> Summary[Daily Summary]
+  Home --> Settings[Settings]
+  Settings --> Archive[Archived Goals]
+  Settings --> Model[BYOM configuration]
+  Home --> Add[Add action]
+  Tasks --> Add
+  Goals --> Add
+  Add --> Compose[Brain Dump: type or dictate]
+  Compose <--> Preview[Live interpretation, not saved]
+  Compose -->|Process| Processing[Final interpretation]
+  Processing -->|Cancel| Compose
+  Processing --> Review[Review and Confirm]
+  Review -->|Back| Compose
+  Review -->|Looks Good!| Save[Persist accepted items]
+  Save --> Origin[Return to originating tab]
+  Goals --> Detail[Goal detail]
+  Home --> Detail
+  Detail --> Timeline[Timeline]
+  Detail --> Calendar[35-day calendar]
+  Detail --> Log[Quick entry or written note]
+  Detail --> Lifecycle[Rename, archive, delete]

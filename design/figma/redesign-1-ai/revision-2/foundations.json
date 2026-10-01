@@ -1,0 +1,579 @@
+{
+  "createdNodeIds": [],
+  "mutatedNodeIds": [],
+  "collections": [
+    {
+      "id": "VariableCollectionId:1114:1002",
+      "name": "Defog / Primitives",
+      "modes": [
+        {
+          "name": "Value",
+          "modeId": "1114:0"
+        }
+      ]
+    },
+    {
+      "id": "VariableCollectionId:1114:1003",
+      "name": "Defog / Tokens",
+      "modes": [
+        {
+          "name": "Light",
+          "modeId": "1114:1"
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "id": "VariableID:1114:1004",
+      "name": "palette/Canvas",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.9725490212440491,
+          "g": 0.9647058844566345,
+          "b": 0.9490196108818054,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.canvas"
+      }
+    },
+    {
+      "id": "VariableID:1114:1005",
+      "name": "palette/Surface",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.surface"
+      }
+    },
+    {
+      "id": "VariableID:1114:1006",
+      "name": "palette/Ink",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.16078431904315948,
+          "g": 0.13725490868091583,
+          "b": 0.19607843458652496,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.ink"
+      }
+    },
+    {
+      "id": "VariableID:1114:1007",
+      "name": "palette/Secondary",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.41960784792900085,
+          "g": 0.38823530077934265,
+          "b": 0.45098039507865906,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.secondary"
+      }
+    },
+    {
+      "id": "VariableID:1114:1008",
+      "name": "palette/Plum",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.4627451002597809,
+          "g": 0.32549020648002625,
+          "b": 0.6509804129600525,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.plum"
+      }
+    },
+    {
+      "id": "VariableID:1114:1009",
+      "name": "palette/Lilac",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.9333333373069763,
+          "g": 0.9058823585510254,
+          "b": 0.9686274528503418,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.lilac"
+      }
+    },
+    {
+      "id": "VariableID:1114:1010",
+      "name": "palette/Peach",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.9764705896377563,
+          "g": 0.886274516582489,
+          "b": 0.8352941274642944,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.peach"
+      }
+    },
+    {
+      "id": "VariableID:1114:1011",
+      "name": "palette/Sage",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.8980392217636108,
+          "g": 0.9372549057006836,
+          "b": 0.9019607901573181,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.sage"
+      }
+    },
+    {
+      "id": "VariableID:1114:1012",
+      "name": "palette/Forest",
+      "scopes": [],
+      "values": {
+        "1114:0": {
+          "r": 0.19607843458652496,
+          "g": 0.41960784792900085,
+          "b": 0.3490196168422699,
+          "a": 1
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogPalette.forest"
+      }
+    },
+    {
+      "id": "VariableID:1114:1013",
+      "name": "surface/canvas",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1004"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.surface_canvas"
+      }
+    },
+    {
+      "id": "VariableID:1114:1014",
+      "name": "surface/card",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1005"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.surface_card"
+      }
+    },
+    {
+      "id": "VariableID:1114:1015",
+      "name": "text/primary",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1006"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.text_primary"
+      }
+    },
+    {
+      "id": "VariableID:1114:1016",
+      "name": "text/secondary",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1007"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.text_secondary"
+      }
+    },
+    {
+      "id": "VariableID:1114:1017",
+      "name": "accent/task",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1008"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.accent_task"
+      }
+    },
+    {
+      "id": "VariableID:1114:1018",
+      "name": "surface/task",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1009"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.surface_task"
+      }
+    },
+    {
+      "id": "VariableID:1114:1019",
+      "name": "surface/guidance",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1010"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.surface_guidance"
+      }
+    },
+    {
+      "id": "VariableID:1114:1020",
+      "name": "surface/goal",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1011"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.surface_goal"
+      }
+    },
+    {
+      "id": "VariableID:1114:1021",
+      "name": "accent/goal",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "values": {
+        "1114:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1114:1012"
+        }
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.accent_goal"
+      }
+    },
+    {
+      "id": "VariableID:1114:1022",
+      "name": "space/4",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 4
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space4"
+      }
+    },
+    {
+      "id": "VariableID:1114:1023",
+      "name": "space/8",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 8
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space8"
+      }
+    },
+    {
+      "id": "VariableID:1114:1024",
+      "name": "space/12",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 12
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space12"
+      }
+    },
+    {
+      "id": "VariableID:1114:1025",
+      "name": "space/16",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 16
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space16"
+      }
+    },
+    {
+      "id": "VariableID:1114:1026",
+      "name": "space/20",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 20
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space20"
+      }
+    },
+    {
+      "id": "VariableID:1114:1027",
+      "name": "space/24",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 24
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space24"
+      }
+    },
+    {
+      "id": "VariableID:1114:1028",
+      "name": "space/32",
+      "scopes": [
+        "GAP"
+      ],
+      "values": {
+        "1114:1": 32
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.space32"
+      }
+    },
+    {
+      "id": "VariableID:1114:1029",
+      "name": "radius/12",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "values": {
+        "1114:1": 12
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.radius12"
+      }
+    },
+    {
+      "id": "VariableID:1114:1030",
+      "name": "radius/16",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "values": {
+        "1114:1": 16
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.radius16"
+      }
+    },
+    {
+      "id": "VariableID:1114:1031",
+      "name": "radius/20",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "values": {
+        "1114:1": 20
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.radius20"
+      }
+    },
+    {
+      "id": "VariableID:1114:1032",
+      "name": "radius/24",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "values": {
+        "1114:1": 24
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.radius24"
+      }
+    },
+    {
+      "id": "VariableID:1114:1033",
+      "name": "radius/32",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "values": {
+        "1114:1": 32
+      },
+      "codeSyntax": {
+        "iOS": "DefogTokens.radius32"
+      }
+    }
+  ],
+  "changedStyles": [
+    "S:ec1093602e04358529e20369e2784c331d412b10,",
+    "S:d09489fd18ac1020a65d7a81263e6c84d6ec25de,",
+    "S:7760aedc9a3f00d3640d777a02b4241c2bb6ad18,",
+    "S:a8c895839c915e2d2bc3ea8e798a32337c4cdb2f,",
+    "S:01431700a754fe675fc8ffb78fae9861095b5786,",
+    "S:a88e0ed77447aa359456d0dac4a3d0204c811915,",
+    "S:c03053ac84f32d022c5f4b5111e82c1ba18c1c6d,",
+    "S:b8b85ec53e9ab38eaa02b05d70514bb532f9525a,"
+  ],
+  "createdStyles": [
+    "S:0f47b9e955b2ae8e1b43a79b0e87caab9abc8715,"
+  ],
+  "textStyles": [
+    {
+      "id": "S:67b9d7d4d9389fc254baa6e5f63188c89bf81d4d,",
+      "name": "Redesign 1 / Large title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 34
+    },
+    {
+      "id": "S:96d67978614786c6379bb55ab2a8780ce39066ee,",
+      "name": "Redesign 1 / Title",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Bold"
+      },
+      "size": 24
+    },
+    {
+      "id": "S:b716b456b0b691ed43bb4bce1fffecfc63ff34da,",
+      "name": "Redesign 1 / Heading",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 20
+    },
+    {
+      "id": "S:30d851e7de9251234817be73cb64034666356825,",
+      "name": "Redesign 1 / Button",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Semibold"
+      },
+      "size": 17
+    },
+    {
+      "id": "S:c56879e5ac3258e9eb690bfbe84c941e9b134cd9,",
+      "name": "Redesign 1 / Body",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 17
+    },
+    {
+      "id": "S:375102d7bf90d44f4a66e4aee7de39f2e6d8b86a,",
+      "name": "Redesign 1 / Small",
+      "font": {
+        "family": "SF Pro",
+        "style": "Regular",
+        "variationSettings": {
+          "wght": 400,
+          "wdth": 100
+        }
+      },
+      "size": 15
+    },
+    {
+      "id": "S:a336beaf4d71ef507761c04fb48786827e86dd91,",
+      "name": "Redesign 1 / Caption",
+      "font": {
+        "family": "SF Pro Rounded",
+        "style": "Medium"
+      },
+      "size": 13
+    }
+  ]
+}

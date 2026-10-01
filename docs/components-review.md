@@ -1,6 +1,6 @@
 # Components review workbench
 
-[Open Components in Figma](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375). Built 29 September 2026 for owner review. Redesign and implementation are paused until the owner agrees on the system, then the screens.
+[Open Components in Figma](https://www.figma.com/design/v6VyKHrnxzBtkDuCl8nneS/defog?node-id=1053-375). Built 29 September 2026 for owner review. This workbench is preserved. The owner subsequently authorized a separate [Redesign 1 by AI exploration](../design/figma/redesign-1-ai/README.md); implementation still waits for prototype approval.
 
 ## How to edit
 

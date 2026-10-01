@@ -12,7 +12,10 @@
 
 The user approved documentation, simulator inspection, UX auditing, Figma reconstruction, and a redesigned prototype. Application implementation changes wait until the user approves the prototype. Building and running the existing app is authorized.
 
-**Latest sequence (2026-09-29): redesign is paused.** Review the audit, agree on the `Components` page, then design/approve screens, and only then implement. The eight earlier redesign drafts are parked. Work on Components examples is authorized; do not expand the redesigned flow.
+**Latest scope (2026-09-29): a fresh exploration is authorized.** The owner requested a neutral Markdown/Mermaid flow and wireframe handoff from the current-app baseline, then a new page named `Redesign 1 by AI` with a compact design system and representative screens. This supersedes the earlier pause for this exploration only. Preserve Components and the eight older parked drafts. Application implementation still requires owner approval of the prototype.
+
+- Fresh exploration page: `1095:368`. Start with `docs/design-briefs/current-app-context.md` and `docs/design-briefs/redesign-1-ai.md`; delivery details are in `design/figma/redesign-1-ai/README.md`. It is an unapproved proposal, not measured UX improvement.
+- For this pass, Muse checks the text brief; the coordinator owns visual direction and Figma execution. The owner withdrew the suggestion to spin up a separate agent/task.
 
 - Components page: `1053:375`. Local masters, two blank owner alternatives per family, and linked current-app context screens. Preserve the owner's edits.
 - Strong SF Pro Rounded identity for app titles, headings and button labels. Native device typography remains native SF Pro. Full tokenization is explicitly deferred until the system is agreed.
@@ -60,3 +63,21 @@ xcodebuild -project defog.xcodeproj -scheme defog-cli \
 The baseline build passed using the same scheme/configuration and a specific installed iPhone simulator destination. The shared scheme currently has no testables. A successful build does not establish UX correctness, AI quality, or CloudKit behavior.
 
 Never commit API keys, simulator preference stores, `.derivedData/`, or local worker event logs. Use synthetic walkthrough content when capturing evidence.
+
+## Owner feedback: revision 2
+
+- Use the project-local Unslop skill for new or revised UI copy. Start with its core contract and diagnose concrete defects; do not turn normal short labels into prose to satisfy a scanner. See `docs/design-skills.md`.
+- Keep onboarding separate from everyday Home, with no tabs during the introduction. Finish setup into Brain Dump.
+- Brain Dump remains persistently available at the far right. Revision 3 supersedes the original grouped-tab and voice-gradient treatment below.
+- Use consistent task/goal identity and count components, SF Pro Rounded titles/buttons, a single simple goal symbol, and reusable dismissible guidance above the tab bar.
+- Keep Settings factual and preserve the app's model connection test and recovery flow. Never assert Keychain or on-device-only speech without implementation evidence.
+- Light-mode palette, spacing and radius tokens are now approved for this proposal. Full dark-mode design and app implementation still await review.
+
+## Owner feedback: revision 3
+
+- Group Home toolbar actions in one native glass capsule. Use plain ellipsis inside task cards. Separate the Brain Dump waveform shortcut from the Home / Tasks / Goals tab capsule.
+- Align schedule and goal pills under task titles, not under checkboxes. Preserve 44pt targets, distinct schedule colors, a dashed unlinked-goal pill and green linked-goal pills.
+- Keep one goal title and a simple symbol. Generated goal names should be short activity names such as Read, Run and Guitar. Preserve meaningful subjects, proper names and existing/user-entered titles; do not apply blind word stripping. Record this for classifier work after prototype approval.
+- Capture uses an example/microphone composer, then Process after input, cancellable processing, Preview, Review and explicit Save. Voice uses a plain waveform and transcript with a muted Cancel button; remove the Recording label and decorative gradient panel.
+- Use a short scroll-edge treatment behind floating controls. Native scroll-driven title collapse remains an implementation requirement. Figma's tap-heading shortcut only demonstrates separate visual states.
+- Details and evidence: `docs/design-briefs/revision-3.md` and `design/figma/redesign-1-ai/revision-3/README.md`.

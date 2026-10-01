@@ -1,0 +1,562 @@
+{
+  "createdNodeIds": [
+    "1099:1028"
+  ],
+  "mutatedNodeIds": [
+    "1097:671",
+    "1097:976",
+    "1097:670",
+    "1097:680",
+    "1097:1054",
+    "1097:1063",
+    "1097:1064",
+    "1097:1062",
+    "1097:1238",
+    "1097:535",
+    "1097:576",
+    "1097:615",
+    "1097:671",
+    "1097:681",
+    "1097:702",
+    "1097:741",
+    "1097:762",
+    "1097:819",
+    "1097:842",
+    "1097:915",
+    "1097:938",
+    "1097:976",
+    "1097:987",
+    "1097:1008",
+    "1097:1099",
+    "I1097:624;1096:430;10508:1095",
+    "I1097:624;1096:430;10508:1096",
+    "I1097:851;1096:469;10508:1094",
+    "I1097:851;1096:469;10508:1096",
+    "I1097:947;1096:503;10508:1094",
+    "I1097:947;1096:503;10508:1095",
+    "I1097:1025;1096:503;10508:1094",
+    "I1097:1025;1096:503;10508:1095",
+    "I1097:1025;1096:503;10508:1096",
+    "1095:368",
+    "1096:680"
+  ],
+  "removedNodeIds": [],
+  "links": [
+    {
+      "nodeId": "1097:535",
+      "name": "gearshape",
+      "to": "1097:1082"
+    },
+    {
+      "nodeId": "1097:576",
+      "name": "Start a brain dump",
+      "to": "1097:685"
+    },
+    {
+      "nodeId": "1097:615",
+      "name": "gearshape",
+      "to": "1097:1082"
+    },
+    {
+      "nodeId": "1097:671",
+      "name": "AI1 / Goal card",
+      "to": "1097:991"
+    },
+    {
+      "nodeId": "1097:681",
+      "name": "Brain dump",
+      "to": "1097:685"
+    },
+    {
+      "nodeId": "1097:702",
+      "name": "xmark",
+      "to": "BACK"
+    },
+    {
+      "nodeId": "1097:741",
+      "name": "Review 3 items",
+      "to": "1097:745"
+    },
+    {
+      "nodeId": "1097:762",
+      "name": "chevron.backward",
+      "to": "BACK"
+    },
+    {
+      "nodeId": "1097:819",
+      "name": "Save 3 items",
+      "to": "1097:589"
+    },
+    {
+      "nodeId": "1097:842",
+      "name": "gearshape",
+      "to": "1097:1082"
+    },
+    {
+      "nodeId": "1097:915",
+      "name": "Brain dump",
+      "to": "1097:685"
+    },
+    {
+      "nodeId": "1097:938",
+      "name": "gearshape",
+      "to": "1097:1082"
+    },
+    {
+      "nodeId": "1097:976",
+      "name": "AI1 / Goal card",
+      "to": "1097:991"
+    },
+    {
+      "nodeId": "1097:987",
+      "name": "Brain dump",
+      "to": "1097:685"
+    },
+    {
+      "nodeId": "1097:1008",
+      "name": "chevron.backward",
+      "to": "BACK"
+    },
+    {
+      "nodeId": "1097:1099",
+      "name": "xmark",
+      "to": "BACK"
+    },
+    {
+      "nodeId": "I1097:624;1096:430;10508:1095",
+      "name": "Tab",
+      "to": "1097:823"
+    },
+    {
+      "nodeId": "I1097:624;1096:430;10508:1096",
+      "name": "Tab",
+      "to": "1097:919"
+    },
+    {
+      "nodeId": "I1097:851;1096:469;10508:1094",
+      "name": "Tab",
+      "to": "1097:589"
+    },
+    {
+      "nodeId": "I1097:851;1096:469;10508:1096",
+      "name": "Tab",
+      "to": "1097:919"
+    },
+    {
+      "nodeId": "I1097:947;1096:503;10508:1094",
+      "name": "Tab",
+      "to": "1097:589"
+    },
+    {
+      "nodeId": "I1097:947;1096:503;10508:1095",
+      "name": "Tab",
+      "to": "1097:823"
+    },
+    {
+      "nodeId": "I1097:1025;1096:503;10508:1094",
+      "name": "Tab",
+      "to": "1097:589"
+    },
+    {
+      "nodeId": "I1097:1025;1096:503;10508:1095",
+      "name": "Tab",
+      "to": "1097:823"
+    },
+    {
+      "nodeId": "I1097:1025;1096:503;10508:1096",
+      "name": "Tab",
+      "to": "1097:919"
+    }
+  ],
+  "flowStartingPoints": [
+    {
+      "nodeId": "1097:516",
+      "name": "Start here · capture and review"
+    },
+    {
+      "nodeId": "1097:589",
+      "name": "Explore saved items"
+    }
+  ],
+  "propagation": {
+    "mainId": "1096:680",
+    "before": [
+      {
+        "id": "1097:671",
+        "radius": 20,
+        "mainId": "1096:680"
+      },
+      {
+        "id": "1097:811",
+        "radius": 20,
+        "mainId": "1096:680"
+      },
+      {
+        "id": "1097:976",
+        "radius": 20,
+        "mainId": "1096:680"
+      }
+    ],
+    "during": [
+      {
+        "id": "1097:671",
+        "radius": 21
+      },
+      {
+        "id": "1097:811",
+        "radius": 21
+      },
+      {
+        "id": "1097:976",
+        "radius": 21
+      }
+    ],
+    "after": [
+      {
+        "id": "1097:671",
+        "radius": 20
+      },
+      {
+        "id": "1097:811",
+        "radius": 20
+      },
+      {
+        "id": "1097:976",
+        "radius": 20
+      }
+    ],
+    "passed": true
+  },
+  "bounds": [
+    {
+      "id": "1097:516",
+      "name": "Screen / home-empty",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:517",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:532",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:542",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 639
+        },
+        {
+          "id": "1097:543",
+          "name": "Tabs",
+          "y": 745,
+          "height": 95
+        },
+        {
+          "id": "1097:566",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:589",
+      "name": "Screen / home",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:590",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:605",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:622",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 563
+        },
+        {
+          "id": "1097:623",
+          "name": "Primary action region",
+          "y": 669,
+          "height": 76
+        },
+        {
+          "id": "1097:624",
+          "name": "Tabs",
+          "y": 745,
+          "height": 95
+        },
+        {
+          "id": "1097:647",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:685",
+      "name": "Screen / capture",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:686",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:701",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:717",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 654
+        },
+        {
+          "id": "1097:718",
+          "name": "Primary action region",
+          "y": 760,
+          "height": 80
+        },
+        {
+          "id": "1097:719",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:745",
+      "name": "Screen / review",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:746",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:761",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:771",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 654
+        },
+        {
+          "id": "1097:772",
+          "name": "Primary action region",
+          "y": 760,
+          "height": 80
+        },
+        {
+          "id": "1097:773",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:823",
+      "name": "Screen / tasks",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:824",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:839",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:849",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 563
+        },
+        {
+          "id": "1097:850",
+          "name": "Primary action region",
+          "y": 669,
+          "height": 76
+        },
+        {
+          "id": "1097:851",
+          "name": "Tabs",
+          "y": 745,
+          "height": 95
+        },
+        {
+          "id": "1097:874",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:919",
+      "name": "Screen / goals",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:920",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:935",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:945",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 563
+        },
+        {
+          "id": "1097:946",
+          "name": "Primary action region",
+          "y": 669,
+          "height": 76
+        },
+        {
+          "id": "1097:947",
+          "name": "Tabs",
+          "y": 745,
+          "height": 95
+        },
+        {
+          "id": "1097:970",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:991",
+      "name": "Screen / goal",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:992",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:1007",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:1023",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 563
+        },
+        {
+          "id": "1097:1024",
+          "name": "Primary action region",
+          "y": 669,
+          "height": 76
+        },
+        {
+          "id": "1097:1025",
+          "name": "Tabs",
+          "y": 745,
+          "height": 95
+        },
+        {
+          "id": "1097:1048",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "id": "1097:1082",
+      "name": "Screen / settings",
+      "width": 402,
+      "height": 874,
+      "regions": [
+        {
+          "id": "1097:1083",
+          "name": "Status bar",
+          "y": 0,
+          "height": 62
+        },
+        {
+          "id": "1097:1098",
+          "name": "Navigation",
+          "y": 62,
+          "height": 44
+        },
+        {
+          "id": "1097:1108",
+          "name": "Scrollable content",
+          "y": 106,
+          "height": 734
+        },
+        {
+          "id": "1097:1109",
+          "name": "Home indicator",
+          "y": 840,
+          "height": 34
+        }
+      ]
+    }
+  ],
+  "instances": {
+    "total": 228,
+    "attached": 228,
+    "missing": []
+  },
+  "screenCount": 8,
+  "componentCount": 20,
+  "componentSets": 3
+}
